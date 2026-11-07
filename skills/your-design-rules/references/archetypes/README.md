@@ -24,6 +24,7 @@ references/rules/color.md apply under every archetype.
 | [Specimen Notes](specimen-notes.md) | A subject presented like a specimen and surrounded by its evidence: callouts, rulers, measurements, and mono labels that explain what you are looking at. | Science, health, research, collections | Light | Space Grotesk, Newsreader, IBM Plex Mono |
 | [Ambient Glow](ambient-glow.md) | Dense, heavy grotesque type on a deep field, with colored light falling in from the edges and every reading area kept solid. | AI products, creative tools, music, crypto | Dark | Darker Grotesque |
 | [Broadsheet](broadsheet.md) | A front page rebuilt for screens: a masthead rule, heavy serif headlines, and a multi-column grid in which a story's importance sets its width. | Publications, newsrooms, education, public information | Light (or one deliberate color) | Petrona, Alata |
+| [Monochrome Stage](monochrome-stage.md) | Black and white, cinematic, and very smooth: one monumental fine-art image, large soft geometric type, and a scroll that glides from scene to scene. | Launch pages for developer tools, AI, open source, premium software | Dark | Plus Jakarta Sans, Geist Mono |
 | [Toybox](toybox.md) | Saturated color, inflated shapes, and sticker-like pieces arranged with intent around one clear statement and a calm path people can actually use. | Playful consumer brands, games, family products, events | Light (with saturated fields) | Unbounded, Outfit |
 
 ## Archetypes are a starting point
@@ -38,7 +39,9 @@ them only when the subject really is news, a developer platform, or a product us
 ## How to pick an archetype when there is no brand
 
 1. Look for direction first. If the user supplied a brand, a style guide, reference designs, or named fonts and
-   colors, follow that and skip archetypes. Check the project for existing tokens too (CORE-17).
+   colors, follow that and skip archetypes. Check the project for existing tokens too (CORE-17). If they gave
+   nothing, ask for one reference and three mood words before choosing (CORE-26); their answer outranks the
+   product-type table below.
 2. Read the request for three things: the kind of product, who uses it, and the mood its wording suggests.
 3. Choose exactly one archetype and tell the user which one and why in a single line, for example "Using
    Broadsheet: a newsroom with many stories of mixed importance." Do not blend two archetypes.
@@ -55,9 +58,11 @@ them only when the subject really is news, a developer platform, or a product us
    | Fashion, luxury goods, hospitality | Atelier Serif, Gallery Wall | photography of rooms or work should lead rather than type |
    | Science, health, research | Specimen Notes | — |
    | AI, creative tools, crypto | Ambient Glow, Frosted Depth | there is a central object and the platform already uses translucency |
+   | Launch pages for dev tools, AI, open source, premium software | Monochrome Stage, Working Surface | the real product view is more persuasive than an image |
    | Consumer brands, campaigns, events | Signal Color, Toybox | the audience is families or the voice is playful |
 
-   If nothing matches, use Calm Utility for product UI. For a marketing page, pick by mood and say so.
+   If nothing matches, use Calm Utility for product UI. For a marketing page, pick by the user's mood words and
+   say so; when the user asks for "smooth", "premium", or "cinematic", start from Monochrome Stage.
 5. Apply identity only. The archetype decides type, color, shape, elevation, and imagery. The number of sections,
    split ratios, density, and components still come from the content and the task guide (CORE-12).
 6. Let user choices win. Any font, color, radius, or shadow setting the user names replaces the archetype's

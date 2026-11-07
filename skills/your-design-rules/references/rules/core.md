@@ -245,6 +245,22 @@ genuinely calls for it, and say why:
 - **Why:** a look that appears for every subject tells the visitor nobody made a choice.
 - **Check:** if your plan matches one of these, the plan states the brief-specific reason.
 
+### CORE-26 · Without a brand, ask for a reference and three mood words
+When the user gives no brand or style, ask two quick questions before designing: one site, app, or image they
+think looks great, and three words for how the result should feel (for example "smooth, cinematic,
+monochrome"). Also ask what they dislike if they mentioned it before. Design from those answers, not from the
+product category alone. If they cannot answer, propose two or three directions as first-screen sketches and
+let them choose.
+- **Why:** taste cannot be inferred from a product category; one reference says more than a page of rules.
+- **Check:** the plan names the user's reference and mood words, or the directions they chose between.
+
+### CORE-27 · Show the first screen before building the page
+Build the first screen (key visual, headline, navigation, and its motion) and show it to the user before
+building the rest. Continue only when the direction is confirmed. For product UI, show the main working
+surface first.
+- **Why:** a direction rejected after one screen costs minutes; rejected after a whole page, it costs hours.
+- **Check:** the user saw and accepted the first screen before the remaining sections were built.
+
 ## Where to go next
 
 | Task | Read next |

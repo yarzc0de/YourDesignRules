@@ -208,6 +208,8 @@ product UI, tables, or dashboards.
 | Headline mask reveal | the key statement of a section | each line rises from behind an `overflow: hidden` line box, staggered 80–100 ms |
 | Depth layers | a key visual with foreground and background | layers move at 0.85–1.0× scroll speed; text never moves at a different speed |
 | Horizontal gallery | a set of examples or screens | vertical scroll drives `translateX` of a pinned track; provide a normal list on phones |
+| Words light up | one manifesto sentence that states the problem | pinned stage; each word goes from about 16% to 100% opacity in reading order as progress advances |
+| Before/after wipe | real proof that something changed | pinned frame with both images stacked; progress moves a divider and a clipping layer (use transforms, not `clip-path`) |
 
 ```css
 /* Scroll-linked entrance with native CSS; JS fallback below for browsers without support */
@@ -310,6 +312,45 @@ Every change of state in an app animates briefly (150–300 ms) so the user can 
 - **Why:** an app that cuts between states feels stiff and hides what changed.
 - **Check:** click through tabs, filters, selection, and add/remove; nothing jumps without a transition, and
   nothing takes longer than 300 ms.
+
+## Smooth scrolling
+
+### MOTION-28 · Drive every scroll scene from one loop
+Smoothness comes from how the motion is computed, not from adding more of it:
+- Use one smooth-scroll layer with a native feel (for example Lenis with `lerp` 0.08–0.1, `smoothWheel: true`,
+  `syncTouch: false`), created only when reduced motion is off (MOTION-21, MOTION-22).
+- Run one `requestAnimationFrame` loop. Advance the smooth-scroll layer first, then update every scene from
+  its current scroll value. No scene has its own scroll listener.
+- Measure section positions and sizes once on load, after fonts load, and on resize. Never read layout
+  (`getBoundingClientRect`, `offsetTop`) inside the loop.
+- Map scroll to a 0–1 progress per scene, and ease it with a lerp (factor 0.15–0.2) when scrolling is native
+  (touch), so finger flicks still glide.
+- Write only `transform` and `opacity`, and only when the value changed. Use percentages for wipes and tracks
+  so nothing needs re-measuring mid-scroll. Never change text content during scroll.
+
+```js
+const lenis = reduce ? null : new Lenis({ lerp: 0.085, smoothWheel: true, syncTouch: false });
+let box = {}; const measure = () => { /* cache tops and heights for each scene */ };
+const loop = (t) => {
+  if (lenis) lenis.raf(t);
+  const y = lenis ? lenis.scroll : scrollY;
+  scenes.forEach((scene) => scene.update(y, box));   // transforms and opacity only
+  requestAnimationFrame(loop);
+};
+measure(); addEventListener('resize', measure); requestAnimationFrame(loop);
+```
+- **Why:** separate listeners, layout reads, and text changes during scroll are what make motion stutter.
+- **Check:** the code has one animation loop, no layout reads inside it, and no scroll event listeners per
+  scene.
+
+### MOTION-29 · Prove smoothness on a high-density screen
+Test scroll performance with a 2× device pixel ratio and a 4× CPU slowdown while scrolling the whole page with
+wheel-sized steps, and record frame times. Keep large layers cheap: no `mix-blend-mode`, `filter`, or animated
+`backdrop-filter` on anything bigger than about a quarter of the viewport while it moves, and size images to
+at most twice their displayed width with `decoding="async"`.
+- **Why:** a page can look smooth on a fast desktop at 1× and stutter on the Retina laptop the user owns.
+- **Check:** no frame longer than 25 ms during the scroll test, and the page feels smooth in a real browser
+  on the user's own machine.
 
 ## Platform notes
 

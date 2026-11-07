@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>YourDesignRules: give your coding agent taste</title>
-<meta name="description" content="An open design rulebook that Claude Code, Codex, Cursor and other coding agents read before they build an interface. 261 rules, 16 visual directions, free to use.">
+<meta name="description" content="An open design rulebook that Claude Code, Codex, Cursor and other coding agents read before they build an interface. 265 rules, 17 visual directions, free to use.">
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -314,7 +314,7 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
       </div>
     </div>
     <div class="wrap hero-foot">
-      <span>261 rules and 16 visual directions, free to use</span>
+      <span>265 rules and 17 visual directions, free to use</span>
       <span class="scroll-cue" aria-hidden="true">Scroll <i></i></span>
     </div>
   </section>
@@ -370,8 +370,8 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
       <ol class="steps">
         <li class="step reveal"><span class="step-n">01</span><h3>Read the core</h3><p>Twenty-five rules every screen follows: one job per view, one dominant region, no card without a job, nothing invented. Starts in <code>rules/core.md</code>.</p></li>
         <li class="step reveal"><span class="step-n">02</span><h3>Open the guide for the job</h3><p>Web app, landing page, mobile app, dashboard, or slides. Each guide adds the rules that only matter for that kind of work.</p></li>
-        <li class="step reveal"><span class="step-n">03</span><h3>Pick a direction</h3><p>No brand? The agent chooses one of 16 visual directions and tells you why. Your fonts and colors always win over its choice.</p></li>
-        <li class="step reveal"><span class="step-n">04</span><h3>Plan, then test for sameness</h3><p>A palette, a type scale, a sketch of the first screen, a motion plan, and one bold decision. If a competitor's page would come out the same, the plan changes before any code is written.</p></li>
+        <li class="step reveal"><span class="step-n">03</span><h3>Pick a direction</h3><p>No brand? The agent asks for one reference you like and three mood words, then picks one of 17 visual directions and tells you why. Your fonts and colors always win.</p></li>
+        <li class="step reveal"><span class="step-n">04</span><h3>Plan, test for sameness, show the first screen</h3><p>A palette, a type scale, a sketch of the first screen, a motion plan, and one bold decision. If a competitor's page would come out the same, the plan changes. Then it builds the first screen and shows you before going further.</p></li>
         <li class="step reveal"><span class="step-n">05</span><h3>Build, then look</h3><p>After every section the agent renders it and runs the review checklist on the real pixels: clipping, contrast, alignment, states, motion. Then it fixes what it finds, in place.</p></li>
       </ol>
     </div>
@@ -382,7 +382,7 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
     <div class="rules-stage" id="rules-stage">
       <div class="wrap rules-head">
         <h2 class="eyebrowless-head" id="rules-title">Short. Testable. Explained.</h2>
-        <p class="section-lead" style="margin:0;max-width:26em">Every rule has an ID, an instruction, and one line on why it exists. A few of the 261:</p>
+        <p class="section-lead" style="margin:0;max-width:26em">Every rule has an ID, an instruction, and one line on why it exists. A few of the 265:</p>
       </div>
       <div class="track" id="track">
         <article class="rule"><span class="rule-id">CORE-21</span><h3>Don't fill space with rows of equal boxes</h3><p>Label-plus-caption trios are the most common filler in generated pages.</p></article>
@@ -402,7 +402,7 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
   <section class="arch" id="archetypes" aria-labelledby="arch-title">
     <div class="wrap">
       <h2 class="eyebrowless-head reveal" id="arch-title">No brand? Pick a direction.</h2>
-      <p class="section-lead reveal">Sixteen visual directions, each with its own type pairing, color roles, shape, imagery and motion. The agent picks one and pushes it toward your subject. Hover or tap a name.</p>
+      <p class="section-lead reveal">Seventeen visual directions, each with its own type pairing, color roles, shape, imagery and motion. The agent picks one and pushes it toward your subject. Hover or tap a name.</p>
       <ul class="arch-list" id="arch-list" aria-label="Visual directions">
         <li><button type="button" style="font-family:'Titillium Web';font-weight:600" data-d="Infrastructure, developer tools and data utilities. Titillium Web with IBM Plex Mono.">Field Ledger</button></li>
         <li><button type="button" style="font-family:'Chakra Petch';font-weight:600" data-d="Developer platforms and products used in the dark. Chakra Petch, Instrument Sans, Fragment Mono.">Night Console</button></li>
@@ -419,6 +419,7 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
         <li><button type="button" style="font-family:'Newsreader';font-weight:600" data-d="Science, health, research and collections. Space Grotesk, Newsreader, IBM Plex Mono.">Specimen Notes</button></li>
         <li><button type="button" style="font-family:'Darker Grotesque';font-weight:800" data-d="AI products, creative tools, music and crypto. Darker Grotesque in every role.">Ambient Glow</button></li>
         <li><button type="button" style="font-family:'Petrona';font-weight:700" data-d="Publications, newsrooms and public information. Petrona with Alata.">Broadsheet</button></li>
+        <li><button type="button" style="font-family:'Plus Jakarta Sans';font-weight:800;letter-spacing:-0.03em" data-d="Launch pages for developer tools, AI and open source. Plus Jakarta Sans with Geist Mono. This page uses it.">Monochrome Stage</button></li>
         <li><button type="button" style="font-family:'Unbounded';font-weight:700" data-d="Playful consumer brands, games, family products and events. Unbounded with Outfit.">Toybox</button></li>
       </ul>
       <p class="arch-detail" id="arch-detail" aria-live="polite"><strong>Field Ledger.</strong> Infrastructure, developer tools and data utilities. Titillium Web with IBM Plex Mono.</p>

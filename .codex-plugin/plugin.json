@@ -1,7 +1,7 @@
 {
   "name": "your-design-rules",
   "version": "0.1.0",
-  "description": "Design rules for AI coding agents: layout, typography, color, imagery, review checklist, task guides, and 16 visual archetypes.",
+  "description": "Design rules for AI coding agents: layout, typography, color, imagery, review checklist, task guides, and 17 visual archetypes.",
   "author": {
     "name": "yarzc0de"
   },
@@ -13,7 +13,7 @@
   "interface": {
     "displayName": "YourDesignRules",
     "shortDescription": "Design rules that make AI-built UI look designed.",
-    "longDescription": "Universal rules for layout, typography, color, and imagery, a per-section review checklist, guides for web apps, landing pages, mobile apps, dashboards, and slides, plus 16 visual archetypes to use when there is no brand.",
+    "longDescription": "Universal rules for layout, typography, color, and imagery, a per-section review checklist, guides for web apps, landing pages, mobile apps, dashboards, and slides, plus 17 visual archetypes to use when there is no brand.",
     "developerName": "yarzc0de",
     "category": "Productivity"
   }

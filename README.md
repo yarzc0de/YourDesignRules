@@ -32,14 +32,14 @@ rules/                   universal rules, read on every UI task
   review-checklist.md    the check you run on the render after every section
 guides/                  one per kind of job
   web-app.md  landing-page.md  mobile-app.md  dashboard-and-tables.md  slides.md
-archetypes/              16 visual directions for when there is no brand
+archetypes/              17 visual directions for when there is no brand
 skills/your-design-rules the skill (SKILL.md + a synced copy of the files above)
 adapters/                snippets for AGENTS.md, CLAUDE.md, GEMINI.md, and Cursor rules
 examples/                before/after pages built from the same prompt
 scripts/                 sync-skill.mjs, overlap-check.py
 ```
 
-About 250 rules in total. Every rule has an ID (`CORE-6`, `LAY-20`, `COLOR-8`) so agents and humans can cite
+About 265 rules in total. Every rule has an ID (`CORE-6`, `LAY-20`, `COLOR-8`) so agents and humans can cite
 them in reviews.
 
 ## Install
@@ -116,7 +116,7 @@ cat /tmp/ydr/adapters/AGENTS.md >> AGENTS.md
 
 ## Archetypes
 
-When the user has no brand, the agent picks one of 16 directions. Each sets fonts, color roles, shape,
+When the user has no brand, the agent picks one of 17 directions. Each sets fonts, color roles, shape,
 elevation, imagery, and motion character. None of them set the page structure; that comes from the content.
 
 | Archetype | Best for | Fonts |
@@ -137,6 +137,7 @@ elevation, imagery, and motion character. None of them set the page structure; t
 | [Ambient Glow](archetypes/ambient-glow.md) | AI products, music, creative tools | Darker Grotesque |
 | [Broadsheet](archetypes/broadsheet.md) | Publications, newsrooms | Petrona, Alata |
 | [Toybox](archetypes/toybox.md) | Playful consumer brands, games | Unbounded, Outfit |
+| [Monochrome Stage](archetypes/monochrome-stage.md) | Launch pages for dev tools, AI, open source | Plus Jakarta Sans, Geist Mono |
 
 All fonts are on Google Fonts.
 

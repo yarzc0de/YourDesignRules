@@ -202,11 +202,13 @@ cannot be what separates them.
 - **Why:** shadows barely register on a dark ground, while lightness steps do.
 - **Check:** each depth level is visibly lighter than the level beneath it.
 
-### COLOR-18 · Avoid pure black grounds under pure white text
-Use a ground whose channels sit around `0B`–`12` hex, such as `#0B0D10` or `#121212`, and body text near 90%
-white: `#E6E6E6` or `rgb(255 255 255 / 0.9)`.
-- **Why:** maximum contrast causes glare and a smeared halo around letters during long reading.
-- **Check:** the dark ground is not `#000000`, and body text is not `#FFFFFF`.
+### COLOR-18 · Keep body text off pure white on a black ground
+For most dark themes use a ground around `#0B0D10`–`#121212`. A deliberate monochrome direction (black and
+white photography, references/archetypes/monochrome-stage.md) may use true `#000000` as the ground. Either way, pure
+white is for display type, icons, and the primary button; set body text near 80–90% white (`#C9C9C9` to
+`#E6E6E6`) and secondary text around 55% (`#8F8F8F`).
+- **Why:** maximum contrast on long text causes glare and a smeared halo; on big headlines it gives punch.
+- **Check:** paragraphs are not `#FFFFFF`, and secondary text still passes 4.5:1 on the ground.
 
 ### COLOR-19 · Desaturate accents slightly for dark themes
 Lower the accent's saturation a little and raise its lightness so it does not vibrate against the dark

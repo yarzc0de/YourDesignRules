@@ -5,7 +5,7 @@ description: Design rulebook for building interfaces that look designed, not gen
 
 # Your Design Rules
 
-A set of short, testable rules for layout, typography, color, imagery, and review, plus task guides and 16
+A set of short, testable rules for layout, typography, color, imagery, and review, plus task guides and 17
 visual archetypes. The rules exist because AI-built UI fails in predictable ways: everything wrapped in
 cards, equal-weight sections, default gradients and shadows, beige backgrounds, invented metrics, text that
 clips, and no one checking the render. Following the workflow below avoids those failures.
@@ -29,8 +29,9 @@ All paths below are relative to this skill's folder.
 3. **Settle the visual direction.**
    - If the user gave a brand, style guide, existing design system, or explicit fonts/colors, use those and
      skip archetypes. User choices always win (CORE-13).
-   - If not, read `references/archetypes/README.md`, pick one archetype that fits the product and audience,
-     tell the user which one and why in one sentence, then read that archetype's file.
+   - If not, ask for one reference they like and three mood words (CORE-26). Then read
+     `references/archetypes/README.md`, pick one archetype that fits their answer, tell the user which one and
+     why in one sentence, and read that archetype's file.
 4. **Write a design plan before any code** (CORE-23, CORE-24): what the subject's world looks like, a 4–6
    color palette with roles, type families and sizes, a sentence per section plus an ASCII sketch of the
    first screen, and the one bold decision (CORE-8). Run the sameness test and change anything a competitor's
@@ -41,10 +42,12 @@ All paths below are relative to this skill's folder.
    - palette roles, contrast, banned backgrounds, shadows, dark mode → `references/rules/color.md`
    - icons vs. photos vs. generated images vs. SVG, image prompts → `references/rules/imagery-and-icons.md`
    - transitions, hover/press/focus states, loading, scroll effects → `references/rules/motion.md`
-6. **Build section by section.** After each section, render it and run `references/rules/review-checklist.md`
+6. **Show the first screen first** (CORE-27): build the hero or main working surface, show it, and continue
+   only when the user confirms the direction.
+7. **Build section by section.** After each section, render it and run `references/rules/review-checklist.md`
    on the actual render (screenshot, browser, simulator). Fix problems in place before moving on (CORE-15,
    CORE-16).
-7. **Finish with the whole-screen checks** in the checklist: breakpoints 375/768/1440, rhythm, reduction pass,
+8. **Finish with the whole-screen checks** in the checklist: breakpoints 375/768/1440, rhythm, reduction pass,
    keyboard and focus. Tell the user about anything you could not verify or had to assume.
 
 ## The rules that matter most
@@ -62,7 +65,8 @@ If you remember nothing else:
 - Build UI as real elements, never as images of UI. Never hand-draw logos from SVG paths.
 - Motion with a plan: marketing pages get a short hero load sequence and a scroll story of two or three
   scroll-linked scenes; apps get fluid 150–300 ms state transitions. Never hijack scrolling, animate only
-  transform and opacity, and respect reduced motion (MOTION-2, MOTION-19, MOTION-27).
+  transform and opacity, and respect reduced motion (MOTION-2, MOTION-19, MOTION-27). Build scroll motion as
+  one loop with cached measurements, and test it at 2x pixel density (MOTION-28, MOTION-29).
 - Clean is the floor, not the goal: one bold decision per page, taken from the subject's world (CORE-8,
   CORE-23), and none of the house styles generators default to (CORE-25).
 - Check the render after every section, and fix in place.
