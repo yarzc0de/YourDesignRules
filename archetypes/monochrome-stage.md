@@ -4,8 +4,9 @@
 ## When to pick
 - Launch pages for developer tools, AI products, open-source projects, and premium software where the story
   matters more than a feature grid.
-- Products whose user asked for something "smooth", "premium", "cinematic", or "black and white", or pointed at
-  a reference with a dramatic full-bleed hero.
+- Products whose user asked for black and white, or for one dramatic full-bleed fine-art image to carry the
+  page. "Smooth" is never a trigger — every archetype is smooth — and "premium" or "cinematic" point here only
+  when the subject genuinely suits a dark black-and-white story.
 - Portfolios and studios that want calm confidence rather than decoration.
 - Skip it for dense product UI with many statuses (use Calm Utility) and for brands that live on one strong
   color (use Signal Color).
