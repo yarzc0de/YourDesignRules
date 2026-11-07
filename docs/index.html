@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YourDesignRules: design rules for AI coding agents</title>
+<meta name="description" content="An open-source design rulebook your coding agent reads before it builds UI. 261 rules for Claude Code, Codex, Cursor, Gemini CLI, and any agent that reads SKILL.md.">
+<meta name="theme-color" content="#E3F2FA">
+<script>document.documentElement.classList.replace("no-js", "js");</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@500;600;700&display=swap">
+<style>
+:root {
+  /* color roles (COLOR-1) */
+  --ground: #FFFFFF;
+  --sky: #E3F2FA;            /* non-photo blue band */
+  --sky-kv: #6FB0E0;         /* the key visual's upper sky, for the phone hero ground */
+  --ink: #0F161D;            /* text primary, command bar */
+  --ink-2: #3E4A55;          /* text secondary */
+  --muted: #5B6672;          /* text muted, passes 4.5:1 on white and sky */
+  --primary: #FF7A12;        /* set-square orange sampled from the key visual: copy actions and selection only */
+  --primary-hover: #FF9445;
+  --primary-foreground: #0F161D;
+  --night: #0E1B26;          /* proof band */
+  --night-surface: #172735;
+  --on-night: #E8EEF2;
+  --on-night-2: #A7B6C2;
+  --border: #D5DEE5;
+  --border-strong: #7D8995;
+  --ring: #0F161D;
+  --ring-on-dark: #E8EEF2;
+
+  /* type */
+  --display: "Oswald", "Arial Narrow", sans-serif;
+  --body: "Hanken Grotesk", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* motion tokens (MOTION-7) */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+
+  --pad: 32px;
+  --max: 1280px;
+}
+@media (max-width: 767px) { :root { --pad: 20px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.125rem;
+  line-height: 1.55;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+h1, h2, h3, p, ol, ul, figure { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+code, kbd { font-family: var(--mono); }
+.wrap { width: 100%; max-width: calc(var(--max) + 2 * var(--pad)); margin-inline: auto; padding-inline: var(--pad); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 3px; }
+
+/* ---------- buttons and the command control ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 10px 16px;
+  font: 600 1rem/1.2 var(--body);
+  border: 0; border-radius: 4px; cursor: pointer; text-decoration: none;
+  transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out), transform 100ms var(--ease-out);
+}
+.btn:active { transform: scale(0.98); }
+.btn:focus-visible { transition: none; }
+.btn-primary { background: var(--primary); color: var(--primary-foreground); }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-ink { background: var(--ink); color: #FFFFFF; }
+.btn-ink:hover { background: #26313B; }
+
+.cmd {
+  display: flex; align-items: stretch; width: 100%; max-width: 640px;
+  background: var(--ink); color: #E8EEF2; border-radius: 4px;
+}
+.cmd code {
+  flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; font-size: 1rem; line-height: 1.4; white-space: nowrap; overflow-x: auto;
+  scrollbar-width: none;
+}
+.cmd code::-webkit-scrollbar { display: none; }
+.cmd code .prompt { color: #8FA0AD; user-select: none; }
+.cmd .btn { flex: 0 0 auto; margin: 4px; min-width: 156px; }
+.cmd .btn .done { display: none; }
+.cmd .btn.is-copied .idle { display: none; }
+.cmd .btn.is-copied .done { display: inline; }
+.cmd .btn svg { width: 20px; height: 20px; }
+
+/* ---------- navigation (LAND-14) ---------- */
+.site-nav { position: absolute; inset: 0 0 auto 0; z-index: 20; }
+.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 80px; gap: 24px; }
+.wordmark { font: 600 1.5rem/1 var(--display); letter-spacing: 0.01em; text-decoration: none; color: var(--ink); padding: 8px 0; }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a:not(.btn) {
+  font: 500 1rem/1.2 var(--body); color: var(--ink); text-decoration: none; padding: 12px 0;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
+  transition: background-size 180ms var(--ease-out);
+}
+.nav-links a:not(.btn):hover { background-size: 100% 1px; }
+.menu-btn { display: none; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: max(100svh, 680px); overflow: hidden; background: var(--sky); isolation: isolate; }
+.hero-media { position: absolute; inset: 0; z-index: -1; }
+.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 20% 50%; }
+.hero-copy {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 24px;
+  padding-top: clamp(104px, 14vh, 136px); padding-bottom: 64px;
+}
+.display {
+  font-family: var(--display); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(3.25rem, min(9.6vw, 15.4vh), 9rem);
+  line-height: 0.88; letter-spacing: 0; color: var(--ink);
+}
+.display .line { display: block; overflow: hidden; white-space: nowrap; padding-bottom: 0.04em; margin-bottom: -0.04em; }
+.display .line > span { display: block; }
+.lede { max-width: 54ch; font-size: 1.25rem; line-height: 1.5; color: var(--ink); text-wrap: pretty; }
+.lede strong { color: var(--ink); font-weight: 600; }
+.hero-actions { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; }
+.quiet-link { font: 500 1rem/1.4 var(--body); color: var(--ink); text-underline-offset: 4px; padding: 8px 0; }
+.quiet-link:hover { text-decoration-thickness: 2px; }
+
+/* load sequence (MOTION-25): only with JS and without reduced motion */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hero-media img { animation: kv-in 950ms var(--ease-out) both; }
+  .js .hero .display .line > span { animation: line-up 700ms var(--ease-out) both; }
+  .js .hero .display .line:nth-child(1) > span { animation-delay: 120ms; }
+  .js .hero .display .line:nth-child(2) > span { animation-delay: 210ms; }
+  .js .hero .lede { animation: rise 600ms var(--ease-out) 380ms both; }
+  .js .hero .hero-actions { animation: rise 600ms var(--ease-out) 470ms both; }
+  .js .site-nav { animation: fade 500ms var(--ease-out) 300ms both; }
+}
+@keyframes kv-in { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+@keyframes line-up { from { transform: translateY(104%); } to { transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .menu-btn {
+    display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+    background: transparent; border: 0; border-radius: 4px; color: var(--ink); cursor: pointer;
+  }
+}
+/* landscape screens narrower than 3:2 keep both instruments in frame */
+@media (max-aspect-ratio: 3/2) {
+  .hero-media img { object-position: 74% 50%; }
+  .display { font-size: clamp(3.25rem, min(8.6vw, 15.4vh), 9rem); }
+}
+/* phones and portrait screens: copy on the sky, the scene below it (LAY-24) */
+@media (max-width: 767px), (max-aspect-ratio: 1/1) {
+  .hero { min-height: 0; display: flex; flex-direction: column; background: var(--sky-kv); }
+  .hero-media { position: relative; inset: auto; order: 2; margin-top: -48px; }
+  .hero-media img { height: auto; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%); mask-image: linear-gradient(to bottom, transparent 0, #000 14%); }
+  .hero-copy { order: 1; padding-top: 112px; padding-bottom: 0; }
+  .display { font-size: min(12.8vw, 7.5rem); }
+}
+@media (max-width: 767px) {
+  .site-nav .wrap { height: 64px; }
+  .hero-copy { padding-top: 96px; gap: 16px; }
+  .lede { font-size: 1.0625rem; }
+  .cmd { flex-direction: column; }
+  .cmd code { padding: 12px 16px 4px; font-size: 0.875rem; white-space: normal; overflow-wrap: anywhere; }
+  .cmd .btn { margin: 8px; }
+}
+
+
+/* ---------- shared section type ---------- */
+.section { padding-block: 128px; }
+.h2 {
+  font: 700 3rem/1 var(--display); text-transform: uppercase; letter-spacing: 0; color: inherit;
+  text-wrap: balance;
+}
+.body-l { font-size: 1.125rem; line-height: 1.6; color: var(--ink-2); max-width: 58ch; text-wrap: pretty; }
+.rid { font: 500 0.875rem/1.2 var(--mono); color: var(--muted); white-space: nowrap; }
+@media (max-width: 767px) {
+  .section { padding-block: 80px; }
+  .h2 { font-size: 2rem; }
+  .body-l { font-size: 1.0625rem; }
+}
+
+/* ---------- habits: scene A, scrubbed strike-through ---------- */
+.habits .wrap { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
+.habits-intro { position: sticky; top: 96px; display: flex; flex-direction: column; gap: 24px; }
+.habit-list li {
+  display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 24px;
+  padding-block: 20px; border-top: 1px solid var(--border);
+}
+.habit-list li:last-child { border-bottom: 1px solid var(--border); }
+.habit { position: relative; font: 500 1.75rem/1.25 var(--body); color: var(--ink); justify-self: start; }
+.habit::after {
+  content: ""; position: absolute; left: -4px; right: -4px; top: 54%; height: 2px; background: var(--ink);
+  transform-origin: left center; transform: scaleX(var(--s, 1));
+}
+.habit-list .rid { opacity: var(--o, 1); }
+.habits-foot { margin-top: 32px; }
+@media (max-width: 900px) {
+  .habits .wrap { grid-template-columns: 1fr; gap: 48px; }
+  .habits-intro { position: static; }
+}
+@media (max-width: 767px) {
+  .habit { font-size: 1.25rem; line-height: 1.35; }
+  .habit::after { display: none; }
+  .habit { text-decoration-line: line-through; text-decoration-thickness: 2px; text-decoration-color: var(--ink); transition: text-decoration-color 300ms var(--ease-out); }
+  .js .habit-list li:not(.is-struck) .habit { text-decoration-color: transparent; }
+  .habit-list li { gap: 16px; padding-block: 16px; }
+}
+
+/* ---------- proof: scene B, pinned wipe ---------- */
+.proof { background: var(--night); color: var(--on-night); }
+.proof .body-l { color: var(--on-night-2); }
+.proof :focus-visible { outline-color: var(--ring-on-dark); }
+.proof-head { display: flex; flex-direction: column; gap: 24px; margin-bottom: 64px; }
+.proof-grid { display: grid; grid-template-columns: 4fr 8fr; column-gap: 64px; row-gap: 96px; align-items: center; }
+.proof-notes, .proof-frames { display: contents; }
+.ex[data-ex="0"] { grid-area: 1 / 1; } .pf[data-ex="0"] { grid-area: 1 / 2; }
+.ex[data-ex="1"] { grid-area: 2 / 1; } .pf[data-ex="1"] { grid-area: 2 / 2; }
+.ex { display: flex; flex-direction: column; gap: 16px; }
+.ex-name { font: 700 2.25rem/1 var(--display); text-transform: uppercase; }
+.ex-brief { color: var(--on-night-2); font-size: 1.0625rem; }
+.ex-changes { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+.ex-changes li { display: grid; grid-template-columns: 88px 1fr; gap: 16px; font-size: 1rem; line-height: 1.5; color: var(--on-night); }
+.ex-changes .rid { color: var(--on-night-2); padding-top: 3px; }
+.pf-view { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pf-view img, .pf-after-in img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 4px; }
+.pf-after, .pf-after-in { display: contents; }
+.pf-handle { display: none; }
+.pf-label { display: flex; gap: 16px; margin-top: 12px; font: 600 0.875rem/1.2 var(--body); color: var(--on-night-2); }
+.pf-label span { flex: 1; }
+/* pinned mode, turned on by script on wide screens without reduced motion */
+.is-pinned .proof-scene { height: 300vh; }
+.is-pinned .proof-head { margin-bottom: 0; }
+.is-pinned .proof-stage { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
+.is-pinned .proof-grid { width: 100%; }
+.is-pinned .ex, .is-pinned .pf { grid-row: 1; transition: opacity 200ms var(--ease-out); }
+.is-pinned .ex[data-ex="1"], .is-pinned .pf[data-ex="1"] { grid-row: 1; }
+.is-pinned .ex[data-ex="0"], .is-pinned .pf[data-ex="0"] { opacity: var(--a0, 1); }
+.is-pinned .ex[data-ex="1"], .is-pinned .pf[data-ex="1"] { opacity: var(--a1, 0); }
+.is-pinned .pf-label { display: none; }
+.is-pinned .pf-view { display: block; position: relative; overflow: hidden; aspect-ratio: 16 / 10; border-radius: 4px; outline: 1px solid rgb(255 255 255 / 0.14); outline-offset: 0; }
+.is-pinned .pf-view img, .is-pinned .pf-after-in img { position: absolute; inset: 0; height: 100%; border-radius: 0; }
+.is-pinned .pf-after { display: block; position: absolute; inset: 0; overflow: hidden; transform: translateX(calc((1 - var(--w, 0)) * 100%)); }
+.is-pinned .pf-after-in { display: block; position: absolute; inset: 0; transform: translateX(calc((var(--w, 0) - 1) * 100%)); }
+.is-pinned .pf-handle { display: block; position: absolute; inset: 0; pointer-events: none; transform: translateX(calc((1 - var(--w, 0)) * 100%)); }
+.pf-handle::before { content: ""; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: #FFFFFF; }
+.pf-handle span { position: absolute; top: 16px; padding: 6px 10px; border-radius: 4px; font: 600 0.8125rem/1.2 var(--body); white-space: nowrap; }
+.pf-handle .off { right: calc(100% + 12px); background: var(--night); color: var(--on-night); }
+.pf-handle .on { left: 12px; background: #FFFFFF; color: var(--ink); }
+.pf-handle .off::after { content: " \2190"; }
+.pf-handle .on::before { content: "\2192  "; }
+@media (max-width: 1023px) {
+  .proof-grid { grid-template-columns: 1fr; row-gap: 32px; }
+  .ex[data-ex="0"] { grid-area: 1 / 1; } .pf[data-ex="0"] { grid-area: 2 / 1; }
+  .ex[data-ex="1"] { grid-area: 3 / 1; margin-top: 64px; } .pf[data-ex="1"] { grid-area: 4 / 1; }
+}
+@media (max-width: 767px) {
+  .pf-view { grid-template-columns: 1fr; }
+  .pf-label { display: none; }
+  .pf-view { position: relative; }
+  .pf-view::before, .pf-view::after { position: absolute; left: 8px; padding: 4px 8px; border-radius: 4px; font: 600 0.75rem/1.2 var(--body); }
+  .pf-view::before { content: "Rules off"; top: 8px; background: var(--night); color: var(--on-night); }
+  .pf-view::after { content: "Rules on"; top: calc(50% + 16px); background: #FFFFFF; color: var(--ink); }
+  .ex-name { font-size: 1.75rem; }
+  .ex-changes li { grid-template-columns: 80px 1fr; }
+}
+
+/* ---------- how it works: scene C, pinned walkthrough ---------- */
+.how { background: var(--sky); }
+.how-head { display: flex; flex-direction: column; gap: 24px; margin-bottom: 64px; }
+.how-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: center; width: 100%; }
+.steps { display: flex; flex-direction: column; gap: 20px; counter-reset: step; }
+.steps li { display: grid; grid-template-columns: 40px 1fr; column-gap: 16px; color: var(--ink); transition: color 250ms var(--ease-out); }
+.steps li::before { counter-increment: step; content: counter(step); grid-row: span 2; font: 600 1.25rem/1.3 var(--display); }
+.steps h3 { font: 600 1.25rem/1.3 var(--body); }
+.steps p { font-size: 1rem; line-height: 1.5; color: var(--ink-2); transition: color 250ms var(--ease-out); }
+.log { background: #FFFFFF; border-radius: 6px; box-shadow: 0 1px 2px rgb(15 22 29 / 0.06), 0 12px 32px rgb(15 22 29 / 0.08); }
+.log-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--border); font: 600 0.875rem/1.3 var(--body); color: var(--ink); }
+.log-bar span:last-child { font-weight: 400; color: var(--muted); }
+.log ol { padding: 20px; display: flex; flex-direction: column; gap: 4px; font: 400 0.9375rem/1.55 var(--mono); }
+.log li { color: var(--ink); white-space: pre-wrap; }
+.log li.out { color: var(--muted); padding-left: 2ch; }
+.log li.in::before { content: "\203A  "; color: var(--muted); }
+.log li .pass { color: #1D7346; font-weight: 500; }
+.log li .fail { color: #B42318; font-weight: 500; }
+.log li.gap { height: 8px; }
+/* pinned mode */
+.is-pinned .how-scene { height: 300vh; }
+.is-pinned .how-head { margin-bottom: 0; }
+.is-pinned .how-stage { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
+.is-pinned .steps li { color: var(--muted); }
+.is-pinned .steps li p { color: var(--muted); }
+.is-pinned .steps li.is-active, .is-pinned .steps li.is-active p { color: var(--ink); }
+.is-pinned .steps li.is-active p { color: var(--ink-2); }
+.is-pinned .log li { transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+.is-pinned .log li.is-future { opacity: 0; transform: translateY(8px); transition-duration: 200ms; }
+@media (max-width: 1023px) {
+  .how-grid { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (max-width: 767px) {
+  .log ol { padding: 16px; font-size: 0.8125rem; }
+  .log-bar { padding: 12px 16px; flex-direction: column; align-items: flex-start; gap: 4px; }
+}
+
+/* ---------- rulebook: the ruler ---------- */
+.rb-head { display: flex; flex-direction: column; gap: 24px; margin-bottom: 96px; }
+.rulers { display: flex; flex-direction: column; gap: 64px; }
+.ruler-title { display: flex; gap: 12px; align-items: baseline; margin-bottom: 16px; font: 600 1rem/1.3 var(--body); color: var(--ink); }
+.ruler-title span { font: 500 0.875rem/1 var(--mono); color: var(--muted); }
+.ruler-block:first-child .ruler-title { margin-bottom: 88px; }
+.ruler { display: flex; gap: 12px; }
+.is-guides .ruler { width: calc((100% - 72px) * 99 / 162 + 48px); }
+.seg { position: relative; flex: var(--c) 1 0; min-width: 0; }
+.ticks { display: block; width: 100%; height: 32px; overflow: visible; }
+.ticks line { stroke: var(--ink); stroke-width: 1; vector-effect: non-scaling-stroke; shape-rendering: crispEdges; }
+.ticks .edge { stroke-width: 2; }
+.seg-label { display: flex; flex-direction: column; gap: 2px; margin-top: 12px; padding-right: 8px; }
+.seg-name { font: 600 0.9375rem/1.3 var(--body); color: var(--ink); }
+.seg-n { font: 500 0.875rem/1.2 var(--mono); color: var(--muted); }
+.mark { position: absolute; bottom: 100%; left: calc((var(--k) - 0.5) / var(--c) * 100%); width: 0; height: 32px; border-left: 1px solid var(--ink); }
+.mark.a { height: 64px; }
+.mark span {
+  position: absolute; bottom: calc(100% + 4px); left: 0; transform: translateX(-50%);
+  font: 500 0.75rem/1.2 var(--mono); color: var(--ink); white-space: nowrap; padding: 2px 4px; border-radius: 2px;
+  transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out);
+}
+.mark.end span { transform: translateX(-100%); left: 1px; }
+.mark { transition: border-color 150ms var(--ease-out); }
+.mark.is-hot { border-left-color: var(--primary); border-left-width: 2px; }
+.mark.is-hot span { background: var(--primary); color: var(--primary-foreground); }
+.quotes { margin-top: 96px; border-top: 2px solid var(--ink); }
+.quotes li { display: grid; grid-template-columns: 112px 5fr 6fr; gap: 24px; align-items: baseline; padding-block: 24px; border-bottom: 1px solid var(--border); }
+.quotes h3 { font: 600 1.5rem/1.15 var(--display); text-transform: uppercase; color: var(--ink); text-wrap: balance; }
+.quotes p { color: var(--ink-2); font-size: 1.0625rem; line-height: 1.55; }
+.quotes .rid { color: var(--ink); }
+@media (max-width: 1023px) {
+  .quotes li { grid-template-columns: 96px 1fr; }
+  .quotes p { grid-column: 2; }
+}
+@media (max-width: 767px) {
+  .rb-head { margin-bottom: 48px; }
+  .rulers { gap: 48px; }
+  .ruler-block:first-child .ruler-title { margin-bottom: 16px; }
+  .ruler, .is-guides .ruler { width: 100%; flex-direction: column; gap: 12px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 12px; flex: none; }
+  .seg .ticks { order: 2; width: calc(var(--c) / 29 * 100%); height: 24px; }
+  .seg-label { order: 1; margin: 0; flex-direction: row; justify-content: space-between; gap: 8px; }
+  .mark { display: none; }
+  .quotes { margin-top: 64px; }
+  .quotes li { grid-template-columns: 1fr; gap: 8px; padding-block: 20px; }
+  .quotes p { grid-column: 1; }
+  .quotes h3 { font-size: 1.375rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<a class="sr-only" href="#main">Skip to content</a>
+
+<header class="site-nav">
+  <div class="wrap">
+    <a class="wordmark" href="#top" aria-label="YourDesignRules, back to top">YourDesignRules</a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#proof">Proof</a>
+      <a href="#how">How it works</a>
+      <a href="#rules">The rules</a>
+      <a href="https://github.com/yarzc0de/YourDesignRules">GitHub</a>
+      <a class="btn btn-ink" href="#install">Install</a>
+    </nav>
+    <button class="menu-btn" id="menu-toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero-media">
+    <picture>
+      <source media="(max-width: 767px)" srcset="assets/kv-portrait.jpg">
+      <img src="assets/kv-hero.jpg" alt="A giant orange set square and a steel straightedge standing on an endless salt flat in morning light, two small walkers heading toward them" fetchpriority="high">
+    </picture>
+  </div>
+  <div class="hero-copy wrap">
+    <h1 class="display" id="hero-title"><span class="line"><span>Designed,</span></span><span class="line"><span>not generated.</span></span></h1>
+    <p class="lede">261 design rules your coding agent reads before it builds UI, in Claude Code, Codex, Cursor, or Gemini CLI.</p>
+    <div class="hero-actions">
+      <div class="cmd">
+        <code><span class="prompt" aria-hidden="true">$</span><span class="cmd-text">npx skills add yarzc0de/<wbr>YourDesignRules</span></code>
+        <button class="btn btn-primary copy" type="button" data-copy="npx skills add yarzc0de/YourDesignRules">
+          <span class="idle">Copy command</span><span class="done">Copied</span>
+        </button>
+      </div>
+      <a class="quiet-link" href="#install">Claude Code plugin and other setups</a>
+    </div>
+  </div>
+</section>
+
+<section class="section habits" id="habits" aria-labelledby="habits-title">
+  <div class="wrap">
+    <div class="habits-intro">
+      <h2 class="h2" id="habits-title">You have seen this page before.</h2>
+      <p class="body-l">Ask an agent for a landing page and it reaches for the same kit every time. The rulebook names each habit, gives the reason it hurts, and tells the agent what to do instead.</p>
+    </div>
+    <div>
+      <ul class="habit-list" aria-label="Habits the rules remove, with the rule that removes each">
+        <li><span class="habit">Every element in its own rounded card</span><span class="rid">CORE-6</span></li>
+        <li><span class="habit">Three equal boxes under the hero</span><span class="rid">CORE-21</span></li>
+        <li><span class="habit">A &ldquo;New&rdquo; badge when nothing is new</span><span class="rid">CORE-22</span></li>
+        <li><span class="habit">One headline word in italic gold</span><span class="rid">CORE-22</span></li>
+        <li><span class="habit">A cream page with a terracotta accent</span><span class="rid">COLOR-8</span></li>
+        <li><span class="habit">A purple glow behind a floating screenshot</span><span class="rid">CORE-25</span></li>
+        <li><span class="habit">Testimonials nobody supplied</span><span class="rid">CORE-9</span></li>
+        <li><span class="habit">Image URLs that were never real</span><span class="rid">IMG-12</span></li>
+        <li><span class="habit">A fade-and-rise on every section</span><span class="rid">MOTION-19</span></li>
+        <li><span class="habit">Nobody looked at the render</span><span class="rid">CORE-15</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section proof" id="proof" aria-labelledby="proof-title">
+  <div class="wrap proof-head">
+    <h2 class="h2" id="proof-title">Same prompt, same model.<br>Rules off, then on.</h2>
+    <p class="body-l">Two examples from the repository. Each was built twice by the same model from the same prompt: once as a plain request, once with this rulebook loaded. These are the first screens at 1440 by 900, as rendered.</p>
+  </div>
+  <div class="proof-scene" id="proof-scene">
+    <div class="proof-stage">
+      <div class="wrap proof-grid">
+        <div class="proof-notes">
+          <article class="ex" data-ex="0" aria-labelledby="ex0-name">
+            <h3 class="ex-name" id="ex0-name">Tidewell</h3>
+            <p class="ex-brief">Landing page for a titanium sleep ring made for shift workers.</p>
+            <ul class="ex-changes">
+              <li><span class="rid">LAY-20</span><span>A copy column beside a ring drawn in CSS became one photograph across the whole stage.</span></li>
+              <li><span class="rid">CORE-21</span><span>The strip of three audience boxes is gone. The subhead names nurses, pilots, and factory crews.</span></li>
+              <li><span class="rid">CORE-22</span><span>The eyebrow label, the italic gold words, and the checkmark row were cut.</span></li>
+            </ul>
+          </article>
+          <article class="ex" data-ex="1" aria-labelledby="ex1-name">
+            <h3 class="ex-name" id="ex1-name">Crumb &amp; Co</h3>
+            <p class="ex-brief">Back-office dashboard for a bakery chain with four stores.</p>
+            <ul class="ex-changes">
+              <li><span class="rid">COLOR-8</span><span>The cream ground became white.</span></li>
+              <li><span class="rid">CORE-21</span><span>Four equal store cards became one lead answer, Old Town down 14%, and a ranked bar chart of all four stores.</span></li>
+              <li><span class="rid">CORE-6</span><span>The tables sit on the page instead of inside cards.</span></li>
+              <li><span class="rid">CORE-9</span><span>The bell with an unread dot is gone. The brief had no notifications.</span></li>
+            </ul>
+          </article>
+        </div>
+        <div class="proof-frames">
+          <figure class="pf" data-ex="0">
+            <div class="pf-view">
+              <img src="assets/example-landing-before.jpg" width="1440" height="900" loading="lazy" alt="Rules off: Tidewell with a copy column beside a ring drawn in CSS, three italic gold words in the headline, and a strip of three audience boxes">
+              <div class="pf-after"><div class="pf-after-in"><img src="assets/example-landing-after.jpg" width="1440" height="900" loading="lazy" alt="Rules on: Tidewell with one photograph of someone asleep in daylight wearing the ring, and the headline in the shadowed left of the frame"></div></div>
+              <div class="pf-handle" aria-hidden="true"><span class="off">Rules off</span><span class="on">Rules on</span></div>
+            </div>
+            <figcaption class="pf-label"><span>Rules off</span><span>Rules on</span></figcaption>
+          </figure>
+          <figure class="pf" data-ex="1">
+            <div class="pf-view">
+              <img src="assets/example-dashboard-before.jpg" width="1440" height="900" loading="lazy" alt="Rules off: Crumb and Co dashboard on a cream ground with four equal store cards and an alert panel with three buttons">
+              <div class="pf-after"><div class="pf-after-in"><img src="assets/example-dashboard-after.jpg" width="1440" height="900" loading="lazy" alt="Rules on: Crumb and Co dashboard on white, leading with Old Town down 14 percent and a ranked bar chart of the four stores"></div></div>
+              <div class="pf-handle" aria-hidden="true"><span class="off">Rules off</span><span class="on">Rules on</span></div>
+            </div>
+            <figcaption class="pf-label"><span>Rules off</span><span>Rules on</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section how" id="how" aria-labelledby="how-title">
+  <div class="wrap how-head">
+    <h2 class="h2" id="how-title">Your agent starts checking its own work.</h2>
+    <p class="body-l">The skill sets the order of work: read, plan, build, then look at the render and fix what fails. The log on the right is from the session that built this page.</p>
+  </div>
+  <div class="how-scene" id="how-scene">
+    <div class="how-stage">
+      <div class="wrap how-grid">
+        <ol class="steps">
+          <li data-step="0"><h3>Read the core</h3><p>Twenty-five rules on focus, reduction, honest content, and process.</p></li>
+          <li data-step="1"><h3>Read the guide for the job</h3><p>Web app, landing page, mobile app, dashboards and tables, or slides.</p></li>
+          <li data-step="2"><h3>Pick an archetype if there is no brand</h3><p>One of 16 visual directions, named with its reason.</p></li>
+          <li data-step="3"><h3>Write a plan, then test it for sameness</h3><p>Palette, type, a sketch of the first screen, one bold decision. Whatever a competitor&rsquo;s page would share gets changed.</p></li>
+          <li data-step="4"><h3>Build one section at a time</h3><p>In story order, starting with the hero.</p></li>
+          <li data-step="5"><h3>Check the render and fix in place</h3><p>CHK-1 to CHK-18 on the actual pixels, after every section.</p></li>
+        </ol>
+        <figure class="log" aria-labelledby="log-title">
+          <figcaption class="log-bar"><span id="log-title">Session log</span><span>From the build of this page, abridged</span></figcaption>
+          <ol>
+            <li class="in" data-step="0">read references/rules/core.md</li>
+            <li class="out" data-step="0">25 rules: purpose, reduction, honest content, process</li>
+            <li class="in" data-step="1">read references/guides/landing-page.md</li>
+            <li class="out" data-step="1">18 rules: one goal, the hero stage, proof, a key visual</li>
+            <li class="in" data-step="2">read references/archetypes/README.md</li>
+            <li class="out" data-step="2">no brand given: Wide Horizon, one place seen at several crops</li>
+            <li class="in" data-step="3">write the design plan</li>
+            <li class="out" data-step="3">mood: open, exact, daylight. bold decision: the key visual</li>
+            <li class="in" data-step="3">run the sameness test</li>
+            <li class="out" data-step="3">dusk scene, white type &rarr; morning salt flat, ink type</li>
+            <li class="in" data-step="4">generate 4 key-visual candidates, keep the salt flat</li>
+            <li class="in" data-step="4">build the hero, render at 1440 and 390</li>
+            <li class="in" data-step="5">check the hero at 390</li>
+            <li class="out" data-step="5"><span class="fail">CHK-2 fail</span> install command clipped at the right edge</li>
+            <li class="out" data-step="5">fix: let it wrap after the slash. <span class="pass">pass</span></li>
+            <li class="in" data-step="5">check the hero at 1440</li>
+            <li class="out" data-step="5"><span class="fail">LAND-18 fail</span> headline runs across the set square</li>
+            <li class="out" data-step="5">fix: smaller display size, scene shifted right. <span class="pass">pass</span></li>
+          </ol>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section rulebook" id="rules" aria-labelledby="rules-title">
+  <div class="wrap">
+    <div class="rb-head">
+      <h2 class="h2" id="rules-title">261 rules. Each one has an ID and a reason.</h2>
+      <p class="body-l">Seven rule files apply to every task, and five guides cover the job at hand. Most rules end in a check your agent can run on its own render. Each tick below is one rule.</p>
+    </div>
+    <figure class="rulers" aria-label="Rule counts by file">
+      <div class="ruler-block">
+        <p class="ruler-title">Rule files, read on every task <span>162</span></p>
+        <ol class="ruler"><li class="seg" style="--c:25"><span class="mark a" data-q="CORE-21" style="--k:21"><span>CORE-21</span></span><span class="mark b" data-q="CORE-25" style="--k:25"><span>CORE-25</span></span><svg class="ticks" viewBox="0 0 25 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="25" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/><line x1="20.5" y1="0" x2="20.5" y2="14"/><line x1="21.5" y1="0" x2="21.5" y2="14"/><line x1="22.5" y1="0" x2="22.5" y2="14"/><line x1="23.5" y1="0" x2="23.5" y2="14"/><line x1="24.5" y1="0" x2="24.5" y2="22"/></svg><p class="seg-label"><span class="seg-name">Core</span><span class="seg-n">25</span></p></li><li class="seg" style="--c:29"><span class="mark a" data-q="LAY-20" style="--k:20"><span>LAY-20</span></span><svg class="ticks" viewBox="0 0 29 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="29" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/><line x1="20.5" y1="0" x2="20.5" y2="14"/><line x1="21.5" y1="0" x2="21.5" y2="14"/><line x1="22.5" y1="0" x2="22.5" y2="14"/><line x1="23.5" y1="0" x2="23.5" y2="14"/><line x1="24.5" y1="0" x2="24.5" y2="22"/><line x1="25.5" y1="0" x2="25.5" y2="14"/><line x1="26.5" y1="0" x2="26.5" y2="14"/><line x1="27.5" y1="0" x2="27.5" y2="14"/><line x1="28.5" y1="0" x2="28.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Layout</span><span class="seg-n">29</span></p></li><li class="seg" style="--c:21"><svg class="ticks" viewBox="0 0 21 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="21" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/><line x1="20.5" y1="0" x2="20.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Typography</span><span class="seg-n">21</span></p></li><li class="seg" style="--c:20"><span class="mark b" data-q="COLOR-8" style="--k:8"><span>COLOR-8</span></span><svg class="ticks" viewBox="0 0 20 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="20" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/></svg><p class="seg-label"><span class="seg-name">Color</span><span class="seg-n">20</span></p></li><li class="seg" style="--c:22"><span class="mark a" data-q="IMG-12" style="--k:12"><span>IMG-12</span></span><svg class="ticks" viewBox="0 0 22 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="22" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/><line x1="20.5" y1="0" x2="20.5" y2="14"/><line x1="21.5" y1="0" x2="21.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Imagery and icons</span><span class="seg-n">22</span></p></li><li class="seg" style="--c:27"><span class="mark b" data-q="MOTION-21" style="--k:21"><span>MOTION-21</span></span><svg class="ticks" viewBox="0 0 27 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="27" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/><line x1="20.5" y1="0" x2="20.5" y2="14"/><line x1="21.5" y1="0" x2="21.5" y2="14"/><line x1="22.5" y1="0" x2="22.5" y2="14"/><line x1="23.5" y1="0" x2="23.5" y2="14"/><line x1="24.5" y1="0" x2="24.5" y2="22"/><line x1="25.5" y1="0" x2="25.5" y2="14"/><line x1="26.5" y1="0" x2="26.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Motion</span><span class="seg-n">27</span></p></li><li class="seg" style="--c:18"><span class="mark a end" data-q="CHK-18" style="--k:18"><span>CHK-18</span></span><svg class="ticks" viewBox="0 0 18 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="18" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Review checklist</span><span class="seg-n">18</span></p></li></ol>
+      </div>
+      <div class="ruler-block is-guides">
+        <p class="ruler-title">Guides, one per job <span>99</span></p>
+        <ol class="ruler"><li class="seg" style="--c:27"><svg class="ticks" viewBox="0 0 27 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="27" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/><line x1="20.5" y1="0" x2="20.5" y2="14"/><line x1="21.5" y1="0" x2="21.5" y2="14"/><line x1="22.5" y1="0" x2="22.5" y2="14"/><line x1="23.5" y1="0" x2="23.5" y2="14"/><line x1="24.5" y1="0" x2="24.5" y2="22"/><line x1="25.5" y1="0" x2="25.5" y2="14"/><line x1="26.5" y1="0" x2="26.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Web app</span><span class="seg-n">27</span></p></li><li class="seg" style="--c:18"><svg class="ticks" viewBox="0 0 18 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="18" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Landing page</span><span class="seg-n">18</span></p></li><li class="seg" style="--c:20"><svg class="ticks" viewBox="0 0 20 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="20" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/><line x1="19.5" y1="0" x2="19.5" y2="30"/></svg><p class="seg-label"><span class="seg-name">Mobile app</span><span class="seg-n">20</span></p></li><li class="seg" style="--c:19"><svg class="ticks" viewBox="0 0 19 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="19" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/><line x1="15.5" y1="0" x2="15.5" y2="14"/><line x1="16.5" y1="0" x2="16.5" y2="14"/><line x1="17.5" y1="0" x2="17.5" y2="14"/><line x1="18.5" y1="0" x2="18.5" y2="14"/></svg><p class="seg-label"><span class="seg-name">Dashboards and tables</span><span class="seg-n">19</span></p></li><li class="seg" style="--c:15"><svg class="ticks" viewBox="0 0 15 32" preserveAspectRatio="none" aria-hidden="true"><line class="edge" x1="0" y1="0.5" x2="15" y2="0.5"/><line x1="0.5" y1="0" x2="0.5" y2="14"/><line x1="1.5" y1="0" x2="1.5" y2="14"/><line x1="2.5" y1="0" x2="2.5" y2="14"/><line x1="3.5" y1="0" x2="3.5" y2="14"/><line x1="4.5" y1="0" x2="4.5" y2="22"/><line x1="5.5" y1="0" x2="5.5" y2="14"/><line x1="6.5" y1="0" x2="6.5" y2="14"/><line x1="7.5" y1="0" x2="7.5" y2="14"/><line x1="8.5" y1="0" x2="8.5" y2="14"/><line x1="9.5" y1="0" x2="9.5" y2="30"/><line x1="10.5" y1="0" x2="10.5" y2="14"/><line x1="11.5" y1="0" x2="11.5" y2="14"/><line x1="12.5" y1="0" x2="12.5" y2="14"/><line x1="13.5" y1="0" x2="13.5" y2="14"/><line x1="14.5" y1="0" x2="14.5" y2="22"/></svg><p class="seg-label"><span class="seg-name">Slides</span><span class="seg-n">15</span></p></li></ol>
+      </div>
+    </figure>
+    <ul class="quotes" aria-label="Seven of the rules, quoted"><li data-q="CORE-21"><span class="rid">CORE-21</span><h3>Don&rsquo;t fill space with rows of equal boxes</h3><p>Equal boxes with one-line captions are the most recognizable filler in generated pages.</p></li><li data-q="CORE-25"><span class="rid">CORE-25</span><h3>Avoid the house styles generators fall into</h3><p>A look that appears for every subject tells the visitor nobody made a choice.</p></li><li data-q="LAY-20"><span class="rid">LAY-20</span><h3>Compose the hero as one continuous stage</h3><p>A split opening reads as two weak halves instead of one strong first impression.</p></li><li data-q="COLOR-8"><span class="rid">COLOR-8</span><h3>Never use beige, cream, ivory, tan, or sand grounds</h3><p>Warm off-white grounds are the stock default of generated UI and look muddy beside real imagery.</p></li><li data-q="IMG-12"><span class="rid">IMG-12</span><h3>Never guess or invent image URLs</h3><p>A guessed URL breaks in production or shows someone else&rsquo;s picture.</p></li><li data-q="MOTION-21"><span class="rid">MOTION-21</span><h3>Link animation to scroll, never hijack it</h3><p>Taking control of scroll breaks trackpads, keyboard paging, and screen readers, and feels laggy.</p></li><li data-q="CHK-18"><span class="rid">CHK-18</span><h3>The page makes one bold decision</h3><p>You can name the one memorable thing on the page (CORE-8) and the real-world source of at least two visual choices (CORE-23).</p></li></ul>
+  </div>
+</section>
+</main>
+
+<p class="sr-only" id="copy-status" aria-live="polite"></p>
+
+<script>
+(() => {
+  // copy to clipboard, with a selection fallback for contexts without the async clipboard
+  const status = document.getElementById("copy-status");
+  const fallbackCopy = (text) => {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    ta.remove(); return ok;
+  };
+  document.querySelectorAll("button.copy").forEach((btn) => {
+    let t;
+    btn.addEventListener("click", async () => {
+      const text = btn.dataset.copy;
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch (e) { ok = fallbackCopy(text); }
+      btn.classList.toggle("is-copied", ok);
+      status.textContent = ok ? "Copied: " + text : "Copy failed. Select the command and copy it by hand.";
+      clearTimeout(t); t = setTimeout(() => btn.classList.remove("is-copied"), 2200);
+    });
+  });
+})();
+</script>
+<script>
+(() => {
+  // scroll-linked scenes: one passive listener, work done in rAF
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const desk = matchMedia("(min-width: 768px)");
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  const habits = [...document.querySelectorAll(".habit-list li")];
+  const scenes = [];
+  window.__scenes = scenes;
+  let queued = false;
+  const update = () => {
+    queued = false;
+    const vh = innerHeight;
+    if (reduce.matches) {
+      habits.forEach((li) => { li.style.removeProperty("--s"); li.style.removeProperty("--o"); li.classList.add("is-struck"); });
+    } else {
+      habits.forEach((li) => {
+        const r = li.getBoundingClientRect();
+        // strike runs while the row travels from 78% to 50% of the viewport height
+        const p = clamp((vh * 0.78 - r.top) / (vh * 0.28));
+        li.style.setProperty("--s", p.toFixed(3));
+        li.style.setProperty("--o", clamp((p - 0.6) / 0.4).toFixed(3));
+        li.classList.toggle("is-struck", p > 0.5);
+      });
+    }
+    scenes.forEach((fn) => fn(vh));
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+  addEventListener("scroll", queue, { passive: true });
+  addEventListener("resize", queue);
+  reduce.addEventListener("change", queue);
+  desk.addEventListener("change", queue);
+  window.__queueScenes = queue;
+  update();
+})();
+</script>
+<script>
+(() => {
+  // scene B: proof wipe, pinned on wide screens only
+  const sec = document.getElementById("proof");
+  const scene = document.getElementById("proof-scene");
+  const wide = matchMedia("(min-width: 1024px) and (min-height: 600px)");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const views = [...scene.querySelectorAll(".pf-view")];
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  window.__scenes.push((vh) => {
+    const on = wide.matches && !reduce.matches;
+    sec.classList.toggle("is-pinned", on);
+    if (!on) return;
+    const r = scene.getBoundingClientRect();
+    const p = clamp(-r.top / (r.height - vh));
+    const a1 = clamp((p - 0.48) / 0.04);
+    sec.style.setProperty("--a0", (1 - a1).toFixed(3));
+    sec.style.setProperty("--a1", a1.toFixed(3));
+    views[0].style.setProperty("--w", clamp((p - 0.06) / 0.34).toFixed(4));
+    views[1].style.setProperty("--w", clamp((p - 0.58) / 0.34).toFixed(4));
+  });
+  window.__queueScenes();
+})();
+</script>
+<script>
+(() => {
+  // scene C: pinned walkthrough, the step follows scroll position
+  const sec = document.getElementById("how");
+  const scene = document.getElementById("how-scene");
+  const wide = matchMedia("(min-width: 1024px) and (min-height: 600px)");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const steps = [...sec.querySelectorAll(".steps li")];
+  const lines = [...sec.querySelectorAll(".log li")];
+  let last = -1;
+  window.__scenes.push((vh) => {
+    const on = wide.matches && !reduce.matches;
+    sec.classList.toggle("is-pinned", on);
+    if (!on) { last = -1; return; }
+    const r = scene.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, -r.top / (r.height - vh)));
+    const step = Math.min(5, Math.floor(p * 6));
+    if (step === last) return;
+    last = step;
+    steps.forEach((li) => li.classList.toggle("is-active", +li.dataset.step === step));
+    lines.forEach((li) => {
+      const s = +li.dataset.step;
+      li.classList.toggle("is-shown", s === step);
+      li.classList.toggle("is-future", s > step);
+    });
+  });
+  window.__queueScenes();
+})();
+</script>
+<script>
+(() => {
+  // pointing at a quoted rule lights its tick on the ruler (selection uses the accent)
+  const marks = new Map([...document.querySelectorAll(".mark")].map((m) => [m.dataset.q, m]));
+  document.querySelectorAll(".quotes li").forEach((li) => {
+    const m = marks.get(li.dataset.q);
+    if (!m) return;
+    li.addEventListener("pointerenter", () => m.classList.add("is-hot"));
+    li.addEventListener("pointerleave", () => m.classList.remove("is-hot"));
+  });
+})();
+</script>
+</body>
+</html>

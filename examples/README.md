@@ -1,6 +1,6 @@
 # Examples
 
-Two tasks, each built twice from the same prompt and the same facts by the same model:
+Four tasks, each built twice from the same prompt and the same facts by the same model:
 
 - **before**: a plain request ("make it look good and modern"), built in one pass with no rules loaded.
 - **after**: the same request with the `your-design-rules` skill active. The agent followed the skill's
@@ -9,6 +9,53 @@ Two tasks, each built twice from the same prompt and the same facts by the same 
 
 The checklist loop is part of the skill, so the "after" runs took longer. That difference is the point: the
 rules make the agent look at its own render and fix what it sees.
+
+## SaaS landing page: Sunshift
+
+On-call scheduling and incident handoff for engineering teams across time zones. The brief listed the
+features, integrations, pricing, and hosting; it had no customers, logos, testimonials, or usage numbers. Both
+runs could generate images.
+
+| | Before | After |
+|---|---|---|
+| First screen | [before-fold.jpg](saas-landing/before-fold.jpg) | [after-fold.jpg](saas-landing/after-fold.jpg) |
+| Full page | [before-1440.jpg](saas-landing/before-1440.jpg) | [after-1440.jpg](saas-landing/after-1440.jpg) (still frame) |
+| Phone | [before-390.jpg](saas-landing/before-390.jpg) | [after-390.jpg](saas-landing/after-390.jpg) |
+| Scroll | | [after-scroll-filmstrip.jpg](saas-landing/after-scroll-filmstrip.jpg) |
+| HTML | [before.html](saas-landing/before.html) | [after.html](saas-landing/after.html) |
+
+| Before | After | Rules |
+|---|---|---|
+| Cream ground, serif headline, orange accent, one word in orange italic | Night ground and sunrise gold sampled from the key visual | CORE-25, CORE-22, LAND-18 |
+| Pill badge above the headline, logo strip of integrations | Neither; integrations are one line in the pricing area | CORE-22 |
+| Text column beside a small boxed schedule widget | Full-bleed photograph of Earth at sunrise, chosen from four candidates, with a 104 px headline in the sky | LAY-20, LAND-18, IMG-22 |
+| Three zigzag feature rows and a row of three equal cards | One sample incident told across three live product views | CORE-8, CORE-21 |
+| Every section fades in the same way (and stays invisible in a full-page capture) | Load sequence, then a scroll story: the sun brightens, a pinned rotation band sweeps a full day, the incident timeline writes itself | MOTION-19, MOTION-20, MOTION-25 |
+
+Archetype chosen: **Working Surface**, pushed toward the subject with a night ground and sunrise gold.
+
+## SaaS app screen: Sunshift "Now"
+
+The screen an engineering manager sees after login: who is on call, what is burning, and whether the next
+handoff is ready. The brief listed six engineers in six time zones, today's rotation, two open incidents, two
+deploys, the last handoff, weekly page counts, and integrations. Both runs could generate portraits.
+
+| | Before | After |
+|---|---|---|
+| First screen | [before-fold.jpg](saas-app/before-fold.jpg) | [after-fold.jpg](saas-app/after-fold.jpg) |
+| Full page | [before-1440.jpg](saas-app/before-1440.jpg) | [after-1440.jpg](saas-app/after-1440.jpg) |
+| Phone | [before-390.jpg](saas-app/before-390.jpg) | [after-390.jpg](saas-app/after-390.jpg) |
+| HTML | [before.html](saas-app/before.html) | [after.html](saas-app/after.html) |
+
+| Before | After | Rules |
+|---|---|---|
+| Warm cream ground; the sidebar stops partway down the page | White app with a full-height sidebar | COLOR-8, CHK-1 |
+| Three cards on top, four equal cards below, uppercase eyebrows on each | One dark working-surface panel leads; the rest is plain sections | CORE-21, CORE-22, WEB-22 |
+| A Gantt chart of colored shift bars | Each engineer's local daylight drawn as a band; shifts cascade like a relay; one gold "now" line crosses rotation, incidents, and deploys | WEB-22, WEB-26, CORE-23 |
+| Static states | Live now-line, selected incident with its detail open, drafted handoff note | WEB-23 |
+| Hard cuts between states | Tabs crossfade with view transitions, the indicator slides, the handoff drawer slides from its edge, popovers grow from their trigger | MOTION-26, MOTION-27 |
+
+Archetype chosen: **Working Surface**, sharing its palette and type with the Sunshift landing page.
 
 ## Landing page: Tidewell
 

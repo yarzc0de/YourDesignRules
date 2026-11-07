@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Now – Sunshift</title>
+<meta name="description" content="Who is on call for Platform, what is burning, and whether the next handoff is ready.">
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Working Surface, pushed toward follow-the-sun: the rotation is drawn as the day itself.
+       Night and daytime tones and the sun gold are shared with the Sunshift landing page. */
+    --background: #FFFFFF;
+    --surface: #F4F6F9;          /* sidebar, recessed areas */
+    --surface-hover: #EAEEF3;
+    --selected: #F1F4F8;         /* selected list row */
+    --foreground: #0E1628;
+    --foreground-2: #3F4A5C;
+    --muted: #5A6476;
+    --border: #E1E5EB;
+    --border-strong: #8A93A1;
+
+    --ink: #0E1628;              /* primary action */
+    --ink-hover: #26324A;
+    --ink-active: #050A14;
+    --on-ink: #FFFFFF;
+
+    --sun: #FFC14F;              /* the one brand color: now, and the person covering it */
+    --on-sun: #111827;
+
+    --night: #0B1426;            /* rotation panel ground */
+    --night-track: #172440;      /* local night on a track */
+    --day-track: #3B65A0;        /* local daytime on a track */
+    --on-night: #E8EDF5;
+    --on-night-2: #A9B6CA;
+    --night-rule: #24324D;
+    --shift-future: #F4F7FB;
+    --shift-future-fg: #0E1628;
+    --shift-past-edge: #C5D0E0;  /* finished shift: outline only, 3.9:1 on the daytime track */
+
+    --sev2: #C8283A;  --sev2-subtle: #FCEBED;  --sev2-on-night: #FF8F8A;
+    --sev4: #4B5568;  --sev4-subtle: #EEF0F4;
+    --success: #1D7346; --success-on-night: #7FD6A4;
+    --info: #0A6AA8;  --info-subtle: #E8F2FA;
+
+    --ring: #0E1628;
+    --ring-on-night: #FFFFFF;
+
+    --font-ui: "Manrope", system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+    --font-mark: "Space Grotesk", var(--font-ui);
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-press: 100ms;
+    --dur-hover: 160ms;
+    --dur-pop-in: 180ms;
+    --dur-pop-out: 120ms;
+    --dur-base: 220ms;
+    --dur-panel-in: 280ms;
+    --dur-panel-out: 190ms;
+
+    --sidebar-w: 248px;
+    --label-w: 200px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { font-synthesis: none; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--background); color: var(--foreground); font: 400 0.875rem/1.45 var(--font-ui); }
+  h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; }
+  ul, ol { padding: 0; list-style: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; }
+  .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .num { font-variant-numeric: tabular-nums; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .icon { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .icon-16 { width: 16px; height: 16px; }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  .skip { position: absolute; left: 12px; top: -48px; z-index: 50; padding: 8px 12px; background: var(--ink); color: var(--on-ink); border-radius: 6px; }
+  .skip:focus { top: 12px; }
+
+  .avatar { border-radius: 50%; object-fit: cover; background: #B8C3D2; flex: none; }
+
+  /* ---------- Shell ---------- */
+  .app { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100vh; }
+
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border); }
+  .sidebar-in { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 24px; padding: 16px 12px; }
+  .sidebar-head { display: flex; align-items: center; justify-content: space-between; padding-inline: 12px; min-height: 40px; }
+  .wordmark { font: 700 1.25rem/1 var(--font-mark); letter-spacing: -0.02em; }
+  .team { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 12px; border-radius: 8px;
+          border: 1px solid var(--border); background: var(--background);
+          transition: border-color var(--dur-hover) var(--ease-out); }
+  .team:hover { border-color: var(--border-strong); }
+  .team b { display: block; font-weight: 600; }
+  .team small { display: block; font-size: 0.75rem; color: var(--muted); }
+  .team .icon { margin-left: auto; color: var(--muted); width: 16px; height: 16px; }
+  .nav ul { display: flex; flex-direction: column; }
+  .nav a { position: relative; display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 10px 12px; border-radius: 8px;
+           color: var(--foreground-2); font-weight: 500;
+           transition: background-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out); }
+  .nav a:hover { background: var(--surface-hover); color: var(--foreground); }
+  .nav a[aria-current="page"] { background: var(--background); color: var(--foreground); font-weight: 600;
+                                box-shadow: 0 0 0 1px var(--border), 0 1px 2px rgb(14 22 40 / 0.05); }
+  .nav a[aria-current="page"] .icon { color: var(--foreground); }
+  .nav .count { margin-left: auto; min-width: 20px; padding: 0 6px; border-radius: 10px; background: var(--sev2-subtle);
+                color: var(--sev2); font-size: 0.75rem; font-weight: 700; text-align: center; line-height: 20px; }
+  .me { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 12px; border-top: 1px solid var(--border); }
+  .me b { display: block; font-weight: 600; }
+  .me small { display: block; font-size: 0.75rem; color: var(--muted); }
+  .sidebar .sheet-close, .sheet-scrim { display: none; }
+
+  .main { min-width: 0; padding: 24px 32px 48px; }
+  .topbar { display: none; }
+
+  /* ---------- Page header ---------- */
+  .page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+  .page-head h1 { font-size: 1.5rem; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+  .page-head p { color: var(--muted); margin-top: 4px; }
+  .clock { display: flex; align-items: baseline; gap: 8px; color: var(--foreground-2); }
+  .clock .mono { font-size: 1rem; font-weight: 500; color: var(--foreground); }
+
+  /* ---------- Rotation panel (the working surface) ---------- */
+  .rota { position: relative; background: var(--night); color: var(--on-night); border-radius: 12px; padding: 24px; }
+  .rota :focus-visible { outline-color: var(--ring-on-night); }
+  .rota-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+  .oncall { display: flex; align-items: center; gap: 16px; min-width: 0; }
+  .oncall .avatar { width: 56px; height: 56px; box-shadow: 0 0 0 2px var(--night), 0 0 0 4px var(--sun); }
+  .oncall h2 { font-size: 1.875rem; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+  .oncall p { margin-top: 4px; color: var(--on-night-2); font-size: 0.9375rem; }
+  .oncall p b { color: var(--on-night); font-weight: 600; }
+  .cover { display: grid; grid-template-columns: auto auto; gap: 8px 16px; align-items: center; font-size: 0.8125rem; }
+  .cover dt { color: var(--on-night-2); }
+  .cover dd { display: flex; align-items: center; gap: 8px; color: var(--on-night); font-weight: 600; }
+  .cover dd .avatar { width: 24px; height: 24px; }
+  .cover dd span { font-weight: 400; color: var(--on-night-2); }
+
+  .tl { --t: 12.6167; position: relative; }
+  .tl-row { display: grid; grid-template-columns: var(--label-w) minmax(0, 1fr); }
+  .tl-label { display: flex; align-items: center; gap: 12px; min-width: 0; padding-right: 16px; }
+  .tl-label .avatar { width: 28px; height: 28px; }
+  .tl-label b { display: block; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tl-label small { display: block; font-size: 0.75rem; color: var(--on-night-2); white-space: nowrap; }
+  .tl-label small .mono { color: var(--on-night); }
+  .is-oncall .tl-label .avatar { box-shadow: 0 0 0 2px var(--night), 0 0 0 3.5px var(--sun); }
+
+  .track { position: relative; height: 44px; background: var(--night-track); }
+  .tl-rows .tl-row + .tl-row .track { margin-top: 1px; }
+  .tl-rows .tl-row + .tl-row .tl-label { margin-top: 1px; }
+  .day { position: absolute; top: 0; bottom: 0; left: calc(var(--s) / 24 * 100%); width: calc((var(--e) - var(--s)) / 24 * 100%);
+         background: var(--day-track); }
+
+  /* the "now" line: one element per lane, translated by the shared --t, so it reads as one line */
+  .now-clip { position: absolute; inset: -4px 0; overflow: hidden; pointer-events: none; z-index: 3; }
+  .now-line { position: absolute; top: 0; bottom: 0; left: -1px; width: 100%;
+              transform: translateX(calc(var(--t) / 24 * 100%)); transition: transform 1s linear; }
+  .now-line::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--sun); }
+
+  .shift { position: absolute; top: 8px; bottom: 8px; z-index: 2; left: calc(var(--s) / 24 * 100%); width: calc((var(--e) - var(--s)) / 24 * 100%);
+           display: flex; align-items: center; padding: 0 10px; border-radius: 6px; overflow: hidden; white-space: nowrap;
+           font-size: 0.75rem; font-weight: 600; font-variant-numeric: tabular-nums;
+           transition: background-color var(--dur-hover) var(--ease-out); }
+  .shift.past { background-color: rgb(232 237 245 / 0); color: var(--on-night); box-shadow: inset 0 0 0 1.5px var(--shift-past-edge); }
+  .shift.past:hover { background-color: rgb(232 237 245 / 0.12); }
+  .shift.current { background-color: var(--sun); color: var(--on-sun); }
+  .shift.current:hover { background-color: #FFCD70; }
+  .shift.future { background-color: var(--shift-future); color: var(--shift-future-fg); }
+  .shift.future:hover { background-color: #FFFFFF; }
+  .shift.is-tight .lbl { visibility: hidden; }
+  .shift .lbl b { font-weight: 700; margin-right: 6px; }
+  .backup { transition: background-color var(--dur-hover) var(--ease-out); }
+  .backup:hover { background-color: rgb(232 237 245 / 0.06); }
+  .backup { position: absolute; top: 12px; bottom: 12px; left: 0; right: 0; z-index: 2; display: flex; align-items: center; padding: 0 10px;
+            border: 1.5px dashed var(--on-night-2); border-radius: 6px; font-size: 0.75rem; font-weight: 600; color: var(--on-night); }
+  .backup span { background: var(--night-track); padding: 0 6px; margin-left: -6px; border-radius: 3px; }
+
+  /* handoff batons: the connector between one shift's end and the next shift's start */
+  .baton { position: absolute; z-index: 2; left: calc(var(--at) / 24 * 100%); top: -10px; height: 20px; width: 0; }
+  .baton::before { content: ""; position: absolute; left: -1px; top: 0; bottom: 0; border-left: 2px solid var(--on-night); }
+  .baton i { position: absolute; left: -4px; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--on-night); }
+  .baton.done i { background: var(--success-on-night); }
+  .baton.drafted::before { border-left-style: dashed; }
+  .baton.drafted i { background: var(--night); box-shadow: inset 0 0 0 2px var(--on-night); }
+  .baton-tag { position: absolute; z-index: 2; top: 50%; transform: translateY(-50%); left: calc(var(--at) / 24 * 100% + 12px);
+               display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 6px; white-space: nowrap;
+               font-size: 0.75rem; font-weight: 600; background: rgb(11 20 38 / 0.72); color: var(--on-night);
+               transition: background-color var(--dur-hover) var(--ease-out); }
+  .baton-tag:hover { background: rgb(11 20 38 / 0.92); }
+  .baton-tag .icon { width: 14px; height: 14px; color: var(--success-on-night); stroke-width: 2.25; }
+  .baton-tag .t-short { display: none; }
+  .baton-tag.drafted .dot { width: 8px; height: 8px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--on-night); }
+
+  .tl-axis .track { background: none; height: 44px; }
+  .tl-axis .now-clip { inset: 22px 0 -4px; }
+  .hour { position: absolute; bottom: 6px; left: calc(var(--h) / 24 * 100%); transform: translateX(-50%);
+          font: 400 0.75rem/1 var(--font-mono); color: var(--on-night-2); }
+  .hour:first-child { transform: none; }
+  .hour:last-child { transform: translateX(-100%); }
+  .tl-axis .tl-label { align-items: flex-end; padding-bottom: 6px; font: 500 0.75rem/1 var(--font-mono); color: var(--on-night-2); }
+  .now-flag { position: absolute; z-index: 4; top: 2px; left: calc(var(--t) / 24 * 100%); transform: translateX(-50%);
+              padding: 3px 6px; border-radius: 4px; background: var(--sun); color: var(--on-sun);
+              font: 500 0.75rem/1 var(--font-mono); }
+
+  .tl-lanes { margin-top: 12px; border-top: 1px solid var(--night-rule); }
+  .tl-lanes .track { background: none; }
+  .tl-lanes .tl-label { font-size: 0.8125rem; font-weight: 600; color: var(--on-night-2); }
+  .lane-inc .track { height: 76px; }
+  .lane-dep .track { height: 72px; border-top: 1px solid var(--night-rule); }
+  .lane-dep .tl-label { border-top: 1px solid var(--night-rule); }
+
+  .mark { position: absolute; z-index: 2; }
+  .mark .tag { position: absolute; right: calc(100% + 8px); top: 50%; transform: translateY(-50%); white-space: nowrap;
+               font-size: 0.75rem; font-weight: 600; color: var(--on-night); }
+  .mark .tag .mono { font-weight: 500; margin-right: 6px; }
+  .mark .tag .quiet { font-weight: 400; color: var(--on-night-2); }
+  .inc { height: 20px; left: calc(var(--s) / 24 * 100%); width: calc((var(--t) - var(--s)) / 24 * 100%); }
+  .inc.r1 { top: 14px; }
+  .inc.r2 { top: 44px; }
+  .inc .seg { position: absolute; top: 0; bottom: 0; }
+  .inc-211 .seg { left: 0; right: 0; border-radius: 4px 0 0 4px;
+                  background: repeating-linear-gradient(-45deg, rgb(169 182 202 / 0.5) 0 2px, transparent 2px 6px);
+                  box-shadow: inset 0 0 0 1px var(--on-night-2); }
+  .inc-212 .firing { left: 0; width: calc((12.3333 - 11.7) / (var(--t) - 11.7) * 100%); background: var(--sev2-on-night); border-radius: 4px 0 0 4px; }
+  .inc-212 .watching { right: 0; width: calc((var(--t) - 12.3333) / (var(--t) - 11.7) * 100%); background: rgb(255 143 138 / 0.45); }
+  .inc .tag .sev { display: inline-block; padding: 1px 5px; margin-right: 6px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700;
+                   background: rgb(232 237 245 / 0.14); color: var(--on-night); }
+  .inc-212 .tag .sev { background: var(--sev2-on-night); color: var(--night); }
+  .inc .ring { position: absolute; inset: -4px; border-radius: 6px; box-shadow: 0 0 0 2px var(--on-night);
+               opacity: 0; transition: opacity var(--dur-base) var(--ease-out); }
+  .inc.is-selected .ring { opacity: 1; }
+
+  .dep { left: calc(var(--s) / 24 * 100%); width: 24px; height: 24px; margin-left: -12px; display: grid; place-items: center; }
+  .dep.r1 { top: 10px; } .dep.r2 { top: 38px; }
+  .dep i { width: 10px; height: 10px; transform: rotate(45deg); background: var(--on-night); border-radius: 2px;
+           transition: transform var(--dur-hover) var(--ease-out); }
+  .dep:hover i, .dep.is-selected i { transform: rotate(45deg) scale(1.3); }
+  .dep .tag { right: calc(100% + 2px); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 16px; padding-left: var(--label-w);
+            font-size: 0.75rem; color: var(--on-night-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 16px; height: 10px; border-radius: 2px; }
+  .k-day { background: var(--day-track); }
+  .k-next { background: var(--shift-future); }
+  .k-past { box-shadow: inset 0 0 0 1.5px var(--shift-past-edge); }
+  .k-now { background: var(--sun); }
+  .k-backup { border: 1.5px dashed var(--on-night-2); }
+
+  /* popover for timeline marks: grows from its trigger */
+  .pop { position: fixed; z-index: 40; top: 0; left: 0; max-width: 280px; padding: 12px 14px; border-radius: 8px;
+         background: var(--background); color: var(--foreground); font-size: 0.8125rem; line-height: 1.4;
+         box-shadow: 0 1px 2px rgb(0 0 0 / 0.08), 0 8px 24px rgb(0 0 0 / 0.12);
+         opacity: 0; transform: translateY(4px) scale(0.96); visibility: hidden; pointer-events: none;
+         transition: opacity var(--dur-pop-out) var(--ease-in), transform var(--dur-pop-out) var(--ease-in), visibility 0s linear var(--dur-pop-out); }
+  .pop.is-open { opacity: 1; transform: none; visibility: visible;
+                 transition: opacity var(--dur-pop-in) var(--ease-out), transform var(--dur-pop-in) var(--ease-out), visibility 0s; }
+  .pop b { display: block; font-weight: 700; margin-bottom: 2px; }
+  .pop p { color: var(--foreground-2); }
+
+  /* ---------- Lower columns ---------- */
+  .below { display: grid; grid-template-columns: minmax(0, 1fr) 380px; grid-template-rows: auto 1fr; column-gap: 32px; margin-top: 32px; align-items: start; }
+  #incidents { grid-column: 1; grid-row: 1; }
+  .week { grid-column: 1; grid-row: 2; }
+  .aside { grid-column: 2; grid-row: 1 / span 2; }
+  .sec-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 36px; margin-bottom: 12px; }
+  .sec-head h2 { font-size: 1.125rem; line-height: 1.25; font-weight: 700; letter-spacing: -0.01em; }
+
+  .seg-ctl { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 8px; background: var(--surface);
+             box-shadow: inset 0 0 0 1px var(--border); }
+  .seg-ctl button { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+                    min-height: 30px; padding: 4px 12px; border-radius: 6px; font-weight: 600; font-size: 0.8125rem; color: var(--muted);
+                    transition: color var(--dur-hover) var(--ease-out); }
+  .seg-ctl button:hover { color: var(--foreground); }
+  .seg-ctl button[aria-selected="true"] { color: var(--foreground); }
+  .seg-ctl .n { font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .seg-ind { position: absolute; z-index: 0; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 6px;
+             background: var(--background); box-shadow: 0 0 0 1px var(--border), 0 1px 2px rgb(14 22 40 / 0.06);
+             transition: transform var(--dur-base) var(--ease-in-out); }
+  .seg-ctl[data-active="1"] .seg-ind { transform: translateX(100%); }
+
+  .activity { view-transition-name: activity; }
+  .week { view-transition-name: week; }
+  #handoffs { view-transition-name: handoffs; }
+  #integrations { view-transition-name: integrations; }
+  .js .tabpanel:not(.is-active) { display: none; }
+  .tabpanel.fade-in { animation: fade-in var(--dur-base) var(--ease-out); }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+  .list { border-top: 1px solid var(--border); }
+  .list > li { border-bottom: 1px solid var(--border); }
+  .rec { position: relative; transition: background-color var(--dur-hover) var(--ease-out); }
+  .rec:hover { background: #F8F9FB; }
+  .rec.is-selected { background: var(--selected); }
+  .rec.is-selected::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--ink); }
+  .rec-main { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 12px;
+              width: 100%; min-height: 52px; padding: 8px 16px; }
+  .rec-main:focus-visible { outline-offset: -2px; }
+  .rec-title { min-width: 0; }
+  .rec-title b { display: block; font-size: 0.9375rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rec-title small { display: block; color: var(--muted); font-size: 0.8125rem; }
+  .rec-meta { text-align: right; font-size: 0.8125rem; color: var(--muted); white-space: nowrap; }
+  .rec-meta b { display: block; color: var(--foreground); font-weight: 600; }
+  .sev { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: 6px;
+         font-size: 0.75rem; font-weight: 700; white-space: nowrap; }
+  .sev::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .sev-2 { background: var(--sev2-subtle); color: var(--sev2); }
+  .sev-4 { background: var(--sev4-subtle); color: var(--sev4); }
+  .state { display: inline-flex; align-items: center; gap: 6px; }
+
+  .rec-detail { display: grid; grid-template-rows: 1fr; transition: grid-template-rows var(--dur-base) var(--ease-in-out); }
+  .js .rec:not(.is-selected) .rec-detail { grid-template-rows: 0fr; }
+  .rec-detail > div { overflow: hidden; min-height: 0; }
+  .rec-detail .inner { padding: 4px 16px 16px 92px; transition: opacity var(--dur-base) var(--ease-out); }
+  .js .rec:not(.is-selected) .rec-detail .inner { opacity: 0; }
+
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 16px; }
+  .steps li { position: relative; padding-top: 18px; padding-right: 12px; font-size: 0.8125rem; color: var(--foreground-2); }
+  .steps li::before { content: ""; position: absolute; top: 4px; left: 0; right: 0; height: 2px; background: var(--border); }
+  .steps li::after { content: ""; position: absolute; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%;
+                     background: var(--background); box-shadow: inset 0 0 0 2px var(--foreground-2); }
+  .steps li.done::before { background: var(--foreground-2); }
+  .steps li.done::after { background: var(--foreground-2); }
+  .steps li.live::after { background: var(--sun); box-shadow: inset 0 0 0 2px var(--ink); }
+  .steps li:last-child::before { right: auto; width: 0; }
+  .steps b { display: block; color: var(--foreground); font-weight: 600; }
+  .steps .mono { font-size: 0.75rem; color: var(--muted); }
+  .detail-text { color: var(--foreground-2); max-width: 60ch; margin-bottom: 12px; }
+  .rec-actions { display: flex; gap: 8px; }
+
+  .row-act { transition: opacity var(--dur-hover) var(--ease-out); }
+  .js .rec:not(:hover):not(:focus-within):not(.is-selected) .row-act { opacity: 0; }
+
+  .dep-row { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 8px 16px; }
+  .dep-row .avatar { width: 32px; height: 32px; }
+  .dep-row .rec-title b { font-family: var(--font-mono); font-weight: 500; font-size: 0.875rem; }
+
+  /* buttons */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 36px; padding: 8px 16px; border-radius: 8px;
+         font-weight: 600; font-size: 0.875rem; white-space: nowrap;
+         transition: background-color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out), transform var(--dur-press) var(--ease-out); }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--ink); color: var(--on-ink); }
+  .btn-primary:hover { background: var(--ink-hover); }
+  .btn-primary:active { background: var(--ink-active); }
+  .btn-secondary { background: var(--surface); color: var(--foreground); box-shadow: inset 0 0 0 1px var(--border); }
+  .btn-secondary:hover { background: var(--surface-hover); }
+  .btn-ghost { min-height: 32px; padding: 6px 10px; color: var(--foreground-2); }
+  .btn-ghost:hover { background: var(--surface-hover); color: var(--foreground); }
+  .btn:disabled { opacity: 0.5; pointer-events: none; }
+  kbd { font: 500 0.6875rem/1 var(--font-mono); padding: 3px 5px; border-radius: 4px; background: rgb(255 255 255 / 0.16); color: inherit; }
+
+  /* handoff column */
+  .aside > section + section { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .badge { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; }
+  .badge-draft { background: var(--info-subtle); color: var(--info); }
+  .badge-draft::before { content: ""; width: 8px; height: 8px; border-radius: 50%; box-shadow: inset 0 0 0 2px currentColor; }
+  .pass { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .pass-faces { display: flex; align-items: center; gap: 4px; }
+  .pass-faces .avatar { width: 40px; height: 40px; }
+  .pass-faces .from { box-shadow: 0 0 0 2px var(--background), 0 0 0 3.5px var(--sun); }
+  .pass-faces .icon { width: 16px; height: 16px; color: var(--muted); }
+  .pass b { display: block; font-size: 1rem; font-weight: 700; }
+  .pass small { display: block; color: var(--muted); font-size: 0.8125rem; }
+
+  .note { cursor: pointer; border-radius: 8px; border: 1px solid var(--border); background: var(--background);
+          transition: border-color var(--dur-hover) var(--ease-out); }
+  .note:hover { border-color: var(--border-strong); }
+  .note ul { padding: 4px 0; }
+  .note li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding: 10px 16px; }
+  .note li + li { border-top: 1px solid var(--border); }
+  .note dt, .note .k { font-size: 0.75rem; font-weight: 600; color: var(--muted); padding-top: 2px; }
+  .note .v b { font-weight: 600; }
+  .note .v small { display: block; color: var(--muted); font-size: 0.8125rem; }
+  .note-actions { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 16px; }
+  .note-actions .hint { color: var(--muted); font-size: 0.8125rem; margin-right: auto; }
+
+  .last { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 4px 8px; margin-top: 20px; font-size: 0.8125rem; color: var(--foreground-2); }
+  .last .icon { width: 16px; height: 16px; color: var(--success); margin-top: 2px; stroke-width: 2.25; }
+  .last b { color: var(--foreground); font-weight: 600; }
+
+  .week { margin-top: 32px; }
+  .week section { max-width: 520px; }
+  .week-n { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+  .week-n strong { font-size: 1.75rem; line-height: 1; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .week-n span { color: var(--muted); }
+  .units { display: grid; grid-template-columns: repeat(14, minmax(0, 1fr)); gap: 4px; margin-bottom: 12px; }
+  .units i { height: 24px; border-radius: 3px; background: var(--foreground-2); }
+  .units i.esc { background: var(--background); box-shadow: inset 0 0 0 2px var(--sev2); }
+  .week-key { display: grid; gap: 4px; font-size: 0.8125rem; color: var(--foreground-2); }
+  .week-key span { display: flex; align-items: baseline; gap: 8px; }
+  .week-key i { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--foreground-2); }
+  .week-key i.esc { background: var(--background); box-shadow: inset 0 0 0 2px var(--sev2); }
+
+  .integr p { color: var(--foreground-2); margin-bottom: 12px; }
+  .integr p b { color: var(--foreground); font-weight: 600; }
+
+  /* ---------- Drawer (handoff note) ---------- */
+  .scrim { position: fixed; inset: 0; z-index: 60; background: rgb(11 20 38 / 0.28); opacity: 0; visibility: hidden;
+           transition: opacity var(--dur-panel-out) var(--ease-in), visibility 0s linear var(--dur-panel-out); }
+  .drawer { position: fixed; z-index: 61; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); display: flex; flex-direction: column;
+            background: var(--background); border-left: 1px solid var(--border);
+            box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 40px rgb(0 0 0 / 0.12);
+            transform: translateX(100%); visibility: hidden;
+            transition: transform var(--dur-panel-out) var(--ease-in), visibility 0s linear var(--dur-panel-out); }
+  .drawer-open .scrim { opacity: 1; visibility: visible; transition: opacity var(--dur-panel-in) var(--ease-out), visibility 0s; }
+  .drawer-open .drawer { transform: none; visibility: visible; transition: transform var(--dur-panel-in) var(--ease-out), visibility 0s; }
+  .drawer-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 24px 24px 16px; border-bottom: 1px solid var(--border); }
+  .drawer-head h2 { font-size: 1.125rem; font-weight: 700; }
+  .drawer-head p { color: var(--muted); margin-top: 4px; }
+  .icon-btn { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 8px; color: var(--foreground-2);
+              transition: background-color var(--dur-hover) var(--ease-out), transform var(--dur-press) var(--ease-out); }
+  .icon-btn:hover { background: var(--surface-hover); color: var(--foreground); }
+  .icon-btn:active { transform: scale(0.96); }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 8px 24px 24px; }
+  .drawer-body h3 { font-size: 0.8125rem; font-weight: 700; color: var(--muted); margin: 20px 0 8px; }
+  .drawer-body .item { padding: 12px 0; border-top: 1px solid var(--border); }
+  .drawer-body .item b { font-weight: 600; }
+  .drawer-body .item p { color: var(--foreground-2); margin-top: 4px; }
+  .drawer-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 16px 24px; border-top: 1px solid var(--border); }
+
+  /* the incident list answers to its own width, not the viewport */
+  #incidents { container-type: inline-size; }
+  @container (max-width: 600px) {
+    .rec-main { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "sev meta" "title title"; padding: 12px 16px; gap: 6px 12px; }
+    .rec-main .sev { grid-area: sev; justify-self: start; }
+    .rec-main .rec-title { grid-area: title; }
+    .rec-main .rec-meta { grid-area: meta; }
+    .rec-title b { white-space: normal; }
+    .rec-detail .inner { padding: 4px 16px 16px; }
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
+    .steps li:nth-child(2)::before { right: auto; width: 0; }
+  }
+
+  /* ---------- Motion safety ---------- */
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+  ::view-transition-group(activity) { overflow: clip; }
+  ::view-transition-group(activity), ::view-transition-group(week),
+  ::view-transition-group(handoffs), ::view-transition-group(integrations) { animation-duration: var(--dur-base); animation-timing-function: var(--ease-in-out); }
+  ::view-transition-old(activity) { animation: var(--dur-pop-out) var(--ease-in) both vt-out; }
+  ::view-transition-new(activity) { animation: var(--dur-base) var(--ease-out) 40ms both vt-in; }
+  @keyframes vt-out { to { opacity: 0; } }
+  @keyframes vt-in { from { opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+                             transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  }
+
+  @media (max-width: 1279px) { .below { grid-template-columns: minmax(0, 1fr) 340px; } }
+
+  /* ---------- Narrower desktops and tablets: sidebar becomes a sheet ---------- */
+  @media (max-width: 1099px) {
+    .app { grid-template-columns: minmax(0, 1fr); }
+    .topbar { display: flex; align-items: center; gap: 8px; min-height: 56px; margin: -24px -32px 16px; padding: 8px 24px;
+              border-bottom: 1px solid var(--border); background: var(--background); position: sticky; top: 0; z-index: 30; }
+    .topbar .wordmark { font-size: 1.125rem; }
+    .topbar .clock { margin-left: auto; }
+    .js .sidebar { position: fixed; z-index: 71; top: 0; left: 0; bottom: 0; width: min(320px, 86vw); height: auto;
+                   transform: translateX(-100%); visibility: hidden; box-shadow: 0 8px 40px rgb(0 0 0 / 0.12);
+                   transition: transform var(--dur-panel-out) var(--ease-in), visibility 0s linear var(--dur-panel-out); }
+    .js.sheet-open .sidebar { transform: none; visibility: visible; transition: transform var(--dur-panel-in) var(--ease-out), visibility 0s; }
+    .sheet-scrim { display: block; position: fixed; inset: 0; z-index: 70; background: rgb(11 20 38 / 0.32); opacity: 0; visibility: hidden;
+                   transition: opacity var(--dur-panel-out) var(--ease-in), visibility 0s linear var(--dur-panel-out); }
+    .sheet-open .sheet-scrim { opacity: 1; visibility: visible; transition: opacity var(--dur-panel-in) var(--ease-out), visibility 0s; }
+    .sheet-open .nav li { animation: nav-in 220ms var(--ease-out) both; animation-delay: calc(var(--i) * 30ms); }
+    @keyframes nav-in { from { opacity: 0; transform: translateX(-12px); } }
+    .sidebar .sheet-close { display: inline-grid; }
+    .js .sidebar-in { height: 100%; overflow-y: auto; }
+    html:not(.js) .sidebar { position: static; height: auto; }
+    html:not(.js) .app { display: block; }
+    .page-head .clock { display: none; }
+    .mark .tag .long { display: none; }
+    .below { grid-template-columns: minmax(0, 1fr) 340px; }
+  }
+  @media (max-width: 899px) {
+    .below { display: flex; flex-direction: column; align-items: stretch; gap: 40px; }
+    .aside { display: contents; }
+    #incidents { order: 1; } #handoffs { order: 2; } .week { order: 3; margin-top: 0; } #integrations { order: 4; }
+    .aside > section + section { margin-top: 0; }
+    :root { --label-w: 168px; }
+  }
+
+  /* ---------- Phones ---------- */
+  @media (max-width: 640px) {
+    body { font-size: 0.9375rem; }
+    .main { padding: 16px 16px 40px; }
+    .topbar { margin: -16px -16px 16px; padding: 8px 8px 8px 4px; }
+    .menu-btn, .topbar .icon-btn { width: 44px; height: 44px; }
+    .page-head { margin-bottom: 16px; }
+    .rota { padding: 16px; margin-inline: -4px; }
+    .rota-head { margin-bottom: 20px; gap: 16px; }
+    .oncall { align-items: flex-start; }
+    .oncall .avatar { width: 44px; height: 44px; }
+    .oncall h2 { font-size: 1.5rem; }
+    .cover { grid-template-columns: auto 1fr; }
+    .tl-row { grid-template-columns: minmax(0, 1fr); }
+    .tl-label { padding: 8px 0 6px; gap: 8px; }
+    .tl-label .avatar { width: 20px; height: 20px; }
+    .tl-label b, .tl-label small { display: inline; }
+    .tl-label small { margin-left: 4px; }
+    .tl-rows .tl-row + .tl-row .tl-label { margin-top: 4px; }
+    .track { height: 32px; }
+    .shift { top: 5px; bottom: 5px; padding: 0 6px; }
+    .shift .lbl span { display: none; }
+    .backup { top: 7px; bottom: 7px; }
+    .tl-axis .tl-label { display: none; }
+    .hour.odd { display: none; }
+    .baton { display: none; }
+    .baton-tag { left: calc(var(--at) / 24 * 100% + 6px); }
+    .baton-tag .t { display: none; }
+    .baton-tag .t-short { display: inline; }
+    .mark .tag .sev { display: none; }
+    .lane-dep .track { height: 64px; }
+    .dep.r1 { top: 6px; } .dep.r2 { top: 34px; }
+    .tl-lanes .tl-label { padding-top: 12px; }
+    .lane-dep .tl-label { border-top: 0; }
+    .lane-inc .track { height: 64px; }
+    .inc.r1 { top: 8px; } .inc.r2 { top: 36px; }
+    .mark .tag .long { display: none; }
+    .legend { padding-left: 0; gap: 8px 16px; }
+    .note li { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+    .note-actions { flex-wrap: wrap; }
+    .note-actions .btn { width: 100%; min-height: 44px; }
+    .note-actions .hint { width: 100%; }
+    .btn { min-height: 44px; }
+    .seg-ctl button { min-height: 38px; }
+    .js .rec .row-act { opacity: 1; }
+    .dep-row { grid-template-columns: 32px minmax(0, 1fr); }
+    .dep-row .rec-meta { grid-column: 2; text-align: left; }
+    .dep-row .rec-meta b { display: inline; margin-right: 6px; }
+    .drawer-foot .btn { flex: 1; }
+    kbd { display: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>
+  <symbol id="i-siren" viewBox="0 0 24 24"><path d="M7 18v-6a5 5 0 1 1 10 0v6"/><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"/><path d="M21 12h1"/><path d="M18.5 4.5 18 5"/><path d="M2 12h1"/><path d="M12 2v1"/><path d="m4.929 4.929.707.707"/><path d="M12 12v6"/></symbol>
+  <symbol id="i-arrow-right-left" viewBox="0 0 24 24"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-chevrons-up-down" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></symbol>
+</svg>
+
+<div class="sheet-scrim" id="sheet-scrim" aria-hidden="true"></div>
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+   <div class="sidebar-in">
+    <div class="sidebar-head">
+      <a class="wordmark" href="#main">Sunshift</a>
+      <button class="icon-btn sheet-close" id="sheet-close" type="button" aria-label="Close menu">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <button class="team" type="button" aria-label="Switch team. Current team: Platform">
+      <span><b>Platform</b><small>6 engineers</small></span>
+      <svg class="icon" aria-hidden="true"><use href="#i-chevrons-up-down"/></svg>
+    </button>
+    <nav class="nav" aria-label="Sections">
+      <ul>
+        <li style="--i:0"><a href="#main" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-sun"/></svg>Now</a></li>
+        <li style="--i:1"><a href="#schedule"><svg class="icon" aria-hidden="true"><use href="#i-calendar-days"/></svg>Schedule</a></li>
+        <li style="--i:2"><a href="#incidents"><svg class="icon" aria-hidden="true"><use href="#i-siren"/></svg>Incidents<span class="count" aria-label="2 open">2</span></a></li>
+        <li style="--i:3"><a href="#handoffs"><svg class="icon" aria-hidden="true"><use href="#i-arrow-right-left"/></svg>Handoffs</a></li>
+        <li style="--i:4"><a href="#integrations"><svg class="icon" aria-hidden="true"><use href="#i-plug"/></svg>Integrations</a></li>
+        <li style="--i:5"><a href="#settings"><svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="me">
+      <img class="avatar" src="assets/after-riya.jpg" width="32" height="32" alt="">
+      <span><b>Riya Kapoor</b><small>Engineering manager</small></span>
+    </div>
+   </div>
+  </aside>
+
+  <main class="main" id="main" tabindex="-1">
+    <div class="topbar">
+      <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sidebar">
+        <svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>
+      </button>
+      <span class="wordmark">Sunshift</span>
+      <span class="clock"><span class="mono" data-clock>12:37</span> UTC</span>
+    </div>
+
+    <header class="page-head">
+      <div>
+        <h1>Now</h1>
+        <p>Platform team, Saturday 7 November</p>
+      </div>
+      <p class="clock" aria-label="Current time"><span class="mono" data-clock>12:37</span> UTC</p>
+    </header>
+
+    <!-- The working surface: today's follow-the-sun rotation on one UTC clock -->
+    <section class="rota" aria-labelledby="oncall-title">
+      <div class="rota-head">
+        <div class="oncall">
+          <img class="avatar" src="assets/after-jonas.jpg" width="56" height="56" alt="">
+          <div>
+            <h2 id="oncall-title">Jonas Weber is on call</h2>
+            <p>It’s <b class="num" data-local="1">13:37</b> in Berlin. On call until 16:00 UTC, <b class="num" data-left>3 h 23 m</b> from now.</p>
+          </div>
+        </div>
+        <dl class="cover">
+          <dt>Next</dt>
+          <dd><img class="avatar" src="assets/after-ana.jpg" width="24" height="24" alt="">Ana Souza <span class="mono">16:00 UTC</span></dd>
+          <dt>Backup</dt>
+          <dd><img class="avatar" src="assets/after-dana.jpg" width="24" height="24" alt="">Dana Brooks <span>all day</span></dd>
+        </dl>
+      </div>
+
+      <div class="tl" id="tl" role="group" aria-label="Today’s rotation and events, 00:00 to 24:00 UTC">
+        <div class="tl-row tl-axis" aria-hidden="true">
+          <div class="tl-label">UTC</div>
+          <div class="track">
+            <span class="hour" style="--h:0">00</span><span class="hour odd" style="--h:3">03</span><span class="hour" style="--h:6">06</span>
+            <span class="hour odd" style="--h:9">09</span><span class="hour" style="--h:12">12</span><span class="hour odd" style="--h:15">15</span>
+            <span class="hour" style="--h:18">18</span><span class="hour odd" style="--h:21">21</span><span class="hour" style="--h:24">24</span>
+            <span class="now-flag" data-clock>12:37</span>
+            <span class="now-clip"><i class="now-line"></i></span>
+          </div>
+        </div>
+
+        <div class="tl-rows">
+          <div class="tl-row" data-offset="11">
+            <div class="tl-label"><img class="avatar" src="assets/after-mei.jpg" width="28" height="28" alt=""><span><b>Mei Tanaka</b><small>Sydney <span class="mono" data-local>23:37</span></small></span></div>
+            <div class="track">
+              <span class="day" style="--s:0;--e:8"></span><span class="day" style="--s:20;--e:24"></span>
+              <button class="shift past" style="--s:0;--e:4" type="button" data-tip="Mei Tanaka, finished" data-tip-body="00:00–04:00 UTC, 11:00–15:00 in Sydney."><span class="lbl"><span>11:00–15:00</span></span></button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+          <div class="tl-row" data-offset="5.5">
+            <div class="tl-label"><img class="avatar" src="assets/after-arjun.jpg" width="28" height="28" alt=""><span><b>Arjun Rao</b><small>Bengaluru <span class="mono" data-local>18:07</span></small></span></div>
+            <div class="track">
+              <span class="day" style="--s:1.5;--e:13.5"></span>
+              <span class="baton" style="--at:4" aria-hidden="true"><i></i></span>
+              <button class="shift past" style="--s:4;--e:9" type="button" data-tip="Arjun Rao, finished" data-tip-body="04:00–09:00 UTC, 09:30–14:30 in Bengaluru."><span class="lbl"><span>09:30–14:30</span></span></button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+          <div class="tl-row is-oncall" data-offset="1">
+            <div class="tl-label"><img class="avatar" src="assets/after-jonas.jpg" width="28" height="28" alt=""><span><b>Jonas Weber</b><small>Berlin <span class="mono" data-local>13:37</span></small></span></div>
+            <div class="track">
+              <span class="day" style="--s:6;--e:18"></span>
+              <span class="baton done" style="--at:9" aria-hidden="true"><i></i></span>
+              <button class="shift current" style="--s:9;--e:16" type="button" data-tip="Jonas Weber, on call now" data-tip-body="09:00–16:00 UTC, 10:00–17:00 in Berlin. Dana Brooks is the escalation backup."><span class="lbl"><b>On call</b><span>10:00–17:00</span></span></button>
+              <button class="baton-tag drafted" style="--at:16" type="button" data-tip="Handoff to Ana at 16:00 UTC" data-tip-body="Note drafted: 1 open incident, 1 deploy, 1 noisy alert." data-open-note><span class="dot" aria-hidden="true"></span><span class="t">Handoff note drafted</span><span class="t-short">Drafted</span></button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+          <div class="tl-row" data-offset="-3">
+            <div class="tl-label"><img class="avatar" src="assets/after-ana.jpg" width="28" height="28" alt=""><span><b>Ana Souza</b><small>São Paulo <span class="mono" data-local>09:37</span></small></span></div>
+            <div class="track">
+              <span class="day" style="--s:10;--e:22"></span>
+              <span class="baton drafted" style="--at:16" aria-hidden="true"><i></i></span>
+              <button class="shift future" style="--s:16;--e:21" type="button" data-tip="Ana Souza, next" data-tip-body="16:00–21:00 UTC, 13:00–18:00 in São Paulo."><span class="lbl"><span>13:00–18:00</span></span></button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+          <div class="tl-row" data-offset="-8">
+            <div class="tl-label"><img class="avatar" src="assets/after-luis.jpg" width="28" height="28" alt=""><span><b>Luis Ortega</b><small>San Francisco <span class="mono" data-local>04:37</span></small></span></div>
+            <div class="track">
+              <span class="day" style="--s:0;--e:3"></span><span class="day" style="--s:15;--e:24"></span>
+              <span class="baton" style="--at:21" aria-hidden="true"><i></i></span>
+              <button class="shift future" style="--s:21;--e:24" type="button" data-tip="Luis Ortega" data-tip-body="21:00–24:00 UTC, 13:00–16:00 in San Francisco."><span class="lbl"><span>13:00–16:00</span></span></button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+          <div class="tl-row" data-offset="-5">
+            <div class="tl-label"><img class="avatar" src="assets/after-dana.jpg" width="28" height="28" alt=""><span><b>Dana Brooks</b><small>New York <span class="mono" data-local>07:37</span></small></span></div>
+            <div class="track">
+              <span class="day" style="--s:12;--e:24"></span>
+              <button class="backup" type="button" data-tip="Dana Brooks, escalation backup" data-tip-body="Escalation backup for the whole day."><span>Escalation backup, all day</span></button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-lanes">
+          <div class="tl-row lane-inc">
+            <div class="tl-label">Incidents</div>
+            <div class="track">
+              <button class="mark inc inc-211 r1" style="--s:6" type="button" data-select="INC-211"
+                      data-tip="INC-211, sev 4" data-tip-body="Disk usage alert on db-replica-2. Fired 9 times since 06:00 UTC. No action taken.">
+                <span class="seg"></span><span class="ring"></span>
+                <span class="tag"><span class="sev">Sev 4</span><span class="mono">INC-211</span><span class="long quiet">Disk usage, fired 9 times</span></span>
+              </button>
+              <button class="mark inc inc-212 r2 is-selected" style="--s:11.7" type="button" data-select="INC-212"
+                      data-tip="INC-212, sev 2, watching" data-tip-body="Checkout p95 latency above 2 s. Started 11:42, acknowledged by Jonas 11:43, mitigated 12:20 by scaling the api pool.">
+                <span class="seg firing"></span><span class="seg watching"></span><span class="ring"></span>
+                <span class="tag"><span class="sev">Sev 2</span><span class="mono">INC-212</span><span class="long">Checkout p95 latency</span></span>
+              </button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+          <div class="tl-row lane-dep">
+            <div class="tl-label">Deploys</div>
+            <div class="track">
+              <button class="mark dep r1" style="--s:8.2" type="button" data-select="api" data-tip="api v2.41.0" data-tip-body="Deployed by Arjun Rao at 08:12 UTC.">
+                <i></i><span class="tag"><span class="mono">api v2.41.0</span></span>
+              </button>
+              <button class="mark dep r2" style="--s:11.9667" type="button" data-select="worker" data-tip="worker v3.18.2" data-tip-body="Deployed by Jonas Weber at 11:58 UTC.">
+                <i></i><span class="tag"><span class="mono">worker v3.18.2</span></span>
+              </button>
+              <span class="now-clip"><i class="now-line"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="legend">
+        <span><i class="k-day"></i>Local daytime, 07:00–19:00</span>
+        <span><i class="k-now"></i>Now and on call</span>
+        <span><i class="k-next"></i>Coming up</span>
+        <span><i class="k-past"></i>Finished</span>
+        <span><i class="k-backup"></i>Escalation backup</span>
+        <span>Times inside shifts are local</span>
+      </p>
+    </section>
+
+    <div class="below">
+      <!-- What is burning -->
+      <section aria-labelledby="today-title" id="incidents">
+        <div class="sec-head">
+          <h2 id="today-title">Today</h2>
+          <div class="seg-ctl" role="tablist" aria-label="Show" data-active="0">
+            <span class="seg-ind" aria-hidden="true"></span>
+            <button type="button" role="tab" id="tab-inc" aria-controls="panel-inc" aria-selected="true">Open incidents <span class="n">2</span></button>
+            <button type="button" role="tab" id="tab-dep" aria-controls="panel-dep" aria-selected="false" tabindex="-1">Deploys <span class="n">2</span></button>
+          </div>
+        </div>
+
+        <div class="activity">
+          <div class="tabpanel is-active" id="panel-inc" role="tabpanel" aria-labelledby="tab-inc">
+            <ul class="list" id="inc-list">
+              <li class="rec is-selected" data-id="INC-212">
+                <button class="rec-main" type="button" aria-expanded="true" aria-controls="d-212">
+                  <span class="sev sev-2">Sev 2</span>
+                  <span class="rec-title"><b>Checkout p95 latency above 2 s</b><small><span class="mono">INC-212</span>, mitigated, watching</small></span>
+                  <span class="rec-meta"><b class="num" data-since="11.7">55 min</b>since 11:42 UTC</span>
+                </button>
+                <div class="rec-detail" id="d-212"><div><div class="inner">
+                  <ol class="steps" aria-label="INC-212 so far">
+                    <li class="done"><b>Started</b><span class="mono">11:42</span></li>
+                    <li class="done"><b>Acknowledged</b><span class="mono">11:43</span> by Jonas</li>
+                    <li class="done"><b>Mitigated</b><span class="mono">12:20</span> scaled api pool</li>
+                    <li class="live"><b>Watching</b><span class="num" data-since="12.3333">17 min</span> since mitigation</li>
+                  </ol>
+                  <div class="rec-actions row-act">
+                    <a class="btn btn-secondary" href="#incidents">Open INC-212</a>
+                  </div>
+                </div></div></div>
+              </li>
+              <li class="rec" data-id="INC-211">
+                <button class="rec-main" type="button" aria-expanded="false" aria-controls="d-211">
+                  <span class="sev sev-4">Sev 4</span>
+                  <span class="rec-title"><b>Disk usage alert on db-replica-2</b><small><span class="mono">INC-211</span>, no action taken</small></span>
+                  <span class="rec-meta"><b class="num">9 times</b>since 06:00 UTC</span>
+                </button>
+                <div class="rec-detail" id="d-211"><div><div class="inner">
+                  <p class="detail-text">Fired 9 times since 06:00 UTC and nobody has acted on it. It was the noisy alert in the 09:00 handoff, and it is listed again in the note for Ana.</p>
+                  <div class="rec-actions row-act">
+                    <a class="btn btn-secondary" href="#incidents">Open INC-211</a>
+                  </div>
+                </div></div></div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tabpanel" id="panel-dep" role="tabpanel" aria-labelledby="tab-dep">
+            <ul class="list">
+              <li class="rec" data-id="worker">
+                <div class="dep-row">
+                  <img class="avatar" src="assets/after-jonas.jpg" width="32" height="32" alt="">
+                  <span class="rec-title"><b>worker v3.18.2</b><small>Deployed by Jonas Weber, in the note for Ana</small></span>
+                  <span class="rec-meta"><b class="mono">11:58</b>UTC</span>
+                </div>
+              </li>
+              <li class="rec" data-id="api">
+                <div class="dep-row">
+                  <img class="avatar" src="assets/after-arjun.jpg" width="32" height="32" alt="">
+                  <span class="rec-title"><b>api v2.41.0</b><small>Deployed by Arjun Rao, in the 09:00 handoff</small></span>
+                  <span class="rec-meta"><b class="mono">08:12</b>UTC</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <div class="week">
+      <section aria-labelledby="week-title">
+        <div class="sec-head"><h2 id="week-title">This week</h2></div>
+        <p class="week-n"><strong>14</strong><span>pages</span></p>
+        <div class="units" role="img" aria-label="13 of 14 pages acknowledged within 5 minutes, 1 escalated">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="esc"></i>
+        </div>
+        <p class="week-key">
+          <span><i></i>13 acknowledged within 5 minutes</span>
+          <span><i class="esc"></i>1 escalated: Tuesday 03:12 UTC, Luis to Dana</span>
+        </p>
+      </section>
+      </div>
+
+      <!-- Is the next handoff ready? -->
+      <div class="aside">
+        <section aria-labelledby="handoff-title" id="handoffs">
+          <div class="sec-head">
+            <h2 id="handoff-title">Next handoff</h2>
+            <span class="badge badge-draft">Drafted</span>
+          </div>
+          <div class="pass">
+            <span class="pass-faces">
+              <img class="avatar from" src="assets/after-jonas.jpg" width="40" height="40" alt="Jonas Weber">
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+              <img class="avatar" src="assets/after-ana.jpg" width="40" height="40" alt="Ana Souza">
+            </span>
+            <span><b>Jonas to Ana at 16:00 UTC</b><small>In <span class="num" data-left>3 h 23 m</span>. Ana starts at 13:00 in São Paulo.</small></span>
+          </div>
+          <div class="note" data-open-note>
+            <ul>
+              <li><span class="k">Open incident</span><span class="v"><b>INC-212</b> Checkout p95 latency above 2 s<small>Mitigated, watching</small></span></li>
+              <li><span class="k">Deploy</span><span class="v"><b>worker v3.18.2</b><small>Jonas, 11:58 UTC</small></span></li>
+              <li><span class="k">Noisy alert</span><span class="v"><b>INC-211</b> Disk usage on db-replica-2<small>Fired 9 times since 06:00 UTC</small></span></li>
+            </ul>
+          </div>
+          <div class="note-actions">
+            <button class="btn btn-primary" type="button" id="review-btn" data-open-note>Review note <kbd aria-hidden="true">R</kbd></button>
+          </div>
+          <div class="last">
+            <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
+            <span><b>Last handoff: Arjun to Jonas, 09:00 UTC.</b> Its note listed 0 open incidents, 1 deploy and 1 noisy alert.</span>
+          </div>
+        </section>
+
+
+        <section aria-labelledby="int-title" class="integr" id="integrations">
+          <div class="sec-head"><h2 id="int-title">Integrations</h2></div>
+          <p><b>Slack, GitHub and Datadog</b> are connected. Google Calendar is not connected.</p>
+          <a class="btn btn-secondary" href="#integrations">Connect Google Calendar</a>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="pop" id="pop" aria-hidden="true"><b></b><p></p></div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-describedby="drawer-sub">
+  <div class="drawer-head">
+    <div>
+      <h2 id="drawer-title">Handoff note, Jonas to Ana</h2>
+      <p id="drawer-sub">Drafted for 16:00 UTC. Ana starts at 13:00 in São Paulo.</p>
+    </div>
+    <button class="icon-btn" type="button" id="drawer-close" aria-label="Close">
+      <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <h3>Open incident</h3>
+    <div class="item">
+      <span class="sev sev-2">Sev 2</span>
+      <p><b>INC-212 Checkout p95 latency above 2 s</b></p>
+      <p>Started 11:42 UTC. Jonas acknowledged at 11:43 and mitigated at 12:20 by scaling the api pool. Status: watching.</p>
+    </div>
+    <h3>Deploy</h3>
+    <div class="item">
+      <p><b class="mono">worker v3.18.2</b></p>
+      <p>Deployed by Jonas at 11:58 UTC.</p>
+    </div>
+    <h3>Noisy alert</h3>
+    <div class="item">
+      <span class="sev sev-4">Sev 4</span>
+      <p><b>INC-211 Disk usage alert on db-replica-2</b></p>
+      <p>Fired 9 times since 06:00 UTC. No action taken.</p>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn btn-secondary" type="button" data-close-drawer>Close</button>
+    <a class="btn btn-primary" href="#handoffs">Edit note</a>
+  </div>
+</aside>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---------- Live clock: the data is a snapshot at 12:37:00 UTC; time moves on from there ---------- */
+  var T0 = 12 + 37 / 60, started = Date.now();
+  var tl = document.getElementById('tl');
+  function now() { return T0 + (Date.now() - started) / 3600000; }
+  function hhmm(h) { h = ((h % 24) + 24) % 24; var m = Math.floor(h * 60 + 1e-6); return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+  function dur(h, up) { var m = Math.max(0, up ? Math.ceil(h * 60 - 1e-6) : Math.floor(h * 60 + 1e-6)); var hh = Math.floor(m / 60), mm = m % 60; return hh ? hh + ' h ' + mm + ' m' : mm + ' min'; }
+  function tick() {
+    var t = now();
+    tl.style.setProperty('--t', t.toFixed(4));
+    document.querySelectorAll('[data-clock]').forEach(function (el) { el.textContent = hhmm(t); });
+    document.querySelectorAll('[data-left]').forEach(function (el) { el.textContent = dur(16 - t, true); });
+    document.querySelectorAll('[data-since]').forEach(function (el) { el.textContent = dur(t - Number(el.dataset.since)); });
+    document.querySelectorAll('.tl-row[data-offset]').forEach(function (row) {
+      var off = Number(row.dataset.offset);
+      row.querySelectorAll('[data-local]').forEach(function (el) { el.textContent = hhmm(t + off); });
+    });
+    var berlin = document.querySelector('[data-local="1"]');
+    if (berlin) berlin.textContent = hhmm(t + 1);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* ---------- Shift labels hide when the bar is too short to hold them ---------- */
+  function fit() {
+    document.querySelectorAll('.shift').forEach(function (b) {
+      b.classList.remove('is-tight');
+      var l = b.querySelector('.lbl');
+      if (l && l.scrollWidth > b.clientWidth - 12) b.classList.add('is-tight');
+    });
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  document.fonts && document.fonts.ready.then(fit);
+
+  /* ---------- Popovers on timeline marks: grow from the trigger ---------- */
+  var pop = document.getElementById('pop'), popFor = null;
+  function showPop(el) {
+    popFor = el;
+    pop.querySelector('b').textContent = el.dataset.tip;
+    pop.querySelector('p').textContent = el.dataset.tipBody || '';
+    var r = el.getBoundingClientRect();
+    var anchorX = el.classList.contains('inc') ? r.right : r.left + r.width / 2;
+    pop.style.visibility = 'hidden'; pop.classList.add('is-open');
+    var pw = pop.offsetWidth, ph = pop.offsetHeight;
+    pop.classList.remove('is-open'); pop.style.visibility = '';
+    var x = Math.min(Math.max(8, anchorX - pw / 2), window.innerWidth - pw - 8);
+    var above = r.top - ph - 8 > 8;
+    var y = above ? r.top - ph - 8 : r.bottom + 8;
+    pop.style.left = x + 'px'; pop.style.top = y + 'px';
+    pop.style.transformOrigin = (anchorX - x) + 'px ' + (above ? '100%' : '0');
+    requestAnimationFrame(function () { pop.classList.add('is-open'); });
+  }
+  function hidePop() { popFor = null; pop.classList.remove('is-open'); }
+  document.querySelectorAll('[data-tip]').forEach(function (el) {
+    el.setAttribute('aria-label', el.dataset.tip + '. ' + (el.dataset.tipBody || ''));
+    el.addEventListener('pointerenter', function () { showPop(el); });
+    el.addEventListener('pointerleave', hidePop);
+    el.addEventListener('focus', function () { showPop(el); });
+    el.addEventListener('blur', hidePop);
+  });
+  window.addEventListener('scroll', hidePop, { passive: true });
+
+  /* ---------- Tabs: crossfade with view transitions, indicator slides ---------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var segCtl = document.querySelector('.seg-ctl');
+  function selectTab(i, focus) {
+    var cur = tabs.findIndex(function (t) { return t.getAttribute('aria-selected') === 'true'; });
+    if (i === cur) return;
+    function swap() {
+      tabs.forEach(function (t, k) {
+        var on = k === i;
+        t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+        var p = document.getElementById(t.getAttribute('aria-controls'));
+        p.classList.toggle('is-active', on);
+      });
+      segCtl.dataset.active = i;
+    }
+    if (document.startViewTransition && !reduce.matches) {
+      document.startViewTransition(swap);
+    } else {
+      swap();
+      var p = document.getElementById(tabs[i].getAttribute('aria-controls'));
+      p.classList.remove('fade-in'); void p.offsetWidth; p.classList.add('fade-in');
+    }
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { selectTab(i); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); selectTab((i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length, true); }
+    });
+  });
+
+  /* ---------- Incident selection: detail opens, timeline mark gets the ring ---------- */
+  function selectIncident(id) {
+    document.querySelectorAll('#inc-list .rec').forEach(function (li) {
+      var on = li.dataset.id === id;
+      li.classList.toggle('is-selected', on);
+      li.querySelector('.rec-main').setAttribute('aria-expanded', on);
+    });
+    document.querySelectorAll('.inc[data-select]').forEach(function (m) { m.classList.toggle('is-selected', m.dataset.select === id); });
+  }
+  document.querySelectorAll('#inc-list .rec-main').forEach(function (b) {
+    b.addEventListener('click', function () { selectIncident(b.parentNode.dataset.id); });
+  });
+  document.querySelectorAll('.mark[data-select]').forEach(function (m) {
+    m.addEventListener('click', function () {
+      var id = m.dataset.select;
+      if (m.classList.contains('inc')) { selectTab(0); selectIncident(id); }
+      else {
+        selectTab(1);
+        document.querySelectorAll('.dep').forEach(function (d) { d.classList.toggle('is-selected', d === m); });
+        document.querySelectorAll('#panel-dep .rec').forEach(function (li) { li.classList.toggle('is-selected', li.dataset.id === id); });
+      }
+    });
+  });
+
+  /* ---------- Drawer with the handoff note ---------- */
+  var drawer = document.getElementById('drawer'), app = document.getElementById('app'), lastFocus = null;
+  function openDrawer() {
+    lastFocus = document.activeElement; hidePop();
+    root.classList.add('drawer-open'); app.inert = true;
+    setTimeout(function () { document.getElementById('drawer-close').focus(); }, 30);
+  }
+  function closeDrawer() {
+    if (!root.classList.contains('drawer-open')) return;
+    root.classList.remove('drawer-open'); app.inert = false;
+    if (lastFocus) lastFocus.focus();
+  }
+  document.querySelectorAll('[data-open-note]').forEach(function (b) { b.addEventListener('click', openDrawer); });
+  document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+  document.querySelector('[data-close-drawer]').addEventListener('click', closeDrawer);
+  document.getElementById('scrim').addEventListener('click', closeDrawer);
+
+  /* ---------- Sidebar as a sheet on narrow screens ---------- */
+  var menuBtn = document.getElementById('menu-btn'), sidebar = document.getElementById('sidebar'), main = document.getElementById('main');
+  function openSheet() {
+    root.classList.add('sheet-open'); root.style.overflow = 'hidden';
+    menuBtn.setAttribute('aria-expanded', 'true'); main.inert = true;
+    setTimeout(function () { document.getElementById('sheet-close').focus(); }, 30);
+  }
+  function closeSheet() {
+    if (!root.classList.contains('sheet-open')) return;
+    root.classList.remove('sheet-open'); root.style.overflow = '';
+    menuBtn.setAttribute('aria-expanded', 'false'); main.inert = false; menuBtn.focus();
+  }
+  menuBtn.addEventListener('click', openSheet);
+  document.getElementById('sheet-close').addEventListener('click', closeSheet);
+  document.getElementById('sheet-scrim').addEventListener('click', closeSheet);
+  window.matchMedia('(min-width: 1100px)').addEventListener('change', function (e) { if (e.matches) closeSheet(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { hidePop(); closeDrawer(); closeSheet(); }
+    if ((e.key === 'r' || e.key === 'R') && !e.metaKey && !e.ctrlKey && !e.altKey &&
+        !root.classList.contains('drawer-open') && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) { openDrawer(); }
+  });
+})();
+</script>
+</body>
+</html>

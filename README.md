@@ -12,12 +12,12 @@ short, imperative, and testable, and comes with a one-line reason.
 <!-- before/after -->
 | Without the rules | With the rules |
 |---|---|
-| ![Landing page without the rules](examples/landing-page/before-fold.jpg) | ![Landing page with the rules](examples/landing-page/after-fold.jpg) |
-| ![Dashboard without the rules](examples/dashboard/before-fold.jpg) | ![Dashboard with the rules](examples/dashboard/after-fold.jpg) |
+| ![SaaS landing page without the rules](examples/saas-landing/before-fold.jpg) | ![SaaS landing page with the rules](examples/saas-landing/after-fold.jpg) |
+| ![SaaS app screen without the rules](examples/saas-app/before-fold.jpg) | ![SaaS app screen with the rules](examples/saas-app/after-fold.jpg) |
 
 Same prompt, same facts, same model; first screen at 1440 px. The left column is a plain request; the right
-column had the skill active. Full-page and phone renders, the HTML, and a list of what each rule changed are
-in [`examples/`](examples/README.md).
+column had the skill active. Full-page and phone renders, a scroll filmstrip, two more cases, the HTML, and
+a list of what each rule changed are in [`examples/`](examples/README.md).
 
 ## What's inside
 

@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Now · Sunshift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F3EF;
+    --side:#EEECE6;
+    --panel:#FFFFFF;
+    --line:#E4E1D9;
+    --line-2:#EFEDE7;
+    --ink:#18181B;
+    --ink-2:#4F4D47;
+    --ink-3:#85827A;
+    --sun:#E8731A;
+    --sun-2:#F5A23C;
+    --sun-soft:#FFF1E1;
+    --sun-line:#F6CB9C;
+    --red:#CF3A2B;
+    --red-soft:#FCEBE7;
+    --amber:#A86A12;
+    --amber-soft:#FBF1DC;
+    --green:#1D8A59;
+    --green-soft:#E3F3EA;
+    --night:rgba(66,72,140,.075);
+    --radius:14px;
+    --shadow:0 1px 2px rgba(24,24,27,.04),0 6px 20px -12px rgba(24,24,27,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:'Geist',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+  img{display:block}
+  .mono{font-family:'Geist Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  :focus-visible{outline:2px solid var(--sun);outline-offset:2px;border-radius:6px}
+
+  /* ---------- App shell ---------- */
+  .app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+  .sidebar{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:18px;padding:18px 14px;background:var(--side);border-right:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:10px;padding:4px 8px;font-weight:600;font-size:16px;letter-spacing:-.01em}
+  .team{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);text-align:left;width:100%}
+  .team-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,#2B2B31,#4A4A53);color:#fff;display:grid;place-items:center;font-weight:600;font-size:12px;flex:none}
+  .team b{display:block;font-weight:600;font-size:13px}
+  .team small{display:block;color:var(--ink-3);font-size:12px}
+  .team svg{margin-left:auto;color:var(--ink-3)}
+  .nav{display:flex;flex-direction:column;gap:2px}
+  .nav a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;color:var(--ink-2);font-weight:500;font-size:13.5px;transition:background .15s,color .15s}
+  .nav a svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+  .nav a:hover{background:rgba(24,24,27,.05);color:var(--ink)}
+  .nav a.active{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(24,24,27,.06),inset 0 0 0 1px var(--line)}
+  .nav a.active svg{color:var(--sun)}
+  .nav .count{margin-left:auto;font-size:11.5px;font-weight:600;min-width:20px;height:20px;padding:0 6px;border-radius:10px;background:var(--red-soft);color:var(--red);display:grid;place-items:center}
+  .side-foot{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-top:1px solid var(--line)}
+  .side-foot img{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none}
+  .side-foot b{display:block;font-weight:600;font-size:13px}
+  .side-foot small{display:block;color:var(--ink-3);font-size:12px}
+
+  main{min-width:0;padding:22px 32px 56px}
+  .wrap{max-width:1320px;margin:0 auto}
+
+  /* ---------- Top bar ---------- */
+  .topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  .topbar h1{font-size:28px;font-weight:600;letter-spacing:-.025em;line-height:1.1}
+  .topbar .sub{margin-top:6px;color:var(--ink-3);font-size:13.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .live{display:inline-flex;align-items:center;gap:6px;color:var(--green);font-weight:500}
+  .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(29,138,89,.16)}
+  .tools{display:flex;align-items:center;gap:8px}
+  .search{display:flex;align-items:center;gap:8px;height:36px;width:280px;max-width:100%;padding:0 10px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink-3)}
+  .search input{border:0;outline:0;background:none;font:inherit;color:var(--ink);flex:1;min-width:0}
+  .search input::placeholder{color:var(--ink-3)}
+  kbd{font-family:'Geist Mono',monospace;font-size:11px;padding:1px 6px;border-radius:5px;border:1px solid var(--line);background:var(--bg);color:var(--ink-3)}
+  .icon-btn{width:36px;height:36px;display:grid;place-items:center;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink-2);position:relative}
+  .icon-btn .pip{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 2px var(--panel)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;padding:0 14px;border-radius:9px;font-weight:500;font-size:13.5px;white-space:nowrap;transition:background .15s,border-color .15s,transform .05s}
+  .btn:active{transform:translateY(1px)}
+  .btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:#2E2E33}
+  .btn-sun{background:var(--sun);color:#fff}
+  .btn-sun:hover{background:#D5640F}
+  .btn-ghost{border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+  .btn-ghost:hover{border-color:#D3CFC4;background:#FBFAF8}
+  .btn-sm{height:30px;padding:0 11px;font-size:12.5px;border-radius:8px}
+
+  /* ---------- Cards ---------- */
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;min-width:0}
+  .card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+  .card h2{font-size:15px;font-weight:600;letter-spacing:-.01em}
+  .chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 8px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .chip.plain::before{display:none}
+  .chip-green{background:var(--green-soft);color:var(--green)}
+  .chip-red{background:var(--red-soft);color:var(--red)}
+  .chip-amber{background:var(--amber-soft);color:var(--amber)}
+  .chip-sun{background:var(--sun-soft);color:var(--sun)}
+  .chip-grey{background:var(--line-2);color:var(--ink-2)}
+  .muted{color:var(--ink-3)}
+  .divider{height:1px;background:var(--line-2);margin:16px 0}
+
+  .primary{display:grid;grid-template-columns:1fr 1.22fr 1fr;grid-template-areas:"oncall burning handoff";gap:16px;margin-bottom:16px}
+  .c-oncall{grid-area:oncall}
+  .c-burning{grid-area:burning}
+  .c-handoff{grid-area:handoff}
+  .primary .card{display:flex;flex-direction:column}
+  .card-actions{display:flex;gap:8px;margin-top:auto;padding-top:18px;flex-wrap:wrap}
+
+  /* On call */
+  .person-lg{display:flex;align-items:center;gap:14px}
+  .avatar-ring{position:relative;flex:none}
+  .avatar-ring img{width:60px;height:60px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 3px var(--panel),0 0 0 5px var(--sun)}
+  .avatar-ring .badge{position:absolute;right:-4px;bottom:-2px;width:22px;height:22px;border-radius:50%;background:var(--sun);display:grid;place-items:center;box-shadow:0 0 0 2px var(--panel)}
+  .avatar-ring .badge svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round}
+  .person-lg .name{font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+  .person-lg .meta{color:var(--ink-3);font-size:13px;margin-top:2px}
+  .shift{margin-top:20px}
+  .shift-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .shift-top .left{font-size:24px;font-weight:600;letter-spacing:-.02em}
+  .shift-top .left small{font-size:13px;font-weight:500;color:var(--ink-3);letter-spacing:0;margin-left:4px}
+  .bar{height:8px;border-radius:99px;background:var(--line-2);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sun-2),var(--sun))}
+  .shift-ends{display:flex;justify-content:space-between;margin-top:6px;font-size:12px;color:var(--ink-3)}
+  .oc-backup{display:flex;align-items:center;gap:10px;margin-top:18px;padding:10px 12px;border-radius:10px;background:var(--bg)}
+  .oc-backup img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none}
+  .oc-backup b{font-weight:600;font-size:13px;display:block}
+  .oc-backup small{color:var(--ink-3);font-size:12px;display:block}
+  .oc-backup .chip{margin-left:auto}
+
+  /* Burning */
+  .inc{padding:14px;border:1px solid var(--line);border-radius:12px}
+  .inc + .inc{margin-top:10px}
+  .inc.sev2{border-color:#F2C9C2;background:linear-gradient(180deg,#FFF8F6,#fff 60%)}
+  .inc-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .sev{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;padding:2px 6px;border-radius:5px;color:#fff;background:var(--red)}
+  .sev.s4{background:#B9B4A8}
+  .inc-id{font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-3)}
+  .inc-top .chip{margin-left:auto}
+  .inc-title{font-size:15px;font-weight:600;letter-spacing:-.01em;margin-top:8px}
+  .inc-sub{color:var(--ink-3);font-size:12.5px;margin-top:3px}
+  .steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px}
+  .steps li{position:relative;padding-top:16px;font-size:12px;min-width:0}
+  .steps li::before{content:"";position:absolute;top:4px;left:0;right:0;height:2px;background:var(--red);opacity:.35}
+  .steps li:first-child::before{left:5px}
+  .steps li:last-child::before{right:auto;width:5px}
+  .steps li::after{content:"";position:absolute;top:0;left:0;width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px #fff}
+  .steps li.cur::after{background:#fff;box-shadow:0 0 0 2px var(--red);animation:pulse 2s ease-in-out infinite}
+  .steps b{display:block;font-weight:600;color:var(--ink)}
+  .steps span{color:var(--ink-3)}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 2px var(--red),0 0 0 2px rgba(207,58,43,.0)}50%{box-shadow:0 0 0 2px var(--red),0 0 0 6px rgba(207,58,43,.15)}}
+  .inc-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .inc-foot .who{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2)}
+  .inc-foot .who img{width:22px;height:22px;border-radius:50%;object-fit:cover}
+  .fires{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-2)}
+  .fires b{font-family:'Geist Mono',monospace;font-weight:500;font-size:12px;padding:1px 6px;border-radius:5px;background:var(--amber-soft);color:var(--amber)}
+
+  /* Handoff */
+  .handoff-vis{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px}
+  .hp{text-align:center;width:88px}
+  .hp img{width:48px;height:48px;border-radius:50%;object-fit:cover;margin:0 auto}
+  .hp.to img{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--sun-line)}
+  .hp b{display:block;font-weight:600;font-size:13px;margin-top:8px}
+  .hp small{display:block;color:var(--ink-3);font-size:11.5px}
+  .h-mid{text-align:center;position:relative;padding:0 4px}
+  .h-mid .line{height:2px;margin:6px 0;background:repeating-linear-gradient(90deg,var(--sun-line) 0 6px,transparent 6px 10px);position:relative}
+  .h-mid .line::after{content:"";position:absolute;right:-2px;top:-4px;border:5px solid transparent;border-left:7px solid var(--sun);border-right:0}
+  .h-time{font-size:20px;font-weight:600;letter-spacing:-.02em;white-space:nowrap}
+  .h-time small{font-size:12px;color:var(--ink-3);font-weight:500;letter-spacing:0}
+  .h-in{font-size:12px;color:var(--sun);font-weight:600}
+  .note-list{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:8px}
+  .note-list li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--bg);font-size:13px;min-width:0}
+  .note-list .ic{width:28px;height:28px;border-radius:7px;display:grid;place-items:center;flex:none;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+  .note-list .ic svg{width:14px;height:14px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .note-list .txt{min-width:0}
+  .note-list .txt b{display:block;font-weight:600;line-height:1.3}
+  .note-list .txt small{display:block;font-size:12px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .note-list .tag{margin-left:auto;font-family:'Geist Mono',monospace;font-size:11.5px;color:var(--ink-3);flex:none}
+  .note-preview{margin-top:12px;padding:14px;border-radius:10px;border:1px dashed var(--sun-line);background:#FFFCF8;font-size:13px;color:var(--ink-2)}
+  .note-preview h3{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:8px}
+  .note-preview p + p{margin-top:8px}
+  .note-preview b{color:var(--ink);font-weight:600}
+
+  /* ---------- Rotation timeline ---------- */
+  .rotation{margin-bottom:16px}
+  .rot-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+  .rot-head p{color:var(--ink-3);font-size:13px;margin-top:2px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:14px;height:10px;border-radius:3px;display:inline-block}
+  .lg-past{background:#E3E0D8}
+  .lg-now{background:var(--sun)}
+  .lg-next{background:var(--sun-soft);box-shadow:inset 0 0 0 1px var(--sun-line)}
+  .lg-backup{background:repeating-linear-gradient(135deg,#D9D5CB 0 3px,#F1EFEA 3px 6px)}
+  .lg-night{background:rgba(66,72,140,.16)}
+  .tl-scroll{overflow-x:auto;margin:0 -20px;padding:0 20px}
+  .tl{--lbl:212px;position:relative;min-width:760px}
+  .tl-marks{position:relative;height:26px;margin-left:var(--lbl)}
+  .mark{position:absolute;bottom:4px;transform:translateX(-50%);font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;white-space:nowrap}
+  .mark.now{background:var(--sun);color:#fff}
+  .mark.ho{background:var(--panel);color:var(--sun);box-shadow:inset 0 0 0 1px var(--sun-line)}
+  .tl-axis{position:relative;height:22px;margin-left:var(--lbl)}
+  .tick{position:absolute;top:2px;transform:translateX(-50%);font-family:'Geist Mono',monospace;font-size:11px;color:var(--ink-3)}
+  .tick:first-child{transform:none}
+  .tick:last-child{transform:translateX(-100%)}
+  .tl-row{display:flex;align-items:stretch;min-height:46px;border-top:1px solid var(--line-2)}
+  .tl-row.gap{border-top:1px solid var(--line)}
+  .tl-label{width:var(--lbl);flex:none;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 0;min-width:0}
+  .tl-label img{width:28px;height:28px;border-radius:50%;object-fit:cover;flex:none}
+  .tl-label .ltxt{min-width:0}
+  .tl-label b{display:block;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tl-label small{display:block;font-size:12px;color:var(--ink-3);white-space:nowrap}
+  .tl-label small .mono{color:var(--ink-2)}
+  .tl-label .ev-ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;flex:none;background:var(--bg)}
+  .tl-label .ev-ic svg{width:15px;height:15px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tl-track{position:relative;flex:1;background-image:linear-gradient(to right,var(--line-2) 1px,transparent 1px);background-size:12.5% 100%}
+  .night{position:absolute;top:0;bottom:0;background:var(--night)}
+  .seg{position:absolute;top:8px;bottom:8px;border-radius:8px;display:flex;align-items:center;padding:0 10px;font-family:'Geist Mono',monospace;font-size:11.5px;white-space:nowrap;overflow:hidden;z-index:1;outline-offset:1px}
+  .seg.past{background:#E6E3DB;color:var(--ink-3)}
+  .seg.now{background:linear-gradient(90deg,var(--sun) 0 51.7%,#F08A3A 51.7%);color:#fff;font-weight:500;box-shadow:0 4px 12px -4px rgba(232,115,26,.55)}
+  .seg.next{background:var(--sun-soft);color:var(--sun);box-shadow:inset 0 0 0 1px var(--sun-line);font-weight:500}
+  .seg.later{background:var(--panel);color:var(--ink-2);box-shadow:inset 0 0 0 1px var(--line)}
+  .seg.backup{background:repeating-linear-gradient(135deg,#E2DED4 0 4px,#F3F1EC 4px 8px);color:var(--ink-2);top:11px;bottom:11px;font-family:'Geist',sans-serif;font-size:12px;font-weight:500}
+  .band{position:absolute;top:15px;bottom:15px;border-radius:99px;z-index:1}
+  .band.red{background:var(--red)}
+  .band.amber{background:repeating-linear-gradient(90deg,#E6B96A 0 3px,#F6E3BD 3px 7px)}
+  .band-lbl{position:absolute;top:50%;transform:translateY(-50%);font-size:11.5px;color:var(--ink-2);white-space:nowrap;z-index:2;background:var(--panel);padding:0 4px;border-radius:4px}
+  .deploy{position:absolute;top:0;bottom:0;width:0;z-index:4}
+  .deploy::before{content:"";position:absolute;left:-1px;top:10px;bottom:10px;width:2px;background:#6B6A9E;border-radius:2px}
+  .deploy::after{content:"";position:absolute;left:-5px;top:50%;width:8px;height:8px;margin-top:-4px;background:#6B6A9E;transform:rotate(45deg);border-radius:2px}
+  .deploy span{position:absolute;left:9px;top:50%;transform:translateY(-50%);font-family:'Geist Mono',monospace;font-size:11px;color:#4D4C7E;background:#EEEEF7;padding:1px 6px;border-radius:5px;white-space:nowrap}
+  .vline{position:absolute;top:26px;bottom:0;width:0;pointer-events:none;z-index:3}
+  .vline.now{border-left:2px solid var(--sun);margin-left:-1px}
+  .vline.now::before{content:"";position:absolute;top:-1px;left:-5px;width:8px;height:8px;border-radius:50%;background:var(--sun)}
+  .vline.ho{border-left:1.5px dashed var(--sun-line)}
+  .tl .v-now{left:calc(var(--lbl) + (100% - var(--lbl)) * .5257)}
+  .tl .v-ho{left:calc(var(--lbl) + (100% - var(--lbl)) * .6667)}
+
+  /* ---------- Secondary ---------- */
+  .secondary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .big{font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1}
+  .big small{font-size:13px;color:var(--ink-3);font-weight:500;letter-spacing:0;margin-left:6px}
+  .meter{display:flex;gap:3px;margin-top:14px}
+  .meter i{flex:1;height:22px;border-radius:4px;background:var(--green);opacity:.85}
+  .meter i.miss{background:var(--line);opacity:1}
+  .meter-cap{display:flex;justify-content:space-between;margin-top:8px;font-size:12.5px;color:var(--ink-2)}
+  .meter-cap b{font-weight:600;color:var(--green)}
+  .esc{display:flex;align-items:center;gap:10px;margin-top:16px;padding:10px 12px;border-radius:10px;background:var(--bg);font-size:12.5px}
+  .esc .pair{display:flex;flex:none}
+  .esc .pair img{width:24px;height:24px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--bg)}
+  .esc .pair img + img{margin-left:-6px}
+  .esc b{font-weight:600}
+
+  .rows{list-style:none;display:flex;flex-direction:column}
+  .rows li{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line-2);min-width:0}
+  .rows li:first-child{border-top:0;padding-top:0}
+  .rows .r-main{min-width:0;flex:1}
+  .rows .r-main b{display:block;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rows .r-main small{display:block;font-size:12px;color:var(--ink-3)}
+  .rows .r-end{font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-2);flex:none}
+  .rows img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex:none}
+  .pkg{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:#EEEEF7;color:#4D4C7E;flex:none}
+  .pkg svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+
+  .last-pair{display:flex;align-items:center;gap:10px}
+  .last-pair .pair{display:flex}
+  .last-pair img{width:34px;height:34px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--panel)}
+  .last-pair img + img{margin-left:-8px}
+  .last-pair b{display:block;font-weight:600;font-size:13.5px}
+  .last-pair small{display:block;font-size:12px;color:var(--ink-3)}
+  .counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+  .counts div{padding:10px;border-radius:10px;background:var(--bg)}
+  .counts b{display:block;font-size:20px;font-weight:600;letter-spacing:-.02em}
+  .counts small{display:block;font-size:11.5px;color:var(--ink-3);line-height:1.3}
+  .last-detail{margin-top:14px;font-size:12.5px}
+  .last-detail div{display:flex;justify-content:space-between;gap:8px;padding:7px 0;border-top:1px solid var(--line-2)}
+  .last-detail dt{color:var(--ink-3)}
+  .last-detail dd{font-size:12px;color:var(--ink)}
+
+  .logo{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;flex:none}
+  .rows small.ok{color:var(--green);font-weight:500}
+  .check{width:22px;height:22px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;flex:none}
+  .check svg{width:13px;height:13px;fill:none;stroke:var(--green);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .rows li.gcal{margin:4px -10px 0;padding:10px;border-top:0;border-radius:10px;background:var(--sun-soft)}
+  .rows li.gcal small{color:#8A4A12;white-space:normal}
+
+  .link{font-size:12.5px;font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:4px}
+  .link:hover{color:var(--ink)}
+
+  /* Tooltip */
+  .tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;line-height:1.4;padding:7px 10px;border-radius:8px;max-width:260px;transform:translate(-50%,calc(-100% - 8px));box-shadow:0 8px 24px -8px rgba(0,0,0,.35)}
+  .tip b{font-weight:600;display:block}
+  .tip span{color:#C9C7C1}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1360px){
+    .primary{grid-template-columns:1fr 1fr;grid-template-areas:"oncall handoff" "burning burning"}
+    .secondary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:1100px){
+    .tl{--lbl:170px;min-width:820px}
+  }
+  @media (max-width:900px){
+    .app{grid-template-columns:1fr}
+    .sidebar{position:sticky;top:0;z-index:20;height:auto;flex-direction:row;align-items:center;gap:8px;padding:10px 16px;border-right:0;border-bottom:1px solid var(--line);overflow-x:auto}
+    .brand span,.team,.side-foot{display:none}
+    .nav{flex-direction:row}
+    .nav a{padding:7px 10px;white-space:nowrap}
+    main{padding:20px 16px 48px}
+    .search{width:200px}
+  }
+  @media (max-width:720px){
+    .primary{grid-template-columns:minmax(0,1fr);grid-template-areas:"oncall" "burning" "handoff"}
+    .secondary{grid-template-columns:minmax(0,1fr)}
+    .search{display:none}
+    .tl-scroll{margin:0 -16px;padding:0 16px}
+    .card{padding:16px}
+    .tl{--lbl:150px}
+    .steps{grid-template-columns:repeat(2,1fr);row-gap:12px}
+    .steps li:nth-child(2)::before{right:0;width:auto}
+    .steps li:nth-child(3)::before{left:5px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ Sidebar ============ -->
+  <aside class="sidebar">
+    <a class="brand" href="#" aria-label="Sunshift home">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+        <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F9B64B"/><stop offset="1" stop-color="#E5641A"/></linearGradient></defs>
+        <rect width="28" height="28" rx="8" fill="#18181B"/>
+        <circle cx="14" cy="16.5" r="6.5" fill="url(#sg)"/>
+        <rect x="4" y="16.5" width="20" height="8" fill="#18181B"/>
+        <path d="M7 19.5h14" stroke="#F5A23C" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M10 22.5h8" stroke="#F5A23C" stroke-width="1.6" stroke-linecap="round" opacity=".55"/>
+      </svg>
+      <span>Sunshift</span>
+    </a>
+
+    <button class="team" type="button" aria-label="Switch team, current team Platform">
+      <span class="team-mark">PL</span>
+      <span><b>Platform</b><small>6 engineers</small></span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"/></svg>
+    </button>
+
+    <nav class="nav" aria-label="Main">
+      <a href="#" class="active" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Now
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Schedule
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></svg>Incidents<span class="count" aria-label="2 open">2</span>
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></svg>Handoffs
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v4M15 3v4M6 7h12v4a6 6 0 0 1-12 0V7zM12 17v4"/></svg>Integrations
+      </a>
+      <a href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M4 12h4M12 12h8M4 18h12"/><circle cx="17" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18.5" cy="18" r="2"/></svg>Settings
+      </a>
+    </nav>
+
+    <div class="side-foot">
+      <img src="assets/before-riya.jpg" alt="">
+      <div><b>Riya Kapoor</b><small>Engineering manager</small></div>
+    </div>
+  </aside>
+
+  <!-- ============ Main ============ -->
+  <main>
+    <div class="wrap">
+
+      <header class="topbar">
+        <div>
+          <h1>Now</h1>
+          <div class="sub">
+            <span class="live">Live</span>
+            <span>·</span>
+            <span>Saturday 7 November</span>
+            <span>·</span>
+            <span class="mono">12:37 UTC</span>
+          </div>
+        </div>
+        <div class="tools">
+          <label class="search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" placeholder="Search incidents, people, alerts" aria-label="Search">
+            <kbd>⌘K</kbd>
+          </label>
+          <button class="icon-btn" type="button" aria-label="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
+            <span class="pip"></span>
+          </button>
+          <button class="btn btn-primary" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>New incident
+          </button>
+        </div>
+      </header>
+
+      <!-- ===== Primary: the three questions ===== -->
+      <section class="primary" aria-label="Current status">
+
+        <!-- Who is on call -->
+        <article class="card c-oncall">
+          <div class="card-head">
+            <span class="eyebrow">On call now</span>
+            <span class="chip chip-green">Covered</span>
+          </div>
+
+          <div class="person-lg">
+            <div class="avatar-ring">
+              <img src="assets/before-jonas.jpg" alt="Jonas Weber">
+              <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="3" fill="#fff"/></svg></span>
+            </div>
+            <div>
+              <div class="name">Jonas Weber</div>
+              <div class="meta">Berlin · <span class="mono">13:37</span> local · UTC+1</div>
+            </div>
+          </div>
+
+          <div class="shift">
+            <div class="shift-top">
+              <span class="left">3h 23m<small>left in shift</small></span>
+              <span class="muted mono" style="font-size:12px">52%</span>
+            </div>
+            <div class="bar" role="progressbar" aria-label="Shift progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="52"><i style="width:51.7%"></i></div>
+            <div class="shift-ends mono"><span>09:00 UTC</span><span>16:00 UTC</span></div>
+          </div>
+
+          <div class="oc-backup">
+            <img src="assets/before-dana.jpg" alt="">
+            <div>
+              <b>Dana Brooks</b>
+              <small>New York · <span class="mono">07:37</span></small>
+            </div>
+            <span class="chip chip-grey plain">Backup all day</span>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-sun" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Page Jonas
+            </button>
+            <button class="btn btn-ghost" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Message
+            </button>
+          </div>
+        </article>
+
+        <!-- What is burning -->
+        <article class="card c-burning">
+          <div class="card-head">
+            <span class="eyebrow">What's burning</span>
+            <a class="link" href="#">2 open <span aria-hidden="true">→</span></a>
+          </div>
+
+          <div class="inc sev2">
+            <div class="inc-top">
+              <span class="sev">SEV 2</span>
+              <span class="inc-id">INC-212</span>
+              <span class="chip chip-amber">Watching</span>
+            </div>
+            <div class="inc-title">Checkout p95 latency above 2 s</div>
+            <div class="inc-sub">Open 55 min · mitigated by scaling the api pool</div>
+            <ol class="steps" aria-label="Incident timeline">
+              <li><b>Started</b><span class="mono">11:42</span></li>
+              <li><b>Acked</b><span class="mono">11:43</span></li>
+              <li><b>Mitigated</b><span class="mono">12:20</span></li>
+              <li class="cur"><b>Watching</b><span>17 min</span></li>
+            </ol>
+            <div class="inc-foot">
+              <span class="who"><img src="assets/before-jonas.jpg" alt="">Jonas acknowledged in 1 min</span>
+              <button class="btn btn-ghost btn-sm" type="button">Open incident</button>
+            </div>
+          </div>
+
+          <div class="inc">
+            <div class="inc-top">
+              <span class="sev s4">SEV 4</span>
+              <span class="inc-id">INC-211</span>
+              <span class="chip chip-grey">No action</span>
+            </div>
+            <div class="inc-title">Disk usage alert on db-replica-2</div>
+            <div class="inc-foot">
+              <span class="fires"><b>9×</b> fired since <span class="mono">06:00 UTC</span></span>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-ghost btn-sm" type="button">Tune alert</button>
+                <button class="btn btn-ghost btn-sm" type="button">Assign</button>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Is the next handoff ready -->
+        <article class="card c-handoff">
+          <div class="card-head">
+            <span class="eyebrow">Next handoff</span>
+            <span class="chip chip-sun">Note drafted</span>
+          </div>
+
+          <div class="handoff-vis">
+            <div class="hp">
+              <img src="assets/before-jonas.jpg" alt="Jonas Weber">
+              <b>Jonas</b>
+              <small class="mono">17:00</small><small>Berlin</small>
+            </div>
+            <div class="h-mid">
+              <div class="h-time mono">16:00 <small>UTC</small></div>
+              <div class="line" aria-hidden="true"></div>
+              <div class="h-in">in 3h 23m</div>
+            </div>
+            <div class="hp to">
+              <img src="assets/before-ana.jpg" alt="Ana Souza">
+              <b>Ana</b>
+              <small class="mono">13:00</small><small>São Paulo</small>
+            </div>
+          </div>
+
+          <ul class="note-list" aria-label="What the handoff note covers">
+            <li>
+              <span class="ic"><svg viewBox="0 0 24 24" stroke="#CF3A2B"><path d="M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></svg></span>
+              <span class="txt"><b>1 open incident</b><small>INC-212 · Checkout p95 latency</small></span>
+            </li>
+            <li>
+              <span class="ic"><svg viewBox="0 0 24 24" stroke="#5B5A8E"><path d="m21 8-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg></span>
+              <span class="txt"><b>1 deploy</b><small>worker v3.18.2 · 11:58 UTC</small></span>
+            </li>
+            <li>
+              <span class="ic"><svg viewBox="0 0 24 24" stroke="#A86A12"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></span>
+              <span class="txt"><b>1 noisy alert</b><small>INC-211 · db-replica-2 disk</small></span>
+            </li>
+          </ul>
+
+          <div class="note-preview" id="notePanel" hidden>
+            <h3>Handoff · Jonas → Ana · 16:00 UTC</h3>
+            <p><b>Open incident:</b> INC-212, checkout p95 latency above 2 s (sev 2). Mitigated at 12:20 by scaling the api pool. Status: watching.</p>
+            <p><b>Deploy:</b> worker v3.18.2, shipped at 11:58 UTC.</p>
+            <p><b>Noisy alert:</b> INC-211, disk usage on db-replica-2. Fired 9 times since 06:00 UTC, no action taken yet.</p>
+          </div>
+
+          <div class="card-actions">
+            <button class="btn btn-primary" type="button" id="noteBtn" aria-expanded="false" aria-controls="notePanel">Preview note</button>
+            <button class="btn btn-ghost" type="button">Edit draft</button>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===== Follow-the-sun rotation ===== -->
+      <section class="card rotation" aria-labelledby="rot-title">
+        <div class="rot-head">
+          <div>
+            <h2 id="rot-title">Follow the sun</h2>
+            <p>Today's rotation for Platform, Saturday 7 November, in UTC</p>
+          </div>
+          <div class="legend" aria-hidden="true">
+            <span><i class="lg-past"></i>Done</span>
+            <span><i class="lg-now"></i>On call</span>
+            <span><i class="lg-next"></i>Next</span>
+            <span><i class="lg-backup"></i>Backup</span>
+            <span><i class="lg-night"></i>Local night (22–07)</span>
+          </div>
+        </div>
+
+        <div class="tl-scroll">
+          <div class="tl">
+            <div class="tl-marks">
+              <span class="mark now" style="left:52.57%">Now 12:37</span>
+              <span class="mark ho" style="left:66.67%">Handoff 16:00</span>
+            </div>
+            <div class="tl-axis" aria-hidden="true">
+              <span class="tick" style="left:0">00</span>
+              <span class="tick" style="left:12.5%">03</span>
+              <span class="tick" style="left:25%">06</span>
+              <span class="tick" style="left:37.5%">09</span>
+              <span class="tick" style="left:50%">12</span>
+              <span class="tick" style="left:62.5%">15</span>
+              <span class="tick" style="left:75%">18</span>
+              <span class="tick" style="left:87.5%">21</span>
+              <span class="tick" style="left:100%">24</span>
+            </div>
+
+            <span class="vline now v-now" aria-hidden="true"></span>
+            <span class="vline ho v-ho" aria-hidden="true"></span>
+
+            <!-- Mei -->
+            <div class="tl-row">
+              <div class="tl-label">
+                <img src="assets/before-mei.jpg" alt="">
+                <div class="ltxt"><b>Mei Tanaka</b><small>Sydney · <span class="mono">23:37</span></small></div>
+              </div>
+              <div class="tl-track">
+                <span class="night" style="left:45.83%;width:37.5%"></span>
+                <span class="seg past" style="left:0;width:16.667%" tabindex="0" data-tip="Mei Tanaka|00:00–04:00 UTC · 11:00–15:00 in Sydney · done">00:00–04:00</span>
+              </div>
+            </div>
+            <!-- Arjun -->
+            <div class="tl-row">
+              <div class="tl-label">
+                <img src="assets/before-arjun.jpg" alt="">
+                <div class="ltxt"><b>Arjun Rao</b><small>Bengaluru · <span class="mono">18:07</span></small></div>
+              </div>
+              <div class="tl-track">
+                <span class="night" style="left:0;width:6.25%"></span>
+                <span class="night" style="left:68.75%;width:31.25%"></span>
+                <span class="seg past" style="left:16.667%;width:20.833%" tabindex="0" data-tip="Arjun Rao|04:00–09:00 UTC · 09:30–14:30 in Bengaluru · done">04:00–09:00</span>
+              </div>
+            </div>
+            <!-- Jonas -->
+            <div class="tl-row">
+              <div class="tl-label">
+                <img src="assets/before-jonas.jpg" alt="">
+                <div class="ltxt"><b>Jonas Weber</b><small>Berlin · <span class="mono">13:37</span></small></div>
+              </div>
+              <div class="tl-track">
+                <span class="night" style="left:0;width:25%"></span>
+                <span class="night" style="left:87.5%;width:12.5%"></span>
+                <span class="seg now" style="left:37.5%;width:29.167%" tabindex="0" data-tip="Jonas Weber · on call now|09:00–16:00 UTC · 10:00–17:00 in Berlin · 3h 23m left">09:00–16:00</span>
+              </div>
+            </div>
+            <!-- Ana -->
+            <div class="tl-row">
+              <div class="tl-label">
+                <img src="assets/before-ana.jpg" alt="">
+                <div class="ltxt"><b>Ana Souza</b><small>São Paulo · <span class="mono">09:37</span></small></div>
+              </div>
+              <div class="tl-track">
+                <span class="night" style="left:4.17%;width:37.5%"></span>
+                <span class="seg next" style="left:66.667%;width:20.833%" tabindex="0" data-tip="Ana Souza · next|16:00–21:00 UTC · 13:00–18:00 in São Paulo">16:00–21:00</span>
+              </div>
+            </div>
+            <!-- Luis -->
+            <div class="tl-row">
+              <div class="tl-label">
+                <img src="assets/before-luis.jpg" alt="">
+                <div class="ltxt"><b>Luis Ortega</b><small>San Francisco · <span class="mono">04:37</span></small></div>
+              </div>
+              <div class="tl-track">
+                <span class="night" style="left:25%;width:37.5%"></span>
+                <span class="seg later" style="left:87.5%;width:12.5%" tabindex="0" data-tip="Luis Ortega|21:00–24:00 UTC · 13:00–16:00 in San Francisco">21:00–24:00</span>
+              </div>
+            </div>
+            <!-- Dana (backup) -->
+            <div class="tl-row gap">
+              <div class="tl-label">
+                <img src="assets/before-dana.jpg" alt="">
+                <div class="ltxt"><b>Dana Brooks</b><small>New York · <span class="mono">07:37</span></small></div>
+              </div>
+              <div class="tl-track">
+                <span class="night" style="left:12.5%;width:37.5%"></span>
+                <span class="seg backup" style="left:0;width:100%" tabindex="0" data-tip="Dana Brooks · escalation backup|All day, 00:00–24:00 UTC · 19:00 Fri to 19:00 Sat in New York">Escalation backup · all day</span>
+              </div>
+            </div>
+
+            <!-- Events -->
+            <div class="tl-row gap">
+              <div class="tl-label">
+                <span class="ev-ic" style="background:var(--red-soft)"><svg viewBox="0 0 24 24" stroke="#CF3A2B"><path d="M10.3 3.9 2.4 17.5A2 2 0 0 0 4.1 20.5h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></svg></span>
+                <div class="ltxt"><b>INC-212</b><small>Sev 2 · watching</small></div>
+              </div>
+              <div class="tl-track">
+                <span class="band-lbl" style="right:calc(51.25% + 6px)">Checkout p95 since 11:42</span>
+                <span class="band red" style="left:48.75%;width:3.82%" tabindex="0" data-tip="INC-212 · sev 2|Started 11:42 · acked 11:43 · mitigated 12:20 · watching"></span>
+              </div>
+            </div>
+            <div class="tl-row">
+              <div class="tl-label">
+                <span class="ev-ic" style="background:var(--amber-soft)"><svg viewBox="0 0 24 24" stroke="#A86A12"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></span>
+                <div class="ltxt"><b>INC-211</b><small>Sev 4 · noisy</small></div>
+              </div>
+              <div class="tl-track">
+                <span class="band-lbl" style="right:calc(75% + 6px)">9 fires</span>
+                <span class="band amber" style="left:25%;width:27.57%" tabindex="0" data-tip="INC-211 · sev 4|Disk usage on db-replica-2 · fired 9 times since 06:00 UTC · no action taken"></span>
+              </div>
+            </div>
+            <div class="tl-row">
+              <div class="tl-label">
+                <span class="ev-ic" style="background:#EEEEF7"><svg viewBox="0 0 24 24" stroke="#5B5A8E"><path d="m21 8-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg></span>
+                <div class="ltxt"><b>Deploys</b><small>2 today</small></div>
+              </div>
+              <div class="tl-track">
+                <span class="deploy" style="left:34.17%" tabindex="0" data-tip="api v2.41.0|Deployed by Arjun at 08:12 UTC"><span>api v2.41.0</span></span>
+                <span class="deploy" style="left:49.86%" tabindex="0" data-tip="worker v3.18.2|Deployed by Jonas at 11:58 UTC"><span>worker v3.18.2</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Secondary ===== -->
+      <section class="secondary" aria-label="Context">
+
+        <article class="card">
+          <div class="card-head">
+            <h2>This week</h2>
+            <span class="muted" style="font-size:12px">Since Monday</span>
+          </div>
+          <div class="big">14<small>pages</small></div>
+          <div class="meter" role="img" aria-label="13 of 14 pages acknowledged within 5 minutes">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="miss"></i>
+          </div>
+          <div class="meter-cap"><span>13 of 14 acked within 5 min</span><b>93%</b></div>
+          <div class="esc">
+            <span class="pair"><img src="assets/before-luis.jpg" alt=""><img src="assets/before-dana.jpg" alt=""></span>
+            <span><b>1 escalation</b> · Luis → Dana<br><span class="muted mono" style="font-size:11.5px">Tue 03:12 UTC</span></span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h2>Deploys today</h2>
+            <a class="link" href="#">GitHub <span aria-hidden="true">↗</span></a>
+          </div>
+          <ul class="rows">
+            <li>
+              <span class="pkg"><svg viewBox="0 0 24 24"><path d="m21 8-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg></span>
+              <div class="r-main"><b>worker v3.18.2</b><small>by Jonas Weber</small></div>
+              <span class="r-end">11:58</span>
+            </li>
+            <li>
+              <span class="pkg"><svg viewBox="0 0 24 24"><path d="m21 8-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8M12 13v8"/></svg></span>
+              <div class="r-main"><b>api v2.41.0</b><small>by Arjun Rao</small></div>
+              <span class="r-end">08:12</span>
+            </li>
+          </ul>
+          <div class="divider"></div>
+          <p class="muted" style="font-size:12.5px">Times in UTC. Both deploys are included in today's handoff notes.</p>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h2>Last handoff</h2>
+            <a class="link" href="#">View note <span aria-hidden="true">→</span></a>
+          </div>
+          <div class="last-pair">
+            <span class="pair"><img src="assets/before-arjun.jpg" alt=""><img src="assets/before-jonas.jpg" alt=""></span>
+            <div><b>Arjun → Jonas</b><small class="mono">09:00 UTC</small></div>
+          </div>
+          <div class="counts">
+            <div><b>0</b><small>open incidents</small></div>
+            <div><b>1</b><small>deploy</small></div>
+            <div><b>1</b><small>noisy alert</small></div>
+          </div>
+          <dl class="last-detail">
+            <div><dt>Deploy</dt><dd class="mono">api v2.41.0</dd></div>
+            <div><dt>Noisy alert</dt><dd class="mono">INC-211</dd></div>
+          </dl>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h2>Integrations</h2>
+            <span class="muted" style="font-size:12px">3 of 4</span>
+          </div>
+          <ul class="rows">
+            <li><span class="logo" style="background:#4A154B">S</span><div class="r-main"><b>Slack</b><small class="ok">Connected</small></div><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></li>
+            <li><span class="logo" style="background:#24292F">G</span><div class="r-main"><b>GitHub</b><small class="ok">Connected</small></div><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></li>
+            <li><span class="logo" style="background:#632CA6">D</span><div class="r-main"><b>Datadog</b><small class="ok">Connected</small></div><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span></li>
+            <li class="gcal"><span class="logo" style="background:#1A73E8">C</span><div class="r-main"><b>Google Calendar</b><small>Not connected</small></div><button class="btn btn-sun btn-sm" type="button">Connect</button></li>
+          </ul>
+        </article>
+
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script>
+  // Tooltips on the rotation timeline
+  (function(){
+    var tip = document.getElementById('tip');
+    function show(el){
+      var parts = el.getAttribute('data-tip').split('|');
+      tip.innerHTML = '';
+      var b = document.createElement('b'); b.textContent = parts[0];
+      tip.appendChild(b);
+      if (parts[1]) { var s = document.createElement('span'); s.textContent = parts[1]; tip.appendChild(s); }
+      tip.hidden = false;
+      var r = el.getBoundingClientRect();
+      var x = r.left + r.width / 2;
+      var half = tip.offsetWidth / 2;
+      x = Math.max(half + 8, Math.min(window.innerWidth - half - 8, x));
+      tip.style.left = x + 'px';
+      tip.style.top = r.top + 'px';
+    }
+    function hide(){ tip.hidden = true; }
+    document.querySelectorAll('[data-tip]').forEach(function(el){
+      el.addEventListener('mouseenter', function(){ show(el); });
+      el.addEventListener('focus', function(){ show(el); });
+      el.addEventListener('mouseleave', hide);
+      el.addEventListener('blur', hide);
+    });
+    window.addEventListener('scroll', hide, true);
+  })();
+
+  // Handoff note preview
+  (function(){
+    var btn = document.getElementById('noteBtn');
+    var panel = document.getElementById('notePanel');
+    btn.addEventListener('click', function(){
+      var open = panel.hidden;
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      btn.textContent = open ? 'Hide note' : 'Preview note';
+    });
+  })();
+</script>
+</body>
+</html>
