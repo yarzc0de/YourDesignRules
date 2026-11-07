@@ -22,11 +22,15 @@ function listFiles(dir) {
   });
 }
 
+// Inside the skill folder the files live under references/, so prose paths such as
+// "rules/color.md" are rewritten to "references/rules/color.md" in the copies.
+const toSkillPaths = (text) => text.replace(/(?<![\w/.-])(rules|guides|archetypes)\//g, "references/$1/");
+
 const expected = new Map();
 for (const src of sources) {
   for (const file of listFiles(join(root, src))) {
     if (!file.endsWith(".md")) continue;
-    expected.set(join(dest, relative(root, file)), readFileSync(file, "utf8"));
+    expected.set(join(dest, relative(root, file)), toSkillPaths(readFileSync(file, "utf8")));
   }
 }
 

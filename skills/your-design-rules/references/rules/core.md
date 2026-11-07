@@ -1,7 +1,7 @@
 # Core rules
 
 These rules apply to every interface you build: product screens, marketing pages, mobile apps, dashboards,
-slides. Read this file first, then the guide for the task (`guides/`) and the rule files it points to. When a
+slides. Read this file first, then the guide for the task (`references/guides/`) and the rule files it points to. When a
 guide or archetype seems to disagree with a core rule, the core rule wins unless the user explicitly asked
 for the exception.
 
@@ -60,14 +60,14 @@ rounded card.
 Gradients, drop shadows, large corner radii, glows, blur, and glass are opt-in. Use them when the user asks,
 when the brand or chosen archetype calls for them, or when they explain something (depth of an overlay, a
 light source). One deliberate effect beats four default ones. Shadow and gradient limits live in
-`rules/color.md`.
+`references/rules/color.md`.
 - **Why:** stacked effects date a design instantly and hide weak structure.
 - **Check:** each effect on the page has a reason you can say out loud.
 
 ### CORE-8 · Break monotony with one distinctive move
 Identical cards in identical grids, section after section, look machine-made. Give each page at least one
 structural moment that belongs to this product: an oversized number, an asymmetric split, a full-bleed
-image, a type-only section, a diagram. Product UIs still reuse their patterns (see `guides/web-app.md`);
+image, a type-only section, a diagram. Product UIs still reuse their patterns (see `references/guides/web-app.md`);
 this rule is about avoiding sameness, not about inventing new controls.
 - **Why:** distinctiveness is what makes a design feel authored.
 - **Check:** scroll the page quickly. Not every section has the same shape.
@@ -96,7 +96,7 @@ resulting state after the action.
 ## Identity and choices
 
 ### CORE-12 · Treat a style as an identity, not a template
-An archetype (see `archetypes/`) or brand guide decides type, color, imagery, shape, and material. It does
+An archetype (see `references/archetypes/`) or brand guide decides type, color, imagery, shape, and material. It does
 not decide how many sections you build, what ratio a split uses, or how many cards appear. Compose for this
 company, this content, and this task.
 - **Why:** copying a template's skeleton produces the same page for every product.
@@ -118,7 +118,7 @@ before rendering anything.
 
 ### CORE-15 · Verify each section right after you build it
 Render and look at every section as soon as it is done, at its intended size, using
-`rules/review-checklist.md`. Don't wait until the whole page is finished.
+`references/rules/review-checklist.md`. Don't wait until the whole page is finished.
 - **Why:** errors compound; a broken header found late means rework everywhere.
 - **Check:** each section was rendered and checked before the next one started.
 
@@ -195,15 +195,15 @@ Each of these needs a reason specific to this product, or it goes:
 
 | Task | Read next |
 |---|---|
-| Any layout or spacing decision | `rules/layout.md` |
-| Fonts, sizes, line length | `rules/typography.md` |
-| Palette, contrast, shadows | `rules/color.md` |
-| Transitions, hover and press states, loading, scroll effects | `rules/motion.md` |
-| Icons, photos, illustrations, image prompts | `rules/imagery-and-icons.md` |
-| Checking your work | `rules/review-checklist.md` |
-| Product UI | `guides/web-app.md` |
-| Marketing page | `guides/landing-page.md` |
-| Phone app | `guides/mobile-app.md` |
-| Dashboards and data tables | `guides/dashboard-and-tables.md` |
-| Presentations | `guides/slides.md` |
-| No brand direction given | `archetypes/README.md` |
+| Any layout or spacing decision | `references/rules/layout.md` |
+| Fonts, sizes, line length | `references/rules/typography.md` |
+| Palette, contrast, shadows | `references/rules/color.md` |
+| Transitions, hover and press states, loading, scroll effects | `references/rules/motion.md` |
+| Icons, photos, illustrations, image prompts | `references/rules/imagery-and-icons.md` |
+| Checking your work | `references/rules/review-checklist.md` |
+| Product UI | `references/guides/web-app.md` |
+| Marketing page | `references/guides/landing-page.md` |
+| Phone app | `references/guides/mobile-app.md` |
+| Dashboards and data tables | `references/guides/dashboard-and-tables.md` |
+| Presentations | `references/guides/slides.md` |
+| No brand direction given | `references/archetypes/README.md` |

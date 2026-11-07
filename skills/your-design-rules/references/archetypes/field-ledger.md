@@ -68,7 +68,7 @@ Light palette. Chroma appears only when a state is real; the interface itself is
 - Crisp and short: 120–200 ms, `--ease-out`, no scale effects; regions appear in place with an opacity change.
 - The large readout updates by tinting the changed digits for about 1 s (MOTION-17); never count up.
 - No scroll reveals in the product; on the website, one section may fade in once.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - Most views need none. Diagrams (topology, pipelines, rack layouts) are built from real elements with mono
@@ -85,13 +85,13 @@ Light palette. Chroma appears only when a state is real; the interface itself is
 - Decorative crosshairs, fake serial numbers, and barcodes that encode nothing.
 - Uppercase mono for sentences; mono labels stay a few words long.
 - An enlarged readout of an invented or rounded-for-effect number.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps: compact density, 36–40 px table rows, the inspector as key/value rows. The readout leads overview
   screens only; on detail screens the record's name leads instead.
 - Apps: the signal color appears while the state is true and clears as soon as it resolves.
-- Websites: the same sheet with more air (24–32 px region padding, section spacing per rules/layout.md), and a
+- Websites: the same sheet with more air (24–32 px region padding, section spacing per references/rules/layout.md), and a
   spec table or measured result as proof instead of quote cards.
 - Websites: one primary action in solid ink; secondary links in mono with an underline.

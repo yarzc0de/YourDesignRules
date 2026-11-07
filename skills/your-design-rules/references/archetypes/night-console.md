@@ -59,14 +59,14 @@ Dark palette. Each step up in elevation is a lighter surface.
   product frame.
 - Raise a surface by making it lighter first, then add a 1 px top hairline at about 6% white so its edge reads.
 - A large, diffuse shadow is allowed on the website product frame and on floating dialogs, within the limits
-  in rules/color.md. Items in a grid get none.
+  in references/rules/color.md. Items in a grid get none.
 - Selected rows: raised surface, a 2 px accent bar on the leading edge, and an accent label or filled icon.
 
 ## Motion
 - Quiet and fast in the workspace: 150–250 ms fades and short 8 px slides for panels and inspectors.
 - Glow never pulses or breathes; status lights change color once and stay.
 - Website: the product surface may assemble once on load (panels fading in with a 40 ms stagger), then everything holds still.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - The product surface is the main image. Fill it with the user's real data or clearly marked sample data
@@ -85,8 +85,8 @@ Dark palette. Each step up in elevation is a lighter surface.
   snippets or leave the block out.
 - Matrix rain, scanlines, and lens flares.
 - Chakra Petch in buttons, form labels, or paragraphs.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md (including its dark mode
-  guidance) and rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md (including its dark mode
+  guidance) and references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps: turn the ground light down to almost nothing on working screens; keep it for sign-in, empty states,

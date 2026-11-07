@@ -13,7 +13,7 @@
 - One statement per view: a single headline, a short paragraph, and at most one action in each section.
 - Website hero: one photograph of the object or the room fills the stage, and the serif statement sits in a calm
   part of that frame, large enough to hold its own while the image stays dominant and the subject stays
-  uncovered. This applies to the site opening only; see rules/layout.md.
+  uncovered. This applies to the site opening only; see references/rules/layout.md.
 - Work on an exact baseline grid. Headlines, small-cap labels, and body text in neighboring columns land on
   shared baselines.
 - Align optically, not only by box edges: hang opening quotation marks outside the text edge, and nudge large
@@ -72,7 +72,7 @@ ground near `#0C0C0E` and text near `#ECECEE` rather than pure black and pure wh
 - Measured and slow: 400–600 ms opacity fades; nothing slides more than 8 px.
 - Hairline rules may draw across (scaleX 0 → 1, 500 ms) once when their section enters.
 - No bounce, no stagger longer than three items.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -94,8 +94,8 @@ ground near `#0C0C0E` and text near `#ECECEE` rather than pure black and pure wh
 - Shadows, rounded cards, and pill buttons.
 - Two statements competing in one view.
 - Tinted paper backgrounds standing in for luxury. Warmth comes from light in the photographs.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/typography.md, rules/color.md,
-  and rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/typography.md, references/rules/color.md,
+  and references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 

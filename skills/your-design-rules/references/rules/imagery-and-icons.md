@@ -3,7 +3,7 @@
 How to decide what kind of visual a spot needs, then how to source it well: icons, stock photos, generated
 images, vector artwork, and edits to existing images. Read it before you add any visual to a screen, and again
 before you write an image prompt or a stock query. Contrast and treatment for text over images live in
-`rules/color.md`.
+`references/rules/color.md`.
 
 ## Choosing a source
 
@@ -34,7 +34,7 @@ Walk the branches in order and stop at the first one that fits.
 | Divider or abstract pattern | A border, a CSS gradient, a repeated shape | An image file |
 | Chart or graph | A chart library or SVG built from the data | A generated image or hand-placed dots |
 | Diagram | Editable shapes, text, and connectors | A raster of a diagram |
-| Product interface | Real UI built as elements (see `rules/core.md`) | A screenshot or generated picture of UI |
+| Product interface | Real UI built as elements (see `references/rules/core.md`) | A screenshot or generated picture of UI |
 | Team member or customer | A supplied photo, or a labeled placeholder | A generated face presented as a real person |
 | Place, object, or texture | A supplied or stock photo | A guessed URL (IMG-12) |
 | Specific imagined scene | A generated image prompted per IMG-9 | A loosely related stock photo |
@@ -56,7 +56,7 @@ Choose one library per product and stay with it. Size icons at 16, 20, or 24 px 
 | 24 px | Toolbars, tab bars, standalone icon buttons |
 
 Use the outline style by default; the filled variant may mark the selected state. Color icons with text
-tokens, and give any icon that carries meaning 3:1 contrast (see `rules/color.md`).
+tokens, and give any icon that carries meaning 3:1 contrast (see `references/rules/color.md`).
 - **Why:** mixed libraries, sizes, and strokes make an interface look patched together.
 - **Check:** every icon comes from the same library, measures 16, 20, or 24 px, and shares one stroke weight.
 
@@ -209,7 +209,7 @@ texture) before adding unrelated thumbnails.
 ### IMG-18 · Show the outcome, not a floating screenshot
 On landing pages, picture people in the improved state the product creates. Avoid a lone product screenshot
 hovering on a gradient. The exception is a product-led direction where the real interface is the argument,
-built as real elements. Hero composition lives in `rules/layout.md` and `guides/landing-page.md`.
+built as real elements. Hero composition lives in `references/rules/layout.md` and `references/guides/landing-page.md`.
 - **Why:** visitors respond to the result they want, not to a picture of a tool.
 - **Check:** the hero image answers "what does life look like after this product?"
 
@@ -225,7 +225,7 @@ space.
 Duotone, halftone, dithering, noir, film grading, selective color, and shader effects are optional. Use one
 when it does a job, such as unifying mismatched photos or marking archival material. Never apply a treatment
 over working text or UI, and never use one to rescue an image that lacked art direction (IMG-7). Recheck text
-contrast afterward (see `rules/color.md`).
+contrast afterward (see `references/rules/color.md`).
 - **Why:** a treatment without a purpose is decoration, and over UI it hurts legibility.
 - **Check:** each treated image has a one-phrase reason, and no control or text layer carries the effect.
 

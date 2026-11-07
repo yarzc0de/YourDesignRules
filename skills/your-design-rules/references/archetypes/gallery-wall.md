@@ -53,14 +53,14 @@ Light palette. Color comes from the photographs; the interface keeps to neutral 
 ## Shape and elevation
 - Photographs and plates: radius 0. Buttons and inputs: 2–4 px.
 - No shadows under photographs and no frame effects; a plate is a flat image on a flat mat.
-- Lightbox controls, menus, and booking dialogs may use the medium soft elevation from rules/color.md and
+- Lightbox controls, menus, and booking dialogs may use the medium soft elevation from references/rules/color.md and
   nothing stronger.
 
 ## Motion
 - Slow, calm crossfades between photographs: 500–700 ms, no slides or zooms.
 - Images may settle from 1.02 to 1.0 scale while fading in, once.
 - Captions appear with their image, never after it.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - Real photographs from the client: the work, the rooms, the objects. Keep light consistent across a set, and
@@ -76,8 +76,8 @@ Light palette. Color comes from the photographs; the interface keeps to neutral 
 - Tight gutters that crowd plates into a contact sheet.
 - Autoplaying carousels.
 - Cormorant Infant in buttons, form labels, or body text.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps: one plate ratio across lists; the serif only for page and object titles; every control, filter, and

@@ -2,7 +2,7 @@
 
 How to give colors jobs, decide where saturation goes, meet contrast thresholds, put text on images, draw
 shadows, and build a dark palette. Read it before you choose a hue, define tokens, or style a surface, and
-return to the contrast and shadow rules during review (`rules/review-checklist.md`).
+return to the contrast and shadow rules during review (`references/rules/review-checklist.md`).
 
 ## Roles and tokens
 
@@ -27,7 +27,7 @@ may share a hue.
 ### COLOR-2 · Reference tokens in components, never raw values
 Components read `var(--primary)` or the platform equivalent: Tailwind theme keys, SwiftUI asset colors, a
 Flutter `ColorScheme`. Raw hex and rgb values live only where tokens are defined. Add new tokens next to
-existing ones; never silently overwrite a project's tokens (see `rules/core.md`).
+existing ones; never silently overwrite a project's tokens (see `references/rules/core.md`).
 - **Why:** one token edit should restyle the whole product, dark theme included.
 - **Check:** searching component code for hex and `rgb(` literals finds hits only in the token file.
 
@@ -84,7 +84,7 @@ panels, bands, sidebars, modals). Use these instead:
 | Warm off-white for a crafted or luxury feel | A white ground, with warmth carried by type, light, texture, and photography |
 
 Natural tones inside photographs are fine; the ban covers interface fills. When the user or supplied brand
-guidelines require one of these grounds, follow them (see `rules/core.md`).
+guidelines require one of these grounds, follow them (see `references/rules/core.md`).
 - **Why:** warm off-white grounds are the stock default of generated UI and look muddy beside real imagery.
 - **Check:** (heuristic) on any near-white fill, red minus blue is 4 or less on a 0–255 scale, and no light or
   mid-tone fill has hue 25–60° with saturation 10–60%.
@@ -221,7 +221,7 @@ ground. Adjust status hues the same way, then recheck COLOR-10 for text on and a
 Draw most series in neutrals and give the single highlight color to the key series or data point. When several
 categories need distinct hues, use a palette tested for color vision deficiency, and never separate series by
 red versus green alone; add direct labels, markers, or patterns. Chart structure lives in
-`guides/dashboard-and-tables.md`.
+`references/guides/dashboard-and-tables.md`.
 - **Why:** one highlight tells the reader where to look; a rainbow tells them nothing.
 - **Check:** under a deuteranopia and protanopia simulation every series stays distinct, and one element holds
   the highlight.

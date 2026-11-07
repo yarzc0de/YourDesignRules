@@ -1,10 +1,10 @@
 # Web app guide
 
 This guide covers functional product interfaces that people work in: consoles, editors, admin tools, queues,
-settings, maps, and dashboards. It is not for marketing pages; use `guides/landing-page.md` for those. Read
-it after `rules/core.md` and before you choose a layout. Spacing, type, and color values come from
-`rules/layout.md`, `rules/typography.md`, and `rules/color.md`; sizes are px (pt on iOS, dp on Android).
-Data-heavy screens also need `guides/dashboard-and-tables.md`.
+settings, maps, and dashboards. It is not for marketing pages; use `references/guides/landing-page.md` for those. Read
+it after `references/rules/core.md` and before you choose a layout. Spacing, type, and color values come from
+`references/rules/layout.md`, `references/rules/typography.md`, and `references/rules/color.md`; sizes are px (pt on iOS, dp on Android).
+Data-heavy screens also need `references/guides/dashboard-and-tables.md`.
 
 ## Infer the product first
 
@@ -233,13 +233,13 @@ navigation has room for new sections. New features extend existing patterns inst
 ### WEB-21 · Keep the hierarchy at every width
 At 1280–1440 use the full skeleton. At 768 move the sidebar behind a menu button and turn the side column
 into a drawer. At 375 use one column: side panels turn into sheets or stack under the main content, and wide
-tables follow `guides/dashboard-and-tables.md`. The dominant region and the primary action always come first.
+tables follow `references/guides/dashboard-and-tables.md`. The dominant region and the primary action always come first.
 - **Why:** a hierarchy that works only at desktop width fails everyone else.
 - **Check:** at 375, 768, and 1440 the primary action is visible without searching (CHK-12).
 
 ## Before you hand off
 
-Run `rules/review-checklist.md` after each section and on the whole screen; for product UI, stress these:
+Run `references/rules/review-checklist.md` after each section and on the whole screen; for product UI, stress these:
 
 | Check | What to confirm on a product screen |
 |---|---|

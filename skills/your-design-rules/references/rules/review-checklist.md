@@ -22,11 +22,11 @@ grow to fit their content. Long strings (names, emails, numbers) were tested wit
 
 ### CHK-3 · Contrast passes on the real pixels
 Body text ≥ 4.5:1, large text and UI boundaries/icons ≥ 3:1, measured against what is actually behind
-them: photo, gradient, glass. See `rules/color.md`.
+them: photo, gradient, glass. See `references/rules/color.md`.
 
 ### CHK-4 · Alignment and spacing are on the system
 One alignment axis per section. Shared edges line up. Every gap and padding value comes from the spacing
-scale in `rules/layout.md`. Related items are closer to each other than to unrelated ones.
+scale in `references/rules/layout.md`. Related items are closer to each other than to unrelated ones.
 
 ### CHK-5 · There is one focal point and one obvious primary action
 Squint: one element dominates. The primary action is findable in under two seconds and is the most prominent
@@ -34,12 +34,12 @@ interactive element. The accent color is not spread across decoration.
 
 ### CHK-6 · Type renders as intended
 The intended fonts loaded (no system fallback), weights and italics are real, body size and line length are
-within `rules/typography.md`, headlines break at deliberate points with no single-word last lines.
+within `references/rules/typography.md`, headlines break at deliberate points with no single-word last lines.
 
 ### CHK-7 · Images and icons are right
 Images arrived (no empty frames or pending placeholders), are not stretched, have a sensible crop with a
 quiet area under any text, and have alt text. Icons come from one library at consistent sizes. See
-`rules/imagery-and-icons.md`.
+`references/rules/imagery-and-icons.md`.
 
 ### CHK-8 · Effects and containers are justified
 No card wrapping without a job (CORE-6). No rows of equal label-plus-caption boxes (CORE-21) and no
@@ -81,7 +81,7 @@ Missing fonts, failed images, or assumed data are mentioned in your reply to the
 
 ### CHK-17 · Motion has a job and can be turned off
 Every animation confirms, orients, keeps continuity, or flags a change (MOTION-1). Durations and easing come
-from rules/motion.md, only transform and opacity animate, and with reduced motion enabled nothing slides or
+from references/rules/motion.md, only transform and opacity animate, and with reduced motion enabled nothing slides or
 scales. With JavaScript off, no content is stuck invisible.
 
 ## Copy-paste version

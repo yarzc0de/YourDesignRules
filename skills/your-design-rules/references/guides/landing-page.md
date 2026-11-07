@@ -2,9 +2,9 @@
 
 This guide covers marketing pages whose job is to turn a visitor into a signup, a sale, or a booked call:
 launch pages, campaign pages, single-product sites, and home pages that sell. It is not for product screens;
-use `guides/web-app.md` for those. Read `rules/core.md` first. The hero composition is defined in
-`rules/layout.md`, type sizes in `rules/typography.md`, contrast and accent use in `rules/color.md`, and image
-choices in `rules/imagery-and-icons.md`. Sizes are px (pt on iOS, dp on Android).
+use `references/guides/web-app.md` for those. Read `references/rules/core.md` first. The hero composition is defined in
+`references/rules/layout.md`, type sizes in `references/rules/typography.md`, contrast and accent use in `references/rules/color.md`, and image
+choices in `references/rules/imagery-and-icons.md`. Sizes are px (pt on iOS, dp on Android).
 
 ## Goal and message
 
@@ -54,7 +54,7 @@ one primary CTA. All of it is visible without scrolling at 1280×720 and at 375�
 
 ### LAND-6 · Compose the hero as one continuous stage
 The dominant image and the main statement form a single composition. Pick one of three structures (full
-rule in `rules/layout.md`):
+rule in `references/rules/layout.md`):
 
 | Option | Composition | Where the type goes |
 |---|---|---|
@@ -77,7 +77,7 @@ rule in `rules/layout.md`):
 Picture the visitor's future: people in the improved situation, the finished result, the place they get to.
 Use real product UI only when the product itself is the argument, and then show it doing real work. A lone
 screenshot floating on a gradient is the weakest choice. Keep text over images legible with crop and a
-localized tonal gradient (`rules/color.md`); never stretch or distort an image (`rules/imagery-and-icons.md`).
+localized tonal gradient (`references/rules/color.md`); never stretch or distort an image (`references/rules/imagery-and-icons.md`).
 - **Why:** visitors can picture themselves in a scene; they cannot picture themselves in a screenshot.
 - **Check:** each major image shows a person, place, or result after adoption, or real UI doing a real task.
 
@@ -123,7 +123,7 @@ and sections generously (48 and up). The heading, text, and CTA for one idea sit
 - **Check:** every text block in a section starts on one shared line or centers on one axis (CHK-4).
 
 ### LAND-12 · Meet the type minimums
-Sizes follow the scale in `rules/typography.md`:
+Sizes follow the scale in `references/rules/typography.md`:
 
 | Role | Desktop | Mobile |
 |---|---|---|
@@ -136,7 +136,7 @@ Sizes follow the scale in `rules/typography.md`:
   and legal lines only.
 - Adjacent levels differ by a ratio of at least 1.2.
 - Center no more than two or three lines; left-align anything longer.
-- Keep body lines between 50 and 75 characters.
+- Keep body lines between 50 and 75 characters on desktop and 35–50 on phones (TYPE-10 in references/rules/typography.md).
 - Break headlines by hand at natural phrases; no single-word last lines.
 - **Why:** a page that is tiring to read cannot persuade anyone.
 - **Check:** measure rendered body size and line length on desktop and at 375 (CHK-6).
@@ -184,7 +184,7 @@ See CORE-21 for the general rule and the narrow exceptions.
 
 ## Before you hand off
 
-Run `rules/review-checklist.md` after each section and on the whole page; for landing pages, stress these:
+Run `references/rules/review-checklist.md` after each section and on the whole page; for landing pages, stress these:
 
 | Check | What to confirm on a landing page |
 |---|---|

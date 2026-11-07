@@ -63,15 +63,15 @@ white or cool.
 - Drawn figures have no frame or radius; they overlap the panel edge where the scene calls for it.
 
 ## Motion
-- Illustrations may draw in once (stroke reveal, 600–900 ms) when they enter the viewport; they never loop.
+- Illustrations may draw in once (stroke reveal, 400–600 ms; see MOTION-11) when they enter the viewport; they never loop.
 - Controls use the default timings; the warmth stays in the art, not in wobbling buttons.
 - Under reduced motion, illustrations appear complete.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - One illustration style for the whole product: loose ink line with a visible hand wobble, flat fills from
   the illustration inks, plenty of white. Commission it or generate it once, make each figure a reusable
-  component, and recombine the same cast for new scenes (rules/imagery-and-icons.md).
+  component, and recombine the same cast for new scenes (references/rules/imagery-and-icons.md).
 - Never assemble figures by hand from raw vector shapes.
 - Photos are optional: hands, materials, and real workspaces in natural light. Keep photos and drawings in
   separate sections.
@@ -84,8 +84,8 @@ white or cool.
 - A new drawing style in each section.
 - Flat corporate figures with oversized limbs and no tie to the content.
 - Illustrations placed over body text or controls.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps: one figure per empty state or onboarding step; forms, settings, and lists stay free of illustration.

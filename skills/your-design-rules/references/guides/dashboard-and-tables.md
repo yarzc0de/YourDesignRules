@@ -1,9 +1,9 @@
 # Dashboards and tables guide
 
 Rules for dashboards, reports, analytics views, and data tables, in any stack (HTML and CSS, React,
-SwiftUI, Flutter). Read it after `rules/core.md` whenever a screen's main job is showing metrics, charts, or
-records. Buttons and forms are in `guides/web-app.md`; chart colors and contrast in `rules/color.md`; number
-typography in `rules/typography.md`.
+SwiftUI, Flutter). Read it after `references/rules/core.md` whenever a screen's main job is showing metrics, charts, or
+records. Buttons and forms are in `references/guides/web-app.md`; chart colors and contrast in `references/rules/color.md`; number
+typography in `references/rules/typography.md`.
 
 ## Purpose
 
@@ -63,7 +63,7 @@ Default to a bar chart for comparing items and a line chart for change over time
 ### DATA-5 · Give each chart one insight and highlight it
 When the data supports a finding, state it in the title ("Signups fell after the March price change") or in
 a one-line takeaway. Draw the key series or point in the highlight color and the rest in neutrals from the
-colorblind-safe palette in `rules/color.md`, and label the highlighted value directly.
+colorblind-safe palette in `references/rules/color.md`, and label the highlighted value directly.
 - **Why:** a chart without a stated point leaves each viewer to find a different one.
 - **Check:** the title states a finding, and exactly one series or point carries the highlight color.
 
@@ -237,7 +237,7 @@ When the task really is an operational dashboard, this arrangement is a sound st
 ```
 
 - **Navigation:** sidebar 240–280 wide, or a top bar 56–64 tall when there are six destinations or fewer.
-- **Spacing:** page padding 24–32, gaps between regions 24–32, panel padding 24 (`rules/layout.md`).
+- **Spacing:** page padding 24–32, gaps between regions 24–32, panel padding 24 (`references/rules/layout.md`).
 - **Metric strip:** one surface divided by hairlines usually beats separate tiles (CORE-6).
 
 Do not assume this skeleton. A single-question report may be one chart and a table; a monitoring wall may be
@@ -247,4 +247,4 @@ all charts; a phone summary may be a list. Start from DATA-1 and keep only the r
 
 ## Review
 
-Run `rules/review-checklist.md` on each region, with extra care for CHK-2, CHK-9, CHK-10, and CHK-12.
+Run `references/rules/review-checklist.md` on each region, with extra care for CHK-2, CHK-9, CHK-10, and CHK-12.

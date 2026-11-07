@@ -1,8 +1,8 @@
 # Mobile app guide
 
 Rules for phone apps and phone-sized mockups in any stack: SwiftUI, Jetpack Compose, Flutter, React Native,
-or a mobile web app. Read it after `rules/core.md` whenever the target is a phone screen. General spacing,
-type, and color rules live in `rules/layout.md`, `rules/typography.md`, and `rules/color.md`; this guide
+or a mobile web app. Read it after `references/rules/core.md` whenever the target is a phone screen. General spacing,
+type, and color rules live in `references/rules/layout.md`, `references/rules/typography.md`, and `references/rules/color.md`; this guide
 covers what changes when the screen is small, held in one hand, and shared with system UI. Sizes are in pt
 (iOS) or dp (Android), which map one to one onto CSS px in a mockup.
 
@@ -57,7 +57,7 @@ opt out on purpose. Space siblings with the container's gap, not with spacer ele
 - **Check:** every text block on the screen starts at the same x position.
 
 ### MOB-5 · Space the screen with one mobile scale
-Take every value from the 4-pt scale in `rules/layout.md`:
+Take every value from the 4-pt scale in `references/rules/layout.md`:
 
 | Relationship | Value |
 |---|---|
@@ -93,7 +93,7 @@ Use these values for a custom floating bar. When the native tab bar suits the br
 | Corner radius | half the height, so the ends are fully round |
 | Inner padding | about 6 |
 | Fill | translucent surface at 70–85% opacity with background blur; solid surface where blur is unsupported |
-| Shadow | soft and diffuse, per `rules/color.md` |
+| Shadow | soft and diffuse, per `references/rules/color.md` |
 | Item | icon 22–24 above a label 10–11, sentence case |
 | Selected item | filled icon and label in the accent tint, on a soft pill-shaped highlight |
 | Inactive item | outline icon and label in the muted text color |
@@ -119,7 +119,7 @@ control or summary, say which screen this is and what it is for. Secondary infor
 
 ### MOB-10 · Use one title size and style on every screen
 Screens at the same level share title size, weight, and position: for example a 28–34 large title on
-top-level screens and a 17–20 inline title on pushed screens. Take sizes from `rules/typography.md`.
+top-level screens and a 17–20 inline title on pushed screens. Take sizes from `references/rules/typography.md`.
 - **Why:** a title that changes between tabs makes the app look assembled from parts.
 - **Check:** overlay two tab screenshots; their titles occupy the same box.
 
@@ -161,7 +161,7 @@ on iOS and 48–56 on Android.
 - **Check:** outline every hit area; none is under the minimum or overlaps its neighbor.
 
 ### MOB-15 · Let text scale without breaking the layout
-Body text is 15–17 (`rules/typography.md`) and grows with the user's text-size setting: Dynamic Type on iOS,
+Body text is 15–17 (`references/rules/typography.md`) and grows with the user's text-size setting: Dynamic Type on iOS,
 sp on Android, rem on mobile web. Containers that hold text never get a fixed height; rows wrap or grow
 instead of truncating essential labels.
 - **Why:** many people raise the system text size, and fixed boxes clip it.
@@ -237,6 +237,6 @@ floating tab bar, for example), and then apply that deviation on every screen.
 
 ## Review
 
-Run `rules/review-checklist.md` on every screen. Pay extra attention to CHK-2 at large text sizes, CHK-5 for
+Run `references/rules/review-checklist.md` on every screen. Pay extra attention to CHK-2 at large text sizes, CHK-5 for
 one primary action within thumb reach, CHK-9 for confirmations and feedback states, and CHK-12 at 375 and 430
 widths.

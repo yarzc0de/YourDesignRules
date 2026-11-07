@@ -86,7 +86,7 @@ pages) use a spring so the motion continues from the finger's velocity.
 
 ### MOTION-9 · Keep bounce out of interface chrome
 No visible overshoot on buttons, menus, dialogs, tables, or navigation. A slight overshoot is acceptable
-only for playful directions (see archetypes/toybox.md) and only on decorative or celebratory elements.
+only for playful directions (see references/archetypes/toybox.md) and only on decorative or celebratory elements.
 - **Why:** bouncing controls feel unstable and slow down repeated use.
 - **Check:** no UI control scales or moves past its final position before settling.
 
@@ -103,10 +103,12 @@ opacity of a pseudo-element that carries it, not by changing `box-shadow`.
 ### MOTION-11 · Travel short distances
 Entering elements move 8–24 px, never across the screen. Scale-in starts at 0.95–0.98, never at 0. Popovers
 and menus grow from their trigger (`transform-origin` on the side nearest the trigger); sheets and drawers
-slide in from the edge they are attached to.
+slide in from the edge they are attached to. The 0.95 floor applies to surfaces and containers; drawn lines
+are exempt: a 1 px rule may grow with `scaleX(0 → 1)` and an SVG stroke may draw in with
+`stroke-dashoffset`, as long as the line is finished in 300–600 ms.
 - **Why:** small, anchored movement shows where something came from without making the eye chase it.
-- **Check:** no element travels more than 24 px or scales from below 0.95, except full-screen sheets that
-  slide from their edge.
+- **Check:** no surface travels more than 24 px or scales from below 0.95, except full-screen sheets that
+  slide from their edge and drawn lines.
 
 ### MOTION-12 · Stagger lists briefly, then stop
 When several items appear together (menu links, search results, a card row on first load), offset each by
@@ -245,6 +247,6 @@ Use `will-change` only on elements about to animate and remove it afterwards. Av
 
 ## Motion and archetypes
 
-Each archetype has a motion character (see the Motion section of each file in archetypes/). The timing,
+Each archetype has a motion character (see the Motion section of each file in references/archetypes/). The timing,
 easing, and accessibility rules above apply under every archetype; the archetype only shifts the tone, for
 example crisper and shorter for technical directions, slower crossfades for photographic ones.

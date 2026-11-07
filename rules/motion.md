@@ -103,10 +103,12 @@ opacity of a pseudo-element that carries it, not by changing `box-shadow`.
 ### MOTION-11 · Travel short distances
 Entering elements move 8–24 px, never across the screen. Scale-in starts at 0.95–0.98, never at 0. Popovers
 and menus grow from their trigger (`transform-origin` on the side nearest the trigger); sheets and drawers
-slide in from the edge they are attached to.
+slide in from the edge they are attached to. The 0.95 floor applies to surfaces and containers; drawn lines
+are exempt: a 1 px rule may grow with `scaleX(0 → 1)` and an SVG stroke may draw in with
+`stroke-dashoffset`, as long as the line is finished in 300–600 ms.
 - **Why:** small, anchored movement shows where something came from without making the eye chase it.
-- **Check:** no element travels more than 24 px or scales from below 0.95, except full-screen sheets that
-  slide from their edge.
+- **Check:** no surface travels more than 24 px or scales from below 0.95, except full-screen sheets that
+  slide from their edge and drawn lines.
 
 ### MOTION-12 · Stagger lists briefly, then stop
 When several items appear together (menu links, search results, a card row on first load), offset each by

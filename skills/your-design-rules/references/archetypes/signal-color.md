@@ -15,7 +15,7 @@
 - Use three to five fields per page at most. Two fields in a row never share a color.
 - Website hero: the first field is the whole stage. An oversized Archivo Black headline and one cut-out figure or
   large photograph sit together on a single solid color, with the primary action in the same field, as one
-  continuous stage. This applies to the site opening only; see rules/layout.md.
+  continuous stage. This applies to the site opening only; see references/rules/layout.md.
 - Type is the main graphic. Headlines may run close to the edges, break with intent, and overlap an image as long
   as every word stays whole.
 - Supporting text and forms inside a field share one alignment axis with generous padding and no inner cards.
@@ -70,7 +70,7 @@ color allowed on it.
 - Color fields change with a hard cut or a fast 150–200 ms wipe as the reader crosses into a new subject; no slow gradient morphs.
 - Loud type does not shake, spin, or stretch; it may slide in 24 px once.
 - Buttons respond with a firm pressed state (scale 0.97, 100 ms).
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -89,8 +89,8 @@ color allowed on it.
 - Gradients between fields, or shadowed cards inside them (CORE-6).
 - Archivo Black for body copy or instructions.
 - Using a field color as a status signal.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 

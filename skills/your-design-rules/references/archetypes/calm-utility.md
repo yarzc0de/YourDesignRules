@@ -10,7 +10,7 @@
 ## Composition
 - Separate regions with tone and hairlines, not containers: the sidebar or a panel header sits on the surface
   tone, the work area on the ground, and a 1 px line marks where they meet.
-- Pick the skeleton from the task (rules/layout.md): sidebar plus main for products with many areas, a top
+- Pick the skeleton from the task (references/rules/layout.md): sidebar plus main for products with many areas, a top
   bar for few destinations, a fixed 320–360 px side column for record details.
 - Repeat one page header pattern everywhere: the title at the same size on every screen, an optional one-line
   description, the primary action on the right.
@@ -52,13 +52,13 @@ Light palette. Neutral ground plus one vivid accent.
 | Status | `--success`, `--warning`, `--error`, `--info` | `#15803D`, `#B45309`, `#C0262D`, `#0369A1` |
 
 - Give each status a pale tint for banners and badges, and keep its text in the full-strength color.
-- For dark mode, build a separate palette as rules/color.md describes instead of inverting this one.
+- For dark mode, build a separate palette as references/rules/color.md describes instead of inverting this one.
 - This palette is a starting point; brand or user colors replace it (CORE-13).
 
 ## Shape and elevation
 - Panels, dialogs, and cards that bound a real object: 10–12 px. Buttons and inputs: 8 px or fully rounded,
   one choice for the whole product. Badges: fully rounded. Tables: square inside their container.
-- Mostly flat. Menus and popovers get the small shadow from rules/color.md plus a hairline; panels get none.
+- Mostly flat. Menus and popovers get the small shadow from references/rules/color.md plus a hairline; panels get none.
 - Dialogs sit over a scrim so they need no heavier shadow.
 - Focus: a 2 px accent ring with a 2 px offset on every interactive control.
 
@@ -66,7 +66,7 @@ Light palette. Neutral ground plus one vivid accent.
 - Default timings from MOTION-4 at the short end; dialogs 250 ms in, 180 ms out; dropdowns grow from their trigger.
 - Row hover is a background tint in 150 ms; saving shows the pressed state, then a toast with an undo.
 - No decorative motion anywhere; this direction is judged on how quietly it responds.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - Icons carry most of the visual load: one library (Lucide or Heroicons) at 16 px in dense UI and 20 px in
@@ -83,8 +83,8 @@ Light palette. Neutral ground plus one vivid accent.
 - Icon-only navigation.
 - Pill buttons and 8 px buttons on the same screen.
 - Placeholder text standing in for field labels.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps: medium density by default, compact for tables and logs; one primary button per screen or section;

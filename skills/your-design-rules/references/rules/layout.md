@@ -3,7 +3,7 @@
 How to place, group, size, and space elements: the spacing scale, screen structure, sizing and flow, the
 website hero, responsive behavior, and rhythm. Read this file before you build any screen or section, and
 return to it whenever a layout looks crowded, loose, or unplanned. Text sizes and line length live in
-rules/typography.md; color, contrast, and shadows live in rules/color.md. Numbers are CSS pixels (points on
+references/rules/typography.md; color, contrast, and shadows live in references/rules/color.md. Numbers are CSS pixels (points on
 iOS, dp on Android).
 
 ## Alignment and grouping
@@ -88,7 +88,7 @@ Pick the mode from the content and apply it to the whole screen.
 | Airy | low-complexity flows, onboarding, short settings | 24–32 | 32–48 | 44 | 52+ |
 
 Compact controls are for pointer input only; touch screens keep targets at 44 or more (see
-guides/mobile-app.md).
+references/guides/mobile-app.md).
 - **Why:** one density gives a screen one rhythm; mixed density looks like two products joined together.
 - **Check:** every gap and padding on the screen comes from a single row of this table.
 
@@ -136,7 +136,7 @@ calls for it.
 
 ### LAY-13 · Cap the page content width
 Hold page content inside a centered container with a maximum width of 1200–1440, and let backgrounds run
-full width. Paragraph length inside it is set by TYPE-10 in rules/typography.md, not by this cap.
+full width. Paragraph length inside it is set by TYPE-10 in references/rules/typography.md, not by this cap.
 `max-width: 1280px; margin-inline: auto;` (Tailwind `max-w-7xl mx-auto`)
 - **Why:** unbounded content on wide monitors pushes related items too far apart.
 - **Check:** at 1920 wide, content stops at the cap and only the outer margins grow.
@@ -176,7 +176,7 @@ inside.
 ### LAY-18 · Use absolute positioning only for overlays
 Allowed: overlays (menus, popovers, dialogs, toasts), badges pinned to a corner, and intentional overlaps in
 display compositions. Never place chart labels, table cells, or list items by coordinates; leave their
-alignment to the layout engine or the charting library (see guides/dashboard-and-tables.md).
+alignment to the layout engine or the charting library (see references/guides/dashboard-and-tables.md).
 - **Why:** absolutely placed content ignores its neighbors and breaks when the data or the width changes.
 - **Check:** resize the viewport; no positioned element drifts away from what it labels.
 
@@ -210,7 +210,7 @@ remains the largest and most commanding element.
 ### LAY-22 · Make room for type without a visible box
 Clear space for the headline through the way the shot is framed, empty areas in the picture, the lighting,
 or a gradual tonal fade with no edge. Never place a visible dark rectangle or panel behind the copy.
-Contrast must still pass (see rules/color.md).
+Contrast must still pass (see references/rules/color.md).
 - **Why:** a box behind the text announces that the image was never composed for it.
 - **Check:** no shape with a visible edge sits between the headline and the image.
 

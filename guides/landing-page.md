@@ -136,7 +136,7 @@ Sizes follow the scale in `rules/typography.md`:
   and legal lines only.
 - Adjacent levels differ by a ratio of at least 1.2.
 - Center no more than two or three lines; left-align anything longer.
-- Keep body lines between 50 and 75 characters.
+- Keep body lines between 50 and 75 characters on desktop and 35–50 on phones (TYPE-10 in rules/typography.md).
 - Break headlines by hand at natural phrases; no single-word last lines.
 - **Why:** a page that is tiring to read cannot persuade anyone.
 - **Check:** measure rendered body size and line length on desktop and at 375 (CHK-6).

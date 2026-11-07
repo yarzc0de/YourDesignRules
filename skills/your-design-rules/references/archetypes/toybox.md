@@ -18,7 +18,7 @@
   mascot.
 - Website hero: a saturated stage field holds the oversized Unbounded headline, one inflated or cut-out object,
   and a few stickers composed around them as one continuous stage, with the primary action upright next to the
-  headline. This applies to the site opening only; see rules/layout.md.
+  headline. This applies to the site opening only; see references/rules/layout.md.
 - Decoration budget: three to six pieces per section, all instances of a few reusable components (CORE-17).
 - In product UI, play moves to empty states, rewards, onboarding, and icons. Lists, forms, and settings stay
   standard and calm.
@@ -64,7 +64,7 @@ Light example with a saturated stage. It is a starting point (CORE-13).
 - Radius 0 for stickers cut as stamps or tickets, 12–24 px for panels and inflated shapes, full for buttons,
   chips, and tags.
 - Lifted pieces get a medium soft shadow, for example `0 8px 24px rgba(23,20,42,0.12)`. Nothing else is lifted.
-  Limits are in rules/color.md.
+  Limits are in references/rules/color.md.
 - The inflated look comes from generous radius and a gentle highlight gradient from one light direction (top
   left), not from heavy shadows.
 - Stickers carry a 2 px ink outline or a white die-cut border, chosen once for the whole set.
@@ -73,7 +73,7 @@ Light example with a saturated stage. It is a starting point (CORE-13).
 - The one archetype where playful motion fits: stickers and shapes may pop in with a small overshoot (scale 0.9 → 1.04 → 1.0, 350 ms) and wiggle once on hover.
 - The usable path (nav, CTA, forms) still uses the calm defaults with no bounce (MOTION-9).
 - Loops stop after one cycle or carry a pause control; reduced motion turns every pop into a plain fade.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -91,8 +91,8 @@ Light example with a saturated stage. It is a starting point (CORE-13).
 - Unbounded for paragraphs, form labels, or instructions.
 - Every color on every element. Restraint per section keeps the play legible.
 - Chrome or reflective lettering with no readable equivalent.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/imagery-and-icons.md,
-  rules/color.md, and rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/imagery-and-icons.md,
+  references/rules/color.md, and references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 

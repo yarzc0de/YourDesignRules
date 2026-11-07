@@ -1,10 +1,10 @@
 # Slides guide
 
 Rules for presentation decks: pitches, keynotes, board updates, internal reviews, lectures. Read it after
-`rules/core.md` whenever the output is a slide, in any format (HTML slides, a slide app, a 16:9 frame). All
+`references/rules/core.md` whenever the output is a slide, in any format (HTML slides, a slide app, a 16:9 frame). All
 sizes are px on a 1920 × 1080 canvas; scale them proportionally for other 16:9 sizes. The second half is a
 layout library with its own IDs (prefix `S-`) so a plan can name the layout each slide uses. Check each slide
-with `rules/review-checklist.md` (CHK-1 to CHK-11) at full size, then the whole deck.
+with `references/rules/review-checklist.md` (CHK-1 to CHK-11) at full size, then the whole deck.
 
 ## Priorities
 
@@ -49,7 +49,7 @@ Use at most two families. Build hierarchy with size and weight; reserve all caps
 | Labels and captions | 22–24 | 20 | 1.2–1.3 |
 | Sources and footers (non-essential only) | 18–20 | 18 | 1.2 |
 
-Keep body lines under about 60 characters. Font rules in `rules/typography.md` still apply.
+Keep body lines under about 60 characters. Font rules in `references/rules/typography.md` still apply.
 - **Why:** text below these sizes disappears on projectors and shared screens.
 - **Check:** no text on any slide is smaller than its role's minimum.
 
@@ -65,7 +65,7 @@ y 280 or below. Only full-bleed images and background fields cross the margins.
 
 ### SLIDE-7 · Use 2–3 core colors and keep body text neutral
 Pick 2–3 core colors plus neutrals. Body text is a neutral with high contrast: aim for 7:1 and never go below
-4.5:1 (`rules/color.md`). Spend the accent only on emphasis: the highlighted number, the key bar, the one
+4.5:1 (`references/rules/color.md`). Spend the accent only on emphasis: the highlighted number, the key bar, the one
 phrase that matters. Use a colorblind-safe chart palette and pair every color meaning with a label.
 - **Why:** projectors wash out contrast, and an accent used everywhere marks nothing.
 - **Check:** each slide has one accent focus, and body text meets 4.5:1 on the real background.
@@ -75,7 +75,7 @@ phrase that matters. Use a colorblind-safe chart palette and pair every color me
 ### SLIDE-8 · Make every visual carry meaning
 Use images, icons, and diagrams only when they explain or prove something. Prefer specific visuals (the
 product, a real place, a diagram of the mechanism) over generic stock. Keep icons from one set at one size,
-48–96 on slides, with one stroke weight. Source and prompt imagery per `rules/imagery-and-icons.md`.
+48–96 on slides, with one stroke weight. Source and prompt imagery per `references/rules/imagery-and-icons.md`.
 - **Why:** decorative imagery takes attention from the point without adding to it.
 - **Check:** for each visual, you can say what the audience learns from it.
 
@@ -190,7 +190,7 @@ SLIDE-6 grid and the SLIDE-5 sizes.
   lower left within columns 1–7.
 - Sizes: title 72–120, 10 words or fewer; caption or credit 20–24.
 - Rules: when the crop has no quiet area, add a soft localized gradient behind the text only, never a full
-  dark overlay or a visible box (`rules/color.md`). Measure contrast on the composite.
+  dark overlay or a visible box (`references/rules/color.md`). Measure contrast on the composite.
 
 #### Structure
 

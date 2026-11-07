@@ -2,8 +2,8 @@
 
 An archetype is a ready-made visual identity: a font pairing, color roles, shape, elevation, and an approach to
 imagery. Use one when the user has given no brand or style direction. Read this file to choose, then open the
-chosen archetype and the guide for the task (`guides/`). The universal rules in rules/core.md and
-rules/color.md apply under every archetype.
+chosen archetype and the guide for the task (`references/guides/`). The universal rules in references/rules/core.md and
+references/rules/color.md apply under every archetype.
 
 ## Index
 
@@ -67,7 +67,7 @@ Every archetype file uses the same headings in the same order, so you can jump s
 - `## Typography`: a role, family, and weights table, scale notes, and the Google Fonts families to load.
 - `## Color roles`: ground, surfaces, text, accent, boundary, and status, with one example palette.
 - `## Shape and elevation`: radius values in px and the shadow policy.
-- `## Motion`: the direction's motion character; timing and accessibility come from rules/motion.md.
+- `## Motion`: the direction's motion character; timing and accessibility come from references/rules/motion.md.
 - `## Imagery`: subjects, sources, treatments, and icons.
 - `## Avoid`: the mistakes that break this particular direction, ending with a one-line link to the universal
   rules.

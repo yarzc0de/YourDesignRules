@@ -63,7 +63,7 @@ white or cool.
 - Drawn figures have no frame or radius; they overlap the panel edge where the scene calls for it.
 
 ## Motion
-- Illustrations may draw in once (stroke reveal, 600–900 ms) when they enter the viewport; they never loop.
+- Illustrations may draw in once (stroke reveal, 400–600 ms; see MOTION-11) when they enter the viewport; they never loop.
 - Controls use the default timings; the warmth stays in the art, not in wobbling buttons.
 - Under reduced motion, illustrations appear complete.
 - Timing, easing, and reduced-motion rules: rules/motion.md.

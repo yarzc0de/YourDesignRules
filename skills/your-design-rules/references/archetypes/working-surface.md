@@ -58,7 +58,7 @@ Light palette for both the marketing page and the product inside the frame.
 - Radius follows the element: canvas and tables 0, controls 6 px, panels and popovers 8–12 px, the marketing
   product frame 16–24 px.
 - On websites, the product frame gets one large soft shadow plus a 1 px hairline, within the limits in
-  rules/color.md. Panels inside the product stay flat.
+  references/rules/color.md. Panels inside the product stay flat.
 - Menus and popovers inside the product take the small soft shadow.
 - Selection: a 1.5–2 px accent outline, handles where the object can be resized, and the inspector showing the
   selected object's name.
@@ -67,7 +67,7 @@ Light palette for both the marketing page and the product inside the frame.
 - A recorded walkthrough of the product is the signature moment: a real workflow plays step by step (select, edit, confirm), each step 400–600 ms apart, pausable and replaying only on request.
 - Inside the product, the inspector slides in from its edge in 250 ms; selection changes are instant.
 - No floating or tilting device mockups.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - The interface is the imagery. Photos of people are optional and secondary, for example one shot of a team
@@ -83,8 +83,8 @@ Light palette for both the marketing page and the product inside the frame.
 - Invented revenue charts, user counts, partner logos, or integrations.
 - Pictures of UI where live elements belong.
 - Glowing or neon frames around the product.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps: the surface gets most of the viewport, side panels collapse, and an empty canvas offers one clear first

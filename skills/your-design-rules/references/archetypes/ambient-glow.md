@@ -17,7 +17,7 @@
 - Large, tightly set headlines carry the page. Hierarchy comes from the weight range of one family.
 - Website hero: the deep field and its edge light form the stage, the oversized headline sits in the calmest dark
   area, and any product image receives the light instead of floating in front of it, so it reads as one
-  continuous stage. This applies to the site opening only; see rules/layout.md.
+  continuous stage. This applies to the site opening only; see references/rules/layout.md.
 - Not every section is lit. Alternate lit and unlit sections, and move the light source at most once per section.
 - In product UI, the light stays out of the working area. At most a faint edge light on sign-in or an empty state.
 
@@ -67,13 +67,13 @@ Dark example. It is a starting point (CORE-13).
   `radial-gradient(60% 50% at 100% 0%, rgb(232 83 46 / 0.35), transparent 70%)`, never a box-shadow around a
   component.
 - Animated gradients or shaders move slowly, pause under reduced-motion settings, and fall back to a static
-  gradient with the same light. Limits are in rules/color.md.
+  gradient with the same light. Limits are in references/rules/color.md.
 
 ## Motion
 - The edge light may shift slowly (20–40 s cycle) only if a pause control exists and reduced motion turns it off; reading areas never move.
 - Content enters with plain fades of 300–400 ms; no glow pulses on buttons.
 - Provide a static image fallback for any shader or animated gradient.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -91,8 +91,8 @@ Dark example. It is a starting point (CORE-13).
 - A pure black ground with pure white text.
 - Glow as the only signal for focus, hover, or selection.
 - A shader or animation with no static fallback.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 

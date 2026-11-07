@@ -15,7 +15,7 @@
   catalog.
 - Website hero: the photograph fills the stage edge to edge and the condensed headline sits inside a calm region
   of that same frame (sky, water, a plain wall), so picture and statement form one continuous stage. This
-  applies to the site opening only; see rules/layout.md.
+  applies to the site opening only; see references/rules/layout.md.
 - Pick the crop before writing the headline. If the calm region is too busy, recrop or choose another frame
   rather than darkening the photo.
 - Alternate scene sections with plain sections of short reading text so the page has room to breathe.
@@ -69,7 +69,7 @@ or the photographs point elsewhere (CORE-13).
 - Radius 0 on photographs and full-bleed sections, 6 px on panels and inputs. Buttons and filter chips are either
   full pills or 6 px; choose one for the whole product.
 - Panels floating over photographs get one large soft shadow, for example `0 12px 40px rgba(0,0,0,0.18)`.
-  Content in the normal flow stays flat. Limits are in rules/color.md.
+  Content in the normal flow stays flat. Limits are in references/rules/color.md.
 - Floating panels use the opaque surface color, not glass, so form text never competes with the scene.
 - Where text sits on the photo, add a soft gradient from the nearest edge that fades out past the text block.
   The rest of the frame stays untouched.
@@ -78,7 +78,7 @@ or the photographs point elsewhere (CORE-13).
 - The hero photo may drift very slightly (scale 1.0 → 1.04 over 10–15 s, once) or crossfade between crops of the same scene; never a looping slideshow without pause.
 - Condensed headlines fade up 16 px once; no letter animation.
 - Parallax only on one background image at 0.85× speed, if at all (MOTION-21).
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -98,8 +98,8 @@ or the photographs point elsewhere (CORE-13).
 - A hero split into a headline column beside a boxed photo.
 - Background words that carry information such as dates, prices, or names.
 - A carousel of unrelated photos standing in for the story.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/imagery-and-icons.md,
-  rules/color.md, and rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/imagery-and-icons.md,
+  references/rules/color.md, and references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 

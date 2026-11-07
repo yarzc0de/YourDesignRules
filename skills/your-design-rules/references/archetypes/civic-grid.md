@@ -63,7 +63,7 @@ Light palette. Chroma lives in one blue, used either for actions or as an occasi
 - Movement follows the grid: elements slide along one axis (horizontal or vertical), never diagonally, 200–300 ms.
 - Large type does not animate letter by letter; a section may fade in once on the website.
 - Links underline with a left-to-right wipe of about 200 ms.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - Documentary photography of real places, services, and people, in full color and unfiltered.
@@ -82,8 +82,8 @@ Light palette. Chroma lives in one blue, used either for actions or as an occasi
 - Drawn grid lines that no content aligns to.
 - Captions or headlines laid over photographs.
 - Stock photos of smiling teams in place of the real service.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps (service flows, portals, applications): one question per page in a single column on the grid, headings

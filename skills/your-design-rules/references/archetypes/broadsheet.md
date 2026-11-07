@@ -18,7 +18,7 @@
 - Kickers (section labels) sit above headlines in Alata capitals; bylines and timestamps sit below in small Alata.
 - Website hero: the lead story is the stage. One commanding photograph spans the lead columns and the headline
   sits large in a deliberate band directly above it, so picture and headline read as a single unit. This applies
-  to the site opening only; see rules/layout.md.
+  to the site opening only; see references/rules/layout.md.
 - Article pages use one reading column of 60–70 characters, with pull quotes breaking the column and captions
   under images.
 - In product UI (reader apps, editorial tools), the front page becomes a ranked list that keeps the same type
@@ -68,7 +68,7 @@ Light example on white. It is a starting point (CORE-13).
 - Almost none: the front page loads complete; story previews on hover change only the headline underline, 150 ms.
 - Live updates (a new story, a changed figure) get a brief highlight band that fades over 2 s.
 - No scroll reveals; a newspaper is already in place when you look at it.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -86,8 +86,8 @@ Light example on white. It is a starting point (CORE-13).
 - A blackletter masthead built from primitives. A real logo needs a designer asset.
 - Captions laid over photographs.
 - Alata for headlines or body copy.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/typography.md, rules/color.md,
-  and rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/typography.md, references/rules/color.md,
+  and references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 

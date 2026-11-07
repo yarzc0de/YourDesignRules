@@ -18,7 +18,7 @@
   color rather than gray noise.
 - Website hero: one object with generous space around it fills the stage, the statement sits in the open field
   on the same ground, and a glass nav floats above both, forming one continuous stage. This applies to the site
-  opening only; see rules/layout.md.
+  opening only; see references/rules/layout.md.
 - Layer order is always obvious: glass sits above content, and glass never stacks on glass.
 - In product UI, the working area is opaque. Glass is limited to the toolbar, a floating inspector, or the
   command palette.
@@ -63,7 +63,7 @@ variant uses a ground near `#0D1220`, reading surfaces near `#151B2B`, glass of 
 - Radius 12 px on controls and small popovers, 16 px on panels, 24 px on large sheets. Nested corners use the
   outer radius minus the padding.
 - Glass and floating panels get a medium soft shadow, for example `0 8px 24px rgba(14,23,38,0.08)`, plus a 1 px
-  inner edge of white at about 70%. The opaque reading plane stays flat. Limits are in rules/color.md.
+  inner edge of white at about 70%. The opaque reading plane stays flat. Limits are in references/rules/color.md.
 - Keep blur between 16 and 32 px. Beyond that the layer reads as fog.
 - Ship the solid fallback for browsers without backdrop blur and for users who ask for reduced transparency.
 
@@ -77,7 +77,7 @@ variant uses a ground near `#0D1220`, reading surfaces near `#151B2B`, glass of 
 - Glass layers enter by fading and sharpening (opacity plus a small 8–12 px translate); never animate `backdrop-filter` values.
 - Floating controls lift 2 px on hover; the reading plane never moves.
 - Provide a solid-surface fallback with no blur under reduced transparency or reduced motion.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -98,8 +98,8 @@ variant uses a ground near `#0D1220`, reading surfaces near `#151B2B`, glass of 
 - White text on light glass.
 - Blur above 32 px, or several shadows on one layer.
 - Any glass surface without its solid fallback.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 

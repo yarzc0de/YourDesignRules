@@ -58,7 +58,7 @@ Light palette on a cool gray ground, so white tiles separate without borders.
 - Tiles 20 px (anywhere in 16–24, one value per product); elements inside tiles 12 px; buttons, inputs,
   chips, and segmented controls fully rounded.
 - Flat by default: tiles separate from the ground by tone, and borders are rare. A tile that can be dragged
-  or opened may take the small soft shadow on hover, per rules/color.md.
+  or opened may take the small soft shadow on hover, per references/rules/color.md.
 - Selected tile: key tint, a 2 px accent outline, and a visible label or check.
 - Tile padding 20–24 px; 8–12 px between a tile's title and its content.
 
@@ -66,7 +66,7 @@ Light palette on a cool gray ground, so white tiles separate without borders.
 - Tiles respond to hover with a 1–2 px lift and a slight shadow fade, 180 ms; selecting a tile expands it in place with a layout transition (MOTION-16).
 - Lists inside tiles stagger in once at 40 ms per item.
 - Softness comes from easing, not bounce; keep overshoot off (MOTION-9).
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 - Warm everyday photography of the people and places the product serves, cropped to fit tiles; reuse one
@@ -82,8 +82,8 @@ Light palette on a cool gray ground, so white tiles separate without borders.
 - Gradient fills, glassy tiles, or heavy shadows.
 - Two or more different tile radii on one screen.
 - A hero arranged as a bento.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/color.md and
-  rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/color.md and
+  references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 - Apps: on phones the grid collapses to one column with the key tile first; small stat tiles may pair two per

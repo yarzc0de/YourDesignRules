@@ -19,7 +19,7 @@
 - Rulers, scale bars, and grids appear only when the measurement behind them was supplied (CORE-9).
 - Website hero: the specimen, cut out or shot on a plain ground, fills the stage; the headline sits in the open
   space around it with two or three real callouts attached, so subject, statement, and evidence form one
-  continuous stage. This applies to the site opening only; see rules/layout.md.
+  continuous stage. This applies to the site opening only; see references/rules/layout.md.
 - In product UI, the specimen becomes a record's detail view: image or diagram in the main region, properties as
   a labeled list in a side column, sources at the bottom.
 
@@ -65,13 +65,13 @@ Light example. It is a starting point (CORE-13).
   callout markers and tags.
 - Lines are 1 px. Leader lines are straight or have one elbow, never curves, and never cross each other.
 - A cut-out specimen floating on the ground may cast one large soft shadow, for example
-  `0 16px 48px rgba(21,25,28,0.10)`. Nothing else is lifted. Limits are in rules/color.md.
+  `0 16px 48px rgba(21,25,28,0.10)`. Nothing else is lifted. Limits are in references/rules/color.md.
 
 ## Motion
 - Callouts and leader lines appear after the specimen, drawn from the point they describe toward their label, 300–400 ms each, staggered 80 ms.
 - Rulers and measurements never animate their values; they appear complete.
 - Hovering a callout highlights its point on the subject in 150 ms.
-- Timing, easing, and reduced-motion rules: rules/motion.md.
+- Timing, easing, and reduced-motion rules: references/rules/motion.md.
 
 ## Imagery
 
@@ -91,13 +91,13 @@ Light example. It is a starting point (CORE-13).
 - Leader lines that end near the feature instead of on it.
 - Mono for paragraphs or long notes.
 - More than six to eight callouts on one plate. Split the subject into views instead.
-- Universal rules still apply: CORE-4 to CORE-8 in rules/core.md, plus rules/imagery-and-icons.md,
-  rules/color.md, and rules/review-checklist.md.
+- Universal rules still apply: CORE-4 to CORE-8 in references/rules/core.md, plus references/rules/imagery-and-icons.md,
+  references/rules/color.md, and references/rules/review-checklist.md.
 
 ## In apps vs. on websites
 
 - Websites: one specimen per section with a generous plate, and long-form reading in Newsreader.
 - Apps (lab tools, collection databases, patient education): a detail view with the image and a property list.
   Mono for IDs, measurements, and timestamps; Space Grotesk for titles; Newsreader for notes and descriptions.
-- Sample tables follow guides/dashboard-and-tables.md, with numbers right-aligned in mono.
+- Sample tables follow references/guides/dashboard-and-tables.md, with numbers right-aligned in mono.
 - On phones, callouts become a numbered list under the image; tapping a number highlights its feature.

@@ -2,7 +2,7 @@
 
 How to choose typefaces, build a type scale, and set text so it reads well on product screens and websites
 alike. Read this file when you pick fonts, define text tokens, or style any text, from a hero headline to a
-table cell. Spacing between text blocks lives in rules/layout.md; text contrast lives in rules/color.md.
+table cell. Spacing between text blocks lives in references/rules/layout.md; text contrast lives in references/rules/color.md.
 Sizes are CSS pixels (points on iOS, sp on Android).
 
 ## Families and roles
@@ -98,11 +98,12 @@ token and reuse it.
 
 ## Measure, alignment, and line height
 
-### TYPE-10 · Keep body lines to 50–75 characters
-Limit the width of paragraphs, not of the page.
+### TYPE-10 · Keep body lines to 50–75 characters, 35–50 on phones
+Limit the width of paragraphs, not of the page. On screens 400 px wide or less, 16 px body text gives about
+35–50 characters per line; that is correct there, so don't shrink the type to reach 50.
 `max-width: 65ch;` (Tailwind `max-w-prose`)
 - **Why:** long lines lose the reader at each return, and very short lines chop sentences apart.
-- **Check:** a typical body line at 1440 wide holds between 50 and 75 characters.
+- **Check:** a typical body line holds 50–75 characters at 1440 wide and 35–50 at 375.
 
 ### TYPE-11 · Center no more than three lines
 Center a headline, a short subtitle, or a caption that runs 2–3 lines at most. Left-align anything longer.
@@ -146,7 +147,7 @@ Break display lines at phrase boundaries, and never leave one word alone on the 
 ## Numbers and data
 
 ### TYPE-16 · Keep labels, values, and units together
-Place each value's label and unit close enough to read as one group (see LAY-2 in rules/layout.md). Never
+Place each value's label and unit close enough to read as one group (see LAY-2 in references/rules/layout.md). Never
 show a bare number whose meaning the reader has to guess.
 - **Why:** a number without its label and unit leaves the reader guessing.
 - **Check:** every number on the screen has a label, and a unit where one applies, inside its group.
@@ -161,7 +162,7 @@ leads.
 
 ### TYPE-18 · Use tabular figures for aligned and changing numbers
 Turn on tabular figures for table columns, prices, timers, counters, and any value that updates live.
-Right-align numeric columns (see guides/dashboard-and-tables.md).
+Right-align numeric columns (see references/guides/dashboard-and-tables.md).
 `font-variant-numeric: tabular-nums;` (Tailwind `tabular-nums`)
 - **Why:** proportional digits vary in width, so columns misalign and live values jitter.
 - **Check:** a column of numbers lines up digit by digit, and a running timer does not shake.
@@ -169,7 +170,7 @@ Right-align numeric columns (see guides/dashboard-and-tables.md).
 ## Room to grow
 
 ### TYPE-19 · Leave room for headline copy
-Marketing headlines follow a copy ladder (see guides/landing-page.md). Size the container to the copy, not
+Marketing headlines follow a copy ladder (see references/guides/landing-page.md). Size the container to the copy, not
 the copy to the container: allow two to three lines at display size, and never fix a box around one draft.
 - **Why:** copy changes after layout, and a box sized for one draft clips or crowds the next.
 - **Check:** a headline 30% longer still fits without clipping or a size change.
@@ -182,6 +183,6 @@ Android. In SwiftUI, use text styles such as `.font(.body)` rather than `.font(.
 
 ### TYPE-21 · Let containers grow when text grows
 Do not fix the height of buttons, rows, cards, or headers that contain text; set padding and a
-`min-height` instead. Let labels wrap to a second line rather than clip (see LAY-15 in rules/layout.md).
+`min-height` instead. Let labels wrap to a second line rather than clip (see LAY-15 in references/rules/layout.md).
 - **Why:** fixed heights clip text as soon as it is enlarged or the copy gets longer.
 - **Check:** at 200% text size, no text is clipped or overlapping.

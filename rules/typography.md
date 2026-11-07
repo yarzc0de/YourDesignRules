@@ -98,11 +98,12 @@ token and reuse it.
 
 ## Measure, alignment, and line height
 
-### TYPE-10 · Keep body lines to 50–75 characters
-Limit the width of paragraphs, not of the page.
+### TYPE-10 · Keep body lines to 50–75 characters, 35–50 on phones
+Limit the width of paragraphs, not of the page. On screens 400 px wide or less, 16 px body text gives about
+35–50 characters per line; that is correct there, so don't shrink the type to reach 50.
 `max-width: 65ch;` (Tailwind `max-w-prose`)
 - **Why:** long lines lose the reader at each return, and very short lines chop sentences apart.
-- **Check:** a typical body line at 1440 wide holds between 50 and 75 characters.
+- **Check:** a typical body line holds 50–75 characters at 1440 wide and 35–50 at 375.
 
 ### TYPE-11 · Center no more than three lines
 Center a headline, a short subtitle, or a caption that runs 2–3 lines at most. Left-align anything longer.
