@@ -196,7 +196,8 @@ explains the product, and let the rest of the page simply be there. Use two tool
   turns or shifts depth. See the pattern table below.
 
 Limits: two or three scroll-linked scenes per page, each pinned for at most 200–300 vh; every frame of a
-scene is readable on its own; the hero headline and primary CTA are never delayed. No scroll effects in
+scene is readable on its own; scroll effects never delay the hero headline or the primary CTA (only the load
+sequence in MOTION-25 may stagger them, and it finishes within 500 ms for those two elements). No scroll effects in
 product UI, tables, or dashboards.
 
 | Pattern | Use it for | How |

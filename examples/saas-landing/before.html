@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunshift — On-call that follows the sun</title>
+<meta name="description" content="On-call scheduling and incident handoff for small engineering teams spread across time zones. Free for up to 5 people.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBF7F1;
+    --bg-alt: #F3ECE1;
+    --ink: #1B1A17;
+    --ink-2: #4A463F;
+    --ink-3: #6E685E;
+    --line: #E4DACB;
+    --sun: #F26B1D;
+    --sun-deep: #C9500C;
+    --sun-soft: #FFE3CF;
+    --night: #1E2A4A;
+    --night-2: #2C3C66;
+    --dawn: #F7B267;
+    --ok: #2F8F5B;
+    --radius: 14px;
+    --shadow: 0 1px 2px rgba(27,26,23,.06), 0 8px 24px rgba(27,26,23,.06);
+    --maxw: 1160px;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 600; line-height: 1.1; margin: 0; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  a { color: inherit; }
+  img, svg { display: block; max-width: 100%; }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px; padding: 0 22px;
+    font: 600 16px/1 "Inter", sans-serif;
+    border-radius: 999px; text-decoration: none; cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:focus-visible { outline: 3px solid var(--night-2); outline-offset: 3px; }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { background: #000; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { background: #fff; }
+  .btn-google { background: #fff; color: var(--ink); border-color: var(--line); box-shadow: var(--shadow); }
+  .btn-google:hover { transform: translateY(-1px); }
+  .btn-sun { background: var(--sun); color: #fff; }
+  .btn-sun:hover { background: var(--sun-deep); }
+
+  /* Nav */
+  header.nav {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(251,247,241,.85);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s ease;
+  }
+  header.nav.scrolled { border-bottom-color: var(--line); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 20px/1 "Fraunces", serif; }
+  .logo-mark { width: 28px; height: 28px; }
+  .nav-links { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+  .nav-links a { text-decoration: none; color: var(--ink-2); font-size: 15px; font-weight: 500; }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta { display: flex; gap: 10px; align-items: center; }
+  .nav-cta .btn { min-height: 40px; padding: 0 18px; font-size: 15px; }
+  .signin { font-size: 15px; font-weight: 500; color: var(--ink-2); text-decoration: none; padding: 8px 6px; }
+  .signin:hover { color: var(--ink); }
+
+  /* Hero */
+  .hero { padding: 72px 0 88px; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: -40% -10% auto auto; width: 720px; height: 720px;
+    background: radial-gradient(closest-side, rgba(247,178,103,.45), rgba(242,107,29,.12) 55%, transparent 72%);
+    pointer-events: none;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; position: relative; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; color: var(--sun-deep);
+    background: var(--sun-soft); padding: 6px 12px; border-radius: 999px; margin-bottom: 22px;
+  }
+  .hero h1 { font-size: clamp(42px, 5.6vw, 68px); }
+  .hero h1 em { font-style: italic; color: var(--sun); }
+  .hero .lede { font-size: 20px; color: var(--ink-2); margin-top: 22px; max-width: 34ch; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .hero-note { margin-top: 16px; font-size: 14px; color: var(--ink-3); }
+
+  /* Rotation visual */
+  .rota {
+    background: #fff; border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow);
+    padding: 22px 22px 18px;
+  }
+  .rota-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; gap: 12px; }
+  .rota-head strong { font-size: 15px; }
+  .rota-head span { font-size: 13px; color: var(--ink-3); }
+  .sky {
+    height: 10px; border-radius: 999px; margin: 0 0 6px 112px;
+    background: linear-gradient(90deg, var(--night) 0%, var(--night-2) 18%, var(--dawn) 30%, #FFD9A8 45%, #FFE9C9 55%, var(--dawn) 72%, var(--night-2) 84%, var(--night) 100%);
+  }
+  .hours { display: flex; justify-content: space-between; margin: 0 0 12px 112px; font-size: 11px; color: var(--ink-3); }
+  .track-area { position: relative; }
+  .row { display: grid; grid-template-columns: 100px 1fr; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .person { display: flex; align-items: center; gap: 8px; min-width: 0; }
+  .avatar {
+    width: 28px; height: 28px; border-radius: 50%; flex: none;
+    display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff;
+  }
+  .person-text { line-height: 1.2; min-width: 0; }
+  .person-text b { display: block; font-size: 14px; }
+  .person-text small { font-size: 11px; color: var(--ink-3); white-space: nowrap; }
+  .track { position: relative; height: 34px; background: var(--bg-alt); border-radius: 8px; overflow: hidden; }
+  .work { position: absolute; top: 0; bottom: 0; background: #EADFCF; }
+  .shift {
+    position: absolute; top: 5px; bottom: 5px; border-radius: 6px;
+    display: flex; align-items: center; padding: 0 8px;
+    font-size: 11px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden;
+  }
+  .row.live .shift { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--sun); }
+  .now {
+    position: absolute; top: -6px; bottom: -6px; width: 2px; background: var(--sun);
+    left: calc(112px + (100% - 112px) * var(--now, .5));
+    transition: left .6s ease;
+  }
+  .now::before {
+    content: "Now"; position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; font-weight: 700; color: var(--sun-deep); letter-spacing: .04em; text-transform: uppercase;
+  }
+  .rota-foot {
+    display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--line);
+    font-size: 14px; color: var(--ink-2);
+  }
+  .pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 0 rgba(47,143,91,.5); animation: pulse 2s infinite; flex: none; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(47,143,91,.5); } 70% { box-shadow: 0 0 0 8px rgba(47,143,91,0); } 100% { box-shadow: 0 0 0 0 rgba(47,143,91,0); } }
+
+  /* Logos / integrations strip */
+  .strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--bg-alt); }
+  .strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px 24px; flex-wrap: wrap; }
+  .strip p { font-size: 14px; color: var(--ink-3); font-weight: 500; }
+  .strip ul { display: flex; gap: 36px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; }
+  .strip li { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--ink-2); font-size: 16px; }
+  .strip svg { width: 20px; height: 20px; }
+
+  /* Sections */
+  section.block { padding: 104px 0; }
+  .section-head { max-width: 640px; margin-bottom: 56px; }
+  .kicker { font-size: 14px; font-weight: 600; color: var(--sun-deep); letter-spacing: .02em; margin-bottom: 12px; }
+  .section-head h2 { font-size: clamp(32px, 4vw, 46px); }
+  .section-head p { font-size: 19px; color: var(--ink-2); margin-top: 16px; }
+
+  .feature { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+  .feature + .feature { margin-top: 96px; }
+  .feature.flip .feature-copy { order: 2; }
+  .feature-copy h3 { font-size: 32px; margin-bottom: 16px; }
+  .feature-copy p { color: var(--ink-2); font-size: 18px; }
+  .ticks { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 10px; }
+  .ticks li { display: flex; gap: 10px; align-items: flex-start; color: var(--ink-2); }
+  .ticks li::before {
+    content: ""; flex: none; width: 18px; height: 18px; margin-top: 4px; border-radius: 50%;
+    background: var(--sun-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%23C9500C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;
+  }
+
+  /* Slack mock */
+  .panel { background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+  .panel-bar { display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink-3); }
+  .panel-bar b { color: var(--ink); }
+  .dots { display: flex; gap: 6px; margin-right: 6px; }
+  .dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: block; }
+  .msg { display: grid; grid-template-columns: 40px 1fr; gap: 12px; padding: 18px 18px 22px; }
+  .bot { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--dawn), var(--sun)); display: grid; place-items: center; }
+  .bot svg { width: 22px; height: 22px; }
+  .msg-meta { font-size: 14px; }
+  .msg-meta b { font-weight: 700; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 5px; border-radius: 4px; background: var(--bg-alt); color: var(--ink-3); margin: 0 6px; vertical-align: 1px; }
+  .msg-meta span { color: var(--ink-3); font-size: 13px; }
+  .msg-title { font-weight: 600; margin: 4px 0 12px; font-size: 15px; }
+  .card { border-left: 4px solid var(--sun); background: #FFFAF5; border-radius: 0 8px 8px 0; padding: 12px 14px; display: grid; gap: 14px; font-size: 14px; }
+  .card h4 { margin: 0 0 4px; font: 700 12px/1.3 "Inter", sans-serif; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+  .card ul { margin: 0; padding-left: 18px; color: var(--ink-2); }
+  .card li + li { margin-top: 2px; }
+  .card code { font-family: "JetBrains Mono", monospace; font-size: 12.5px; background: var(--bg-alt); padding: 1px 5px; border-radius: 4px; }
+
+  /* Timeline mock */
+  .timeline { padding: 20px 22px 24px; }
+  .tl-title { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; gap: 12px; }
+  .tl-title b { font-size: 16px; }
+  .tl-title span { font-size: 13px; color: var(--ink-3); }
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
+  .tl::before { content: ""; position: absolute; left: 63px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+  .tl li { display: grid; grid-template-columns: 52px 24px 1fr; gap: 12px; align-items: start; padding: 7px 0; font-size: 14px; }
+  .tl time { font-family: "JetBrains Mono", monospace; font-size: 12.5px; color: var(--ink-3); padding-top: 2px; }
+  .tl .ico { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: #fff; border: 2px solid var(--line); position: relative; z-index: 1; }
+  .tl .ico svg { width: 12px; height: 12px; }
+  .tl .src { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); display: block; }
+  .tl .ev { color: var(--ink); }
+
+  /* Escalation */
+  .esc { padding: 24px; display: grid; gap: 14px; }
+  .esc-step { display: grid; grid-template-columns: 44px 1fr auto; gap: 14px; align-items: center; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+  .esc-step.active { border-color: var(--sun); background: #FFFAF5; }
+  .esc-step .avatar { width: 44px; height: 44px; font-size: 15px; }
+  .esc-step b { display: block; font-size: 15px; }
+  .esc-step small { color: var(--ink-3); font-size: 13px; }
+  .timer { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 15px; color: var(--sun-deep); }
+  .state { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--bg-alt); color: var(--ink-3); white-space: nowrap; }
+  .esc-arrow { text-align: center; font-size: 13px; color: var(--ink-3); }
+  .bar { height: 4px; background: var(--bg-alt); border-radius: 4px; overflow: hidden; grid-column: 1 / -1; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--sun); animation: fill 8s linear infinite; }
+  @keyframes fill { from { width: 0; } to { width: 100%; } }
+
+  /* Trust */
+  .trust { background: var(--night); color: #EEF1F8; }
+  .trust .kicker { color: var(--dawn); }
+  .trust .section-head p { color: #C4CBDD; }
+  .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .trust-card { background: var(--night-2); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 28px; }
+  .trust-card svg { width: 28px; height: 28px; margin-bottom: 18px; }
+  .trust-card h3 { font-size: 22px; margin-bottom: 8px; color: #fff; }
+  .trust-card p { color: #C4CBDD; font-size: 16px; }
+
+  /* Pricing */
+  .pricing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 880px; }
+  .plan { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; }
+  .plan.featured { border: 2px solid var(--ink); position: relative; }
+  .plan-badge { position: absolute; top: -13px; left: 32px; background: var(--sun); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+  .plan h3 { font-size: 24px; }
+  .plan .for { color: var(--ink-3); font-size: 15px; margin-top: 6px; }
+  .price { display: flex; align-items: baseline; gap: 8px; margin: 26px 0 6px; }
+  .price strong { font: 600 56px/1 "Fraunces", serif; }
+  .price span { color: var(--ink-3); font-size: 15px; }
+  .plan .fine { font-size: 15px; color: var(--ink-2); margin-bottom: 28px; }
+  .plan .btn { margin-top: auto; width: 100%; }
+  .included { margin-top: 40px; max-width: 880px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 32px; }
+  .included-title { font-size: 15px; font-weight: 600; margin: 48px 0 0; }
+
+  /* CTA */
+  .cta { padding: 0 0 104px; }
+  .cta-box {
+    border-radius: 28px; padding: 80px 48px 180px; text-align: center; position: relative; overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(14,20,40,.55) 0%, rgba(14,20,40,.2) 55%, rgba(14,20,40,0) 75%),
+      var(--night) url("assets/before-dawn.jpg") center 72% / cover no-repeat;
+    color: #fff;
+  }
+  .cta-box > * { position: relative; z-index: 1; }
+  .cta-box h2 { font-size: clamp(34px, 4.6vw, 52px); max-width: 18ch; margin: 0 auto; }
+  .cta-box p { color: #E4E8F2; font-size: 19px; margin: 16px auto 0; max-width: 44ch; }
+  .cta-box .hero-actions { justify-content: center; }
+  .cta-box .btn-primary { background: #fff; color: var(--ink); }
+  .cta-box .btn-primary:hover { background: #FFF4E8; }
+  .cta-box .btn-ghost { color: #fff; border-color: rgba(255,255,255,.35); }
+  .cta-box .btn-ghost:hover { background: rgba(255,255,255,.1); }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0 48px; font-size: 14px; color: var(--ink-3); }
+  .foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .foot ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+  .foot a { text-decoration: none; }
+  .foot a:hover { color: var(--ink); }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .hero-grid, .feature { grid-template-columns: 1fr; gap: 40px; }
+    .feature.flip .feature-copy { order: 0; }
+    .trust-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 16px; }
+    .hero { padding: 48px 0 64px; }
+    .hero .lede { font-size: 18px; }
+    section.block { padding: 72px 0; }
+    .pricing-grid, .included { grid-template-columns: 1fr; }
+    .signin { display: none; }
+    .rota { padding: 16px 14px 14px; }
+    .row { grid-template-columns: 76px 1fr; gap: 8px; }
+    .sky, .hours { margin-left: 84px; }
+    .now { left: calc(84px + (100% - 84px) * var(--now, .5)); }
+    .person-text small { display: none; }
+    .avatar { width: 24px; height: 24px; font-size: 11px; }
+    .shift { font-size: 10px; padding: 0 5px; }
+    .cta-box { padding: 56px 20px 140px; border-radius: 20px; background-position: center, 50% 80%; }
+    .esc-step { grid-template-columns: 40px 1fr; }
+    .esc-step .avatar { width: 40px; height: 40px; }
+    .esc-step .state, .esc-step .timer { grid-column: 2; justify-self: start; }
+    .strip ul { gap: 20px; }
+    .plan { padding: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo" aria-label="Sunshift home">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7B267"/><stop offset="1" stop-color="#F26B1D"/></linearGradient></defs>
+        <path d="M4 20a12 12 0 0 1 24 0Z" fill="url(#lg)"/>
+        <rect x="2" y="22" width="28" height="2.5" rx="1.25" fill="#1B1A17"/>
+        <rect x="7" y="27" width="18" height="2.5" rx="1.25" fill="#1B1A17" opacity=".45"/>
+      </svg>
+      Sunshift
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#handoff">Handoffs</a></li>
+        <li><a href="#integrations">Integrations</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </nav>
+    <div class="nav-cta">
+      <a class="signin" href="#">Sign in</a>
+      <a class="btn btn-primary" href="#start">Start free</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">
+          <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 1v1.5M8 13.5V15M1 8h1.5M13.5 8H15M3 3l1 1M12 12l1 1M3 13l1-1M12 4l1-1"/></g></svg>
+          On-call for teams across time zones
+        </span>
+        <h1>Page whoever is <em>awake.</em></h1>
+        <p class="lede">Sunshift builds your on-call rotation from each engineer's working hours and time zone, then hands off every shift with a note in Slack.</p>
+        <div class="hero-actions" id="start">
+          <a class="btn btn-google" href="#">
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+            Start free with Google
+          </a>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+        <p class="hero-note">Free for up to 5 people. No card required.</p>
+      </div>
+
+      <div class="rota" aria-label="Example follow-the-sun rotation">
+        <div class="rota-head">
+          <strong>Platform on-call</strong>
+          <span>Today, in UTC</span>
+        </div>
+        <div class="sky" aria-hidden="true"></div>
+        <div class="hours mono" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+        <div class="track-area" id="trackArea">
+          <div class="row" data-start="22" data-end="6">
+            <div class="person"><span class="avatar" style="background:#6C5CE7">M</span><span class="person-text"><b>Mei</b><small>Sydney</small></span></div>
+            <div class="track">
+              <span class="work" style="left:91.67%;right:0"></span><span class="work" style="left:0;width:25%"></span>
+              <span class="shift" style="left:0;width:25%;background:#6C5CE7">On call</span>
+              <span class="shift" style="left:91.67%;right:0;background:#6C5CE7"></span>
+            </div>
+          </div>
+          <div class="row" data-start="6" data-end="14">
+            <div class="person"><span class="avatar" style="background:#E17055">J</span><span class="person-text"><b>Jonas</b><small>Berlin</small></span></div>
+            <div class="track">
+              <span class="work" style="left:29.17%;width:37.5%"></span>
+              <span class="shift" style="left:25%;width:33.33%;background:#E17055">On call</span>
+            </div>
+          </div>
+          <div class="row" data-start="14" data-end="22">
+            <div class="person"><span class="avatar" style="background:#00897B">D</span><span class="person-text"><b>Dana</b><small>New York</small></span></div>
+            <div class="track">
+              <span class="work" style="left:58.33%;width:33.33%"></span>
+              <span class="shift" style="left:58.33%;width:33.33%;background:#00897B">On call</span>
+            </div>
+          </div>
+          <div class="now" id="nowLine" aria-hidden="true"></div>
+        </div>
+        <div class="rota-foot">
+          <span class="pulse" aria-hidden="true"></span>
+          <span id="onCallText">Alerts go to whoever's shift it is right now.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Integrations strip -->
+  <div class="strip" id="integrations">
+    <div class="wrap strip-inner">
+      <p>Works with the tools you already use</p>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#E01E5A" d="M5 15a2 2 0 1 1-2-2h2v2zm1 0a2 2 0 1 1 4 0v5a2 2 0 1 1-4 0v-5z"/><path fill="#36C5F0" d="M9 5a2 2 0 1 1 2-2v2H9zm0 1a2 2 0 1 1 0 4H4a2 2 0 1 1 0-4h5z"/><path fill="#2EB67D" d="M19 9a2 2 0 1 1 2 2h-2V9zm-1 0a2 2 0 1 1-4 0V4a2 2 0 1 1 4 0v5z"/><path fill="#ECB22E" d="M15 19a2 2 0 1 1-2 2v-2h2zm0-1a2 2 0 1 1 0-4h5a2 2 0 1 1 0 4h-5z"/></svg>
+          Slack
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1B1A17" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.2.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .4.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
+          GitHub
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="18" rx="4" fill="#632CA6"/><path d="M7 15l3-4 3 2 4-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Datadog
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3" fill="#fff" stroke="#4285F4" stroke-width="2"/><path d="M3 9h18" stroke="#4285F4" stroke-width="2"/><path d="M8 2v4M16 2v4" stroke="#4285F4" stroke-width="2" stroke-linecap="round"/><text x="12" y="18.5" text-anchor="middle" font-size="7.5" font-weight="700" font-family="Inter, sans-serif" fill="#4285F4">31</text></svg>
+          Google Calendar
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">How it works</p>
+        <h2>Fewer 3 a.m. pages. Cleaner handoffs.</h2>
+        <p>When your team spans continents, someone is always starting their day. Sunshift makes sure that's who gets the alert.</p>
+      </div>
+
+      <!-- Feature 1: Handoff -->
+      <div class="feature reveal" id="handoff">
+        <div class="feature-copy">
+          <h3>A handoff note at every shift change</h3>
+          <p>When one shift ends, Sunshift posts a note in Slack for the next person, so nobody starts their shift by scrolling through yesterday's channel.</p>
+          <ul class="ticks">
+            <li>Open incidents and where they stand</li>
+            <li>Recent deploys from GitHub</li>
+            <li>Alerts that have been noisy</li>
+          </ul>
+        </div>
+        <div class="panel" aria-label="Example Slack handoff note">
+          <div class="panel-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><b>#oncall-platform</b></div>
+          <div class="msg">
+            <div class="bot" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><path d="M6 20a10 10 0 0 1 20 0Z" fill="#fff"/><rect x="4" y="22" width="24" height="2.5" rx="1.25" fill="#fff"/></svg>
+            </div>
+            <div>
+              <div class="msg-meta"><b>Sunshift</b><span class="tag">APP</span><span>14:00 UTC</span></div>
+              <p class="msg-title">Handoff: Jonas → Dana. You're on call until 22:00 UTC.</p>
+              <div class="card">
+                <div>
+                  <h4>Open incidents · 1</h4>
+                  <ul><li><b>INC-212</b> Checkout p95 latency above 2s. Mitigated, still watching.</li></ul>
+                </div>
+                <div>
+                  <h4>Recent deploys · 3</h4>
+                  <ul>
+                    <li><code>api v2.41.0</code> by Jonas, 11:42</li>
+                    <li><code>web #1893</code> by Priya, 09:15</li>
+                    <li><code>worker v0.18.2</code> by Mei, 04:30</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Noisy alerts</h4>
+                  <ul><li><code>disk-usage db-replica-2</code> fired 9 times, no action taken</li></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 2: Timeline -->
+      <div class="feature flip reveal">
+        <div class="feature-copy">
+          <h3>The incident timeline writes itself</h3>
+          <p>Sunshift pulls Slack messages, alerts, and GitHub deploys into one timeline as the incident happens. Your postmortem starts with the facts already in order.</p>
+          <ul class="ticks">
+            <li>Slack messages from the incident channel</li>
+            <li>Alerts from Datadog</li>
+            <li>Deploys from GitHub</li>
+          </ul>
+        </div>
+        <div class="panel" aria-label="Example incident timeline">
+          <div class="timeline">
+            <div class="tl-title"><b>INC-212 · Checkout latency</b><span>Auto-generated</span></div>
+            <ol class="tl">
+              <li><time>11:42</time><span class="ico" style="border-color:#1B1A17"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="3" fill="#1B1A17"/></svg></span><span><span class="src">GitHub</span><span class="ev">Deploy <code class="mono">api v2.41.0</code> to production</span></span></li>
+              <li><time>11:58</time><span class="ico" style="border-color:#632CA6"><svg viewBox="0 0 12 12"><path d="M6 1l5 9H1z" fill="#632CA6"/></svg></span><span><span class="src">Datadog</span><span class="ev">Alert: checkout p95 latency above 2s</span></span></li>
+              <li><time>11:58</time><span class="ico" style="border-color:#F26B1D"><svg viewBox="0 0 12 12"><circle cx="6" cy="6" r="3" fill="#F26B1D"/></svg></span><span><span class="src">Sunshift</span><span class="ev">Paged Jonas (on call)</span></span></li>
+              <li><time>12:01</time><span class="ico" style="border-color:#2F8F5B"><svg viewBox="0 0 12 12"><path d="M2.5 6.5l2 2 5-5" fill="none" stroke="#2F8F5B" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="src">Sunshift</span><span class="ev">Jonas acknowledged</span></span></li>
+              <li><time>12:09</time><span class="ico" style="border-color:#E01E5A"><svg viewBox="0 0 12 12"><rect x="2" y="3" width="8" height="6" rx="2" fill="#E01E5A"/></svg></span><span><span class="src">Slack</span><span class="ev">Jonas: "Scaling the api pool, latency coming down."</span></span></li>
+              <li><time>12:20</time><span class="ico" style="border-color:#632CA6"><svg viewBox="0 0 12 12"><path d="M2.5 6.5l2 2 5-5" fill="none" stroke="#632CA6" stroke-width="2" stroke-linecap="round"/></svg></span><span><span class="src">Datadog</span><span class="ev">Alert recovered</span></span></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature 3: Escalation -->
+      <div class="feature reveal">
+        <div class="feature-copy">
+          <h3>Unanswered pages don't sit there</h3>
+          <p>If a page isn't acknowledged within 5 minutes, Sunshift sends it to the next person. Five minutes is the default; set whatever window fits your team.</p>
+          <ul class="ticks">
+            <li>Escalation window you can configure</li>
+            <li>Next person is picked from the rotation</li>
+          </ul>
+        </div>
+        <div class="panel" aria-label="Example escalation">
+          <div class="esc">
+            <div class="esc-step">
+              <span class="avatar" style="background:#E17055">J</span>
+              <span><b>Jonas</b><small>Paged at 03:12 UTC</small></span>
+              <span class="state">Not acknowledged</span>
+              <div class="bar" aria-hidden="true"><i></i></div>
+            </div>
+            <div class="esc-arrow">After 5:00 with no response</div>
+            <div class="esc-step active">
+              <span class="avatar" style="background:#6C5CE7">M</span>
+              <span><b>Mei</b><small>Next in rotation</small></span>
+              <span class="timer">Paging…</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust -->
+  <section class="block trust">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Setup and data</p>
+        <h2>Quick to set up. Your data stays where you want it.</h2>
+      </div>
+      <div class="trust-grid">
+        <div class="trust-card reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F7B267" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          <h3>Google sign-in</h3>
+          <p>Your team signs in with Google SSO. No new passwords to manage.</p>
+        </div>
+        <div class="trust-card reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F7B267" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+          <h3>EU or US hosting</h3>
+          <p>Choose where your data lives: the EU or the US.</p>
+        </div>
+        <div class="trust-card reveal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F7B267" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+          <h3>Fits your calendar</h3>
+          <p>Connect Google Calendar alongside Slack, GitHub, and Datadog.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="block" id="pricing">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="kicker">Pricing</p>
+        <h2>Free for small teams. Simple after that.</h2>
+        <p>Start on Free, or try Team for 14 days without a card.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="plan reveal">
+          <h3>Free</h3>
+          <p class="for">For teams of up to 5 people</p>
+          <div class="price"><strong>$0</strong><span>forever</span></div>
+          <p class="fine">No card needed.</p>
+          <a class="btn btn-ghost" href="#start">Start free</a>
+        </div>
+        <div class="plan featured reveal">
+          <span class="plan-badge">14-day free trial</span>
+          <h3>Team</h3>
+          <p class="for">For growing teams</p>
+          <div class="price"><strong>$9</strong><span>per person / month</span></div>
+          <p class="fine">Try it free for 14 days. No card required.</p>
+          <a class="btn btn-primary" href="#start">Start 14-day trial</a>
+        </div>
+      </div>
+      <p class="included-title reveal">What you get with Sunshift</p>
+      <ul class="ticks included reveal">
+        <li>Follow-the-sun rotations from working hours and time zones</li>
+        <li>Slack handoff note at every shift change</li>
+        <li>Automatic incident timelines</li>
+        <li>Escalation after 5 minutes, configurable</li>
+        <li>Slack, GitHub, Datadog, and Google Calendar</li>
+        <li>Google SSO and EU or US data hosting</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-box reveal">
+        <h2>Let the night shift sleep.</h2>
+        <p>Set up your first follow-the-sun rotation today. Free for up to 5 people.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#start">Start free with Google</a>
+          <a class="btn btn-ghost" href="#pricing">View pricing</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Sunshift</span>
+    <ul>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#">Sign in</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  // Sticky nav border
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // "Now" marker on the rotation, using real UTC time
+  const area = document.getElementById('trackArea');
+  const rows = area.querySelectorAll('.row');
+  const text = document.getElementById('onCallText');
+  function inShift(h, s, e) { return s < e ? (h >= s && h < e) : (h >= s || h < e); }
+  function updateNow() {
+    const d = new Date();
+    const h = d.getUTCHours() + d.getUTCMinutes() / 60;
+    area.style.setProperty('--now', (h / 24).toFixed(4));
+    let who = null;
+    rows.forEach(r => {
+      const live = inShift(h, +r.dataset.start, +r.dataset.end);
+      r.classList.toggle('live', live);
+      if (live) who = r.querySelector('b').textContent;
+    });
+    const hh = String(d.getUTCHours()).padStart(2, '0');
+    const mm = String(d.getUTCMinutes()).padStart(2, '0');
+    if (who) text.textContent = `It's ${hh}:${mm} UTC. Alerts go to ${who}, who's at work right now.`;
+  }
+  updateNow();
+  setInterval(updateNow, 60000);
+
+  // Reveal on scroll
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 }) : null;
+  document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+</script>
+</body>
+</html>
