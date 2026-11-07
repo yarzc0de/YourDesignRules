@@ -34,7 +34,8 @@ interactive element. The accent color is not spread across decoration.
 
 ### CHK-6 · Type renders as intended
 The intended fonts loaded (no system fallback), weights and italics are real, body size and line length are
-within `rules/typography.md`, headlines break at deliberate points with no single-word last lines.
+within `rules/typography.md`, headlines break at deliberate points with no single-word last lines, and no
+descender (g, y, p, j) is clipped by a line mask or a tight container, checked on a 2x render.
 
 ### CHK-7 · Images and icons are right
 Images arrived (no empty frames or pending placeholders), are not stretched, have a sensible crop with a

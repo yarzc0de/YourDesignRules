@@ -288,7 +288,9 @@ Use `will-change` only on elements about to animate and remove it afterwards. Av
 The first screen assembles once, in under 1.2 s: the key visual settles (opacity in, scale 1.04 → 1.0 over
 800–1000 ms), the headline lines rise inside clip masks staggered 80–100 ms, then the supporting line and the
 CTA follow. The largest content must be visible early; never wait for animation before showing the headline.
-Without JavaScript or with reduced motion, everything is simply there.
+Without JavaScript or with reduced motion, everything is simply there. Line masks (`overflow: hidden` on each
+line box) need about 0.2em of bottom padding, offset by an equal negative margin, or tight display leading
+will cut off descenders such as g, y, p, and j.
 - **Why:** a composed entrance sets the tone for the whole page in one second.
 - **Check:** the sequence finishes within 1.2 s, and a no-JS render shows the complete first screen.
 
