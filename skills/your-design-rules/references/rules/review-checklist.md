@@ -87,7 +87,9 @@ scales. With JavaScript off, no content is stuck invisible.
 ### CHK-18 · The page makes one bold decision
 You can name the one memorable thing on the page (CORE-8) and the real-world source of at least two visual
 choices (CORE-23). The page does not match a generator house style without a stated reason (CORE-25), and
-none of the template chrome in CORE-22 appears without a job.
+none of the template chrome in CORE-22 appears without a job. On marketing pages, the first screen is
+worth a screenshot on its own: a key visual or a product view strong enough that someone would share it
+(LAND-18).
 
 ## Copy-paste version
 

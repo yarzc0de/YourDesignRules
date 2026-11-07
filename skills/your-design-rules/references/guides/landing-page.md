@@ -127,7 +127,7 @@ Sizes follow the scale in `references/rules/typography.md`:
 
 | Role | Desktop | Mobile |
 |---|---|---|
-| Hero headline | 48–96 | 36–48 |
+| Hero headline | 64–128 | 40–56 |
 | Section heading | 30–48 | 24–32 |
 | Body | 16–20 | 16–17 |
 | Captions, legal, footer | 12–14 | 12–14 |
@@ -181,6 +181,27 @@ See CORE-21 for the general rule and the narrow exceptions.
 - **Why:** the strip pushes the proof further down and tells the visitor nothing the hero couldn't.
 - **Check:** the section after the hero contains new information, not a boxed restatement of the audience
   or features.
+
+### LAND-18 · Commission a key visual for the hero
+A rule-following page is tidy; a page people remember has one striking image. When an image tool or a
+designer is available, give the hero an art-directed key visual instead of a plain background or a small
+product card:
+- **Subject:** something from the product's world (CORE-23), or the visitor in the outcome state, not a
+  generic abstraction.
+- **Mood:** decided in the plan (CORE-24): cinematic lighting, a strong time of day, weather, or color cast.
+- **Style:** photographic, painterly, illustrated, or 3D render, chosen for the audience and kept consistent
+  across the page.
+- **Composition:** full-bleed, with planned negative space where the headline sits (LAY-20 to LAY-22 in
+  references/rules/layout.md); the subject stays clear of the text.
+- **Color:** a palette with one dominant hue that the page's accent is then sampled from, so the image and
+  the interface feel like one piece.
+
+Explore before committing: write three or four prompts that differ in composition or style, generate them,
+compare them side by side, and keep the strongest (IMG-22 in references/rules/imagery-and-icons.md). Product-led pages
+may use the real interface as the key visual instead, shown large and in a meaningful state (CORE-8).
+- **Why:** on a marketing page, the key visual carries most of the first impression; layout alone rarely does.
+- **Check:** the first screen would be worth a screenshot on its own, and the image could not belong to a
+  different product.
 
 ## Before you hand off
 

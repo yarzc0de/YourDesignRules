@@ -242,3 +242,13 @@ technology.
 
 - **Why:** screen reader users need the image's meaning, and decorative noise slows them down.
 - **Check:** every content image has a specific alt, and every decorative image has an empty one.
+
+### IMG-22 · Explore several candidates for the key visual, then keep one
+The budget in IMG-6 applies to supporting images. For the one key visual that carries the page (a website
+hero, a campaign image, an app's empty-state illustration), write three or four prompts that differ in
+composition, viewpoint, or style, generate all of them, compare them at the size they will be shown, and keep
+the single strongest. Judge on: a clear subject, a mood that matches the plan, room for the headline, and a
+palette the interface can borrow from. Delete the rest; never ship two near-identical versions.
+- **Why:** the first generation is rarely the best one, and the key visual is where extra attempts pay off.
+- **Check:** you can name the candidates you rejected and why the kept one won.
+
