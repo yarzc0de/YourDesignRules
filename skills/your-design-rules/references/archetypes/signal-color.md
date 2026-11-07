@@ -66,6 +66,12 @@ color allowed on it.
 - A cut-out image may cross the seam between two fields to tie them together.
 - Where a boundary is needed, draw it at 2 px in the field's text color.
 
+## Motion
+- Color fields change with a hard cut or a fast 150–200 ms wipe as the reader crosses into a new subject; no slow gradient morphs.
+- Loud type does not shake, spin, or stretch; it may slide in 24 px once.
+- Buttons respond with a firm pressed state (scale 0.97, 100 ms).
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - Cut-out photographs of people or objects placed directly on a field, scaled large and cropped by the edge.

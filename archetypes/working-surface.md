@@ -63,6 +63,12 @@ Light palette for both the marketing page and the product inside the frame.
 - Selection: a 1.5–2 px accent outline, handles where the object can be resized, and the inspector showing the
   selected object's name.
 
+## Motion
+- A recorded walkthrough of the product is the signature moment: a real workflow plays step by step (select, edit, confirm), each step 400–600 ms apart, pausable and replaying only on request.
+- Inside the product, the inspector slides in from its edge in 250 ms; selection changes are instant.
+- No floating or tilting device mockups.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - The interface is the imagery. Photos of people are optional and secondary, for example one shot of a team
   at work near the closing section.

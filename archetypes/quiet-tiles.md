@@ -62,6 +62,12 @@ Light palette on a cool gray ground, so white tiles separate without borders.
 - Selected tile: key tint, a 2 px accent outline, and a visible label or check.
 - Tile padding 20–24 px; 8–12 px between a tile's title and its content.
 
+## Motion
+- Tiles respond to hover with a 1–2 px lift and a slight shadow fade, 180 ms; selecting a tile expands it in place with a layout transition (MOTION-16).
+- Lists inside tiles stagger in once at 40 ms per item.
+- Softness comes from easing, not bounce; keep overshoot off (MOTION-9).
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - Warm everyday photography of the people and places the product serves, cropped to fit tiles; reuse one
   scene through several crops instead of collecting unrelated thumbnails.

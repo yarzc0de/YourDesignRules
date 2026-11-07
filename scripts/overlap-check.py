@@ -25,10 +25,12 @@ TEXT_SUFFIXES = {".md", ".txt", ".html", ".mdc", ".json"}
 SKIP_DIRS = {".git", "node_modules", "references", ".render"}
 SKIP_FILES = {"LICENSE", "LICENSE-CONTENT"}
 WORD = re.compile(r"[a-z0-9]+(?:['.\-][a-z0-9]+)*")
+URL = re.compile(r"https?://\S+")
 
 
 def words(text):
-    return WORD.findall(text.lower())
+    """Lowercased word tokens. URLs are dropped: font and CDN links are shared boilerplate, not prose."""
+    return WORD.findall(URL.sub(" ", text.lower()))
 
 
 def iter_files(root, suffixes):

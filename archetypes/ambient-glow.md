@@ -69,6 +69,12 @@ Dark example. It is a starting point (CORE-13).
 - Animated gradients or shaders move slowly, pause under reduced-motion settings, and fall back to a static
   gradient with the same light. Limits are in rules/color.md.
 
+## Motion
+- The edge light may shift slowly (20–40 s cycle) only if a pause control exists and reduced motion turns it off; reading areas never move.
+- Content enters with plain fades of 300–400 ms; no glow pulses on buttons.
+- Provide a static image fallback for any shader or animated gradient.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - Photographs lit by colored light: night interiors, stages, studios. The light in the photo matches the edge

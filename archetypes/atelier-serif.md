@@ -68,6 +68,12 @@ ground near `#0C0C0E` and text near `#ECECEE` rather than pure black and pure wh
 - Primary button: an ink rectangle with Archivo 500 text. Secondary actions are text links underlined with a
   4 px offset. One filled button per view.
 
+## Motion
+- Measured and slow: 400–600 ms opacity fades; nothing slides more than 8 px.
+- Hairline rules may draw across (scaleX 0 → 1, 500 ms) once when their section enters.
+- No bounce, no stagger longer than three items.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - Still life and interiors with deliberate light: raking side light on texture, deep shadow, one subject.

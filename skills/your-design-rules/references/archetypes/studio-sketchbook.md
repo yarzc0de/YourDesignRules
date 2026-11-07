@@ -62,6 +62,12 @@ white or cool.
   else is lifted.
 - Drawn figures have no frame or radius; they overlap the panel edge where the scene calls for it.
 
+## Motion
+- Illustrations may draw in once (stroke reveal, 600–900 ms) when they enter the viewport; they never loop.
+- Controls use the default timings; the warmth stays in the art, not in wobbling buttons.
+- Under reduced motion, illustrations appear complete.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - One illustration style for the whole product: loose ink line with a visible hand wobble, flat fills from
   the illustration inks, plenty of white. Commission it or generate it once, make each figure a reusable

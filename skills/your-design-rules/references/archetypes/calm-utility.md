@@ -62,6 +62,12 @@ Light palette. Neutral ground plus one vivid accent.
 - Dialogs sit over a scrim so they need no heavier shadow.
 - Focus: a 2 px accent ring with a 2 px offset on every interactive control.
 
+## Motion
+- Default timings from MOTION-4 at the short end; dialogs 250 ms in, 180 ms out; dropdowns grow from their trigger.
+- Row hover is a background tint in 150 ms; saving shows the pressed state, then a toast with an undo.
+- No decorative motion anywhere; this direction is judged on how quietly it responds.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - Icons carry most of the visual load: one library (Lucide or Heroicons) at 16 px in dense UI and 20 px in
   navigation, 1.5 px stroke, always beside a text label except for search, close, and menu.

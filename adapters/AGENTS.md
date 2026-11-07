@@ -10,7 +10,7 @@ follow the design rulebook in `design-rules/`:
    `dashboard-and-tables.md`, or `slides.md`.
 3. No brand or style given? Pick one archetype from `design-rules/archetypes/README.md`, say which and why,
    and read its file. User-specified fonts and colors always win.
-4. Consult `design-rules/rules/layout.md`, `typography.md`, `color.md`, and `imagery-and-icons.md` as
+4. Consult `design-rules/rules/layout.md`, `typography.md`, `color.md`, `imagery-and-icons.md`, and `motion.md` as
    decisions come up.
 5. Build section by section. After each section, render it and run `design-rules/rules/review-checklist.md`
    on the actual render. Fix in place.

@@ -64,6 +64,12 @@ Light palette. Chroma appears only when a state is real; the interface itself is
 - Selected state: surface tone plus a 2 px ink rule on the leading edge, never a lift.
 - A 2 px ink rule above a section title adds weight where a region needs it.
 
+## Motion
+- Crisp and short: 120–200 ms, `--ease-out`, no scale effects; regions appear in place with an opacity change.
+- The large readout updates by tinting the changed digits for about 1 s (MOTION-17); never count up.
+- No scroll reveals in the product; on the website, one section may fade in once.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - Most views need none. Diagrams (topology, pipelines, rack layouts) are built from real elements with mono
   labels (CORE-10).

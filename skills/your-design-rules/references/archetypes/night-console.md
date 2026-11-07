@@ -62,6 +62,12 @@ Dark palette. Each step up in elevation is a lighter surface.
   in rules/color.md. Items in a grid get none.
 - Selected rows: raised surface, a 2 px accent bar on the leading edge, and an accent label or filled icon.
 
+## Motion
+- Quiet and fast in the workspace: 150–250 ms fades and short 8 px slides for panels and inspectors.
+- Glow never pulses or breathes; status lights change color once and stay.
+- Website: the product surface may assemble once on load (panels fading in with a 40 ms stagger), then everything holds still.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - The product surface is the main image. Fill it with the user's real data or clearly marked sample data
   (CORE-9).

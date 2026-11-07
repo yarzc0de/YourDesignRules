@@ -42,8 +42,9 @@ quiet area under any text, and have alt text. Icons come from one library at con
 `rules/imagery-and-icons.md`.
 
 ### CHK-8 · Effects and containers are justified
-No card wrapping without a job (CORE-6). Shadows are soft and diffuse, never hard or offset. No beige,
-cream, ivory, or tan grounds. Each gradient or blur has a reason (CORE-7).
+No card wrapping without a job (CORE-6). No rows of equal label-plus-caption boxes (CORE-21) and no
+unexplained generated-page kit items (CORE-22). Shadows are soft and diffuse, never hard or offset. No
+beige, cream, ivory, or tan grounds. Each gradient or blur has a reason (CORE-7).
 
 ### CHK-9 · States exist where data or actions exist
 Data surfaces show loading, empty, error, and success states (and permission states when relevant).
@@ -78,6 +79,11 @@ Every interactive element is reachable by keyboard in a logical order and shows 
 Missing fonts, failed images, or assumed data are mentioned in your reply to the user, never inside the UI
 (CORE-20).
 
+### CHK-17 · Motion has a job and can be turned off
+Every animation confirms, orients, keeps continuity, or flags a change (MOTION-1). Durations and easing come
+from rules/motion.md, only transform and opacity animate, and with reduced motion enabled nothing slides or
+scales. With JavaScript off, no content is stuck invisible.
+
 ## Copy-paste version
 
 ```
@@ -99,4 +105,5 @@ Whole screen:
 [ ] CHK-14 reduction pass
 [ ] CHK-15 keyboard + focus
 [ ] CHK-16 limitations reported in reply
+[ ] CHK-17 motion has a job, reduced motion works
 ```

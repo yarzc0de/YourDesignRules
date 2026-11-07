@@ -64,6 +64,12 @@ Light example on white. It is a starting point (CORE-13).
 - No shadows. Rules and gutters do all the separating.
 - Rule weights form a small system: 4 px masthead, 2 px section openers, 1 px column and story dividers.
 
+## Motion
+- Almost none: the front page loads complete; story previews on hover change only the headline underline, 150 ms.
+- Live updates (a new story, a changed figure) get a brief highlight band that fades over 2 s.
+- No scroll reveals; a newspaper is already in place when you look at it.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - Reportage photography of real people, places, and events, always credited.

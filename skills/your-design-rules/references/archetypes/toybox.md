@@ -69,6 +69,12 @@ Light example with a saturated stage. It is a starting point (CORE-13).
   left), not from heavy shadows.
 - Stickers carry a 2 px ink outline or a white die-cut border, chosen once for the whole set.
 
+## Motion
+- The one archetype where playful motion fits: stickers and shapes may pop in with a small overshoot (scale 0.9 → 1.04 → 1.0, 350 ms) and wiggle once on hover.
+- The usable path (nav, CTA, forms) still uses the calm defaults with no bounce (MOTION-9).
+- Loops stop after one cycle or carry a pause control; reduced motion turns every pop into a plain fade.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - Cut-out product photos and people with real expressions; 3D renders of inflated objects with consistent light.

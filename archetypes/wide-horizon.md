@@ -74,6 +74,12 @@ or the photographs point elsewhere (CORE-13).
 - Where text sits on the photo, add a soft gradient from the nearest edge that fades out past the text block.
   The rest of the frame stays untouched.
 
+## Motion
+- The hero photo may drift very slightly (scale 1.0 → 1.04 over 10–15 s, once) or crossfade between crops of the same scene; never a looping slideshow without pause.
+- Condensed headlines fade up 16 px once; no letter animation.
+- Parallax only on one background image at 0.85× speed, if at all (MOTION-21).
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - Literal scenes: a named place, a time of day, real weather. If the brand sells a location, show that location.

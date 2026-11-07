@@ -36,6 +36,7 @@ All paths below are relative to this skill's folder.
    - fonts, sizes, line length, numerals → `references/rules/typography.md`
    - palette roles, contrast, banned backgrounds, shadows, dark mode → `references/rules/color.md`
    - icons vs. photos vs. generated images vs. SVG, image prompts → `references/rules/imagery-and-icons.md`
+   - transitions, hover/press/focus states, loading, scroll effects → `references/rules/motion.md`
 5. **Build section by section.** After each section, render it and run `references/rules/review-checklist.md`
    on the actual render (screenshot, browser, simulator). Fix problems in place before moving on (CORE-15,
    CORE-16).
@@ -48,11 +49,14 @@ If you remember nothing else:
 
 - One job, one primary action, one dominant region per view.
 - Don't put every element in a card. A container needs a job.
+- No rows of equal boxes with a label and a one-line caption (audience strips, feature trios, 01/02/03
+  steps). Say it in the copy, show it in an image, or rank the items (CORE-21).
 - Effects (gradients, shadows, big radii, glow, glass) only on purpose. Shadows soft and diffuse, never hard.
 - No beige, cream, ivory, tan, or warm off-white backgrounds.
 - Accent color is for actions and selection, not decoration.
 - Use real content. Never invent metrics, logos, testimonials, or image URLs.
 - Build UI as real elements, never as images of UI. Never hand-draw logos from SVG paths.
+- Motion only with a job: 150–350 ms, ease-out curves, transform and opacity only, reduced motion respected.
 - Check the render after every section, and fix in place.
 
 ## When the user only wants a small change

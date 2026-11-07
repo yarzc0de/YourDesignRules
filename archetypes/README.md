@@ -67,6 +67,7 @@ Every archetype file uses the same headings in the same order, so you can jump s
 - `## Typography`: a role, family, and weights table, scale notes, and the Google Fonts families to load.
 - `## Color roles`: ground, surfaces, text, accent, boundary, and status, with one example palette.
 - `## Shape and elevation`: radius values in px and the shadow policy.
+- `## Motion`: the direction's motion character; timing and accessibility come from rules/motion.md.
 - `## Imagery`: subjects, sources, treatments, and icons.
 - `## Avoid`: the mistakes that break this particular direction, ending with a one-line link to the universal
   rules.

@@ -67,6 +67,12 @@ Light example. It is a starting point (CORE-13).
 - A cut-out specimen floating on the ground may cast one large soft shadow, for example
   `0 16px 48px rgba(21,25,28,0.10)`. Nothing else is lifted. Limits are in rules/color.md.
 
+## Motion
+- Callouts and leader lines appear after the specimen, drawn from the point they describe toward their label, 300–400 ms each, staggered 80 ms.
+- Rulers and measurements never animate their values; they appear complete.
+- Hovering a callout highlights its point on the subject in 150 ms.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - Photograph the subject evenly lit on a plain ground, straight on or orthographic, so measurements make sense.

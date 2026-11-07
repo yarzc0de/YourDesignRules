@@ -59,6 +59,12 @@ Light palette. Chroma lives in one blue, used either for actions or as an occasi
 - No shadows. Menus and dialogs separate with a 2 px ink border; dialogs also get a scrim.
 - Rules do the structural work that boxes do in other directions.
 
+## Motion
+- Movement follows the grid: elements slide along one axis (horizontal or vertical), never diagonally, 200–300 ms.
+- Large type does not animate letter by letter; a section may fade in once on the website.
+- Links underline with a left-to-right wipe of about 200 ms.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - Documentary photography of real places, services, and people, in full color and unfiltered.
 - Crop images to column spans so their edges land on grid lines.

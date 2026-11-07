@@ -173,6 +173,15 @@ listing every page, and it makes no new pitch.
 - **Why:** a loud footer competes with the final CTA directly above it.
 - **Check:** the footer is visibly quieter than the final CTA section and has no more than four groups.
 
+### LAND-17 · Put the audience in the pitch, not in a strip of boxes
+Never follow the hero with a band of equal cells naming who the product is for, or with a trio of equal
+"how it works" boxes. Name the audience in the headline or subhead, show them in the imagery, and explain the
+mechanism with one visual (a timeline, a diagram, the real product view) instead of three captioned boxes.
+See CORE-21 for the general rule and the narrow exceptions.
+- **Why:** the strip pushes the proof further down and tells the visitor nothing the hero couldn't.
+- **Check:** the section after the hero contains new information, not a boxed restatement of the audience
+  or features.
+
 ## Before you hand off
 
 Run `rules/review-checklist.md` after each section and on the whole page; for landing pages, stress these:

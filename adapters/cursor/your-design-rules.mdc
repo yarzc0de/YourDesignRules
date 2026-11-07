@@ -14,7 +14,7 @@ If the `your-design-rules` skill is installed, follow its SKILL.md. Otherwise us
    dashboard-and-tables, slides).
 3. No brand or style given? Pick one archetype from `design-rules/archetypes/README.md`, say which and why,
    and read its file. User-specified fonts and colors always win.
-4. Consult `design-rules/rules/layout.md`, `typography.md`, `color.md`, `imagery-and-icons.md` as needed.
+4. Consult `design-rules/rules/layout.md`, `typography.md`, `color.md`, `imagery-and-icons.md`, `motion.md` as needed.
 5. Build section by section; after each section render it and run `design-rules/rules/review-checklist.md`.
    Fix in place.
 
@@ -26,4 +26,5 @@ Non-negotiables:
 - Accent color only for actions and selection.
 - No invented metrics, logos, testimonials, or image URLs; label samples as samples.
 - Build UI from real elements, never images of UI; never hand-draw logos from SVG paths.
+- Motion only with a job: 150–350 ms, ease-out curves, transform and opacity only, respect reduced motion.
 - Body text ≥ 16 px on web, contrast ≥ 4.5:1, tap targets ≥ 44 px.

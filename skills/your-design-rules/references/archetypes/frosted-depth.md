@@ -73,6 +73,12 @@ variant uses a ground near `#0D1220`, reading surfaces near `#151B2B`, glass of 
 @media (prefers-reduced-transparency: reduce) { .glass { background: #F7F9FC; backdrop-filter: none; } }
 ```
 
+## Motion
+- Glass layers enter by fading and sharpening (opacity plus a small 8–12 px translate); never animate `backdrop-filter` values.
+- Floating controls lift 2 px on hover; the reading plane never moves.
+- Provide a solid-surface fallback with no blur under reduced transparency or reduced motion.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 
 - One central object with real form and light that still reads through blur: a 3D render, a device, glass,

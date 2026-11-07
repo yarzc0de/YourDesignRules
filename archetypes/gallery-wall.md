@@ -56,6 +56,12 @@ Light palette. Color comes from the photographs; the interface keeps to neutral 
 - Lightbox controls, menus, and booking dialogs may use the medium soft elevation from rules/color.md and
   nothing stronger.
 
+## Motion
+- Slow, calm crossfades between photographs: 500–700 ms, no slides or zooms.
+- Images may settle from 1.02 to 1.0 scale while fading in, once.
+- Captions appear with their image, never after it.
+- Timing, easing, and reduced-motion rules: rules/motion.md.
+
 ## Imagery
 - Real photographs from the client: the work, the rooms, the objects. Keep light consistent across a set, and
   grade color only when it serves the whole set.

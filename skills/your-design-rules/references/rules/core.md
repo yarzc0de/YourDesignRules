@@ -153,6 +153,44 @@ Never write notes like "image unavailable" or "placeholder font" into the interf
 - **Why:** process notes inside the UI get shipped.
 - **Check:** the rendered UI contains only product content.
 
+## Generated-UI tells
+
+These patterns show up in almost every machine-made page. They look tidy, say little, and make products
+indistinguishable. Treat each one as a default to avoid, not a building block.
+
+### CORE-21 · Don't fill space with rows of equal boxes
+The pattern: three or four same-size boxes in a row, each holding a bold label and a one-line gray caption,
+usually split by borders or vertical hairlines. Typical forms: an audience strip under the hero ("Nurses /
+Pilots / Factory crews"), a feature trio, a "01 / 02 / 03" steps row, a quartet of KPI tiles. It gives every
+item the same weight and adds a band of near-empty boxes between the parts that matter.
+Instead:
+- Say it in the copy: "for nurses, pilots, and factory crews" in the headline or subhead.
+- Show it: let the imagery depict the audience or the outcome.
+- Rank it: give one item the lead (bigger, with an image or a real detail) and make the rest subordinate.
+- Write it: a plain sentence or a short list with bold lead-ins, aligned to the text column.
+
+Keep an equal row only when the items are truly parallel and each carries enough content to compare side by
+side: pricing tiers, plan comparisons, a product spec table.
+- **Why:** equal boxes with one-line captions are the most recognizable filler in generated pages.
+- **Check:** no row of three or more equal boxes whose content is a label plus one line or less.
+
+**Avoid:** a band under the hero with three bordered cells: "Nurses — Three 12s, a day off, then a flip to
+nights" / "Pilots — Early reports, late finishes" / "Factory crews — Days, swings, and nights".
+**Do:** "Built for nurses, pilots, and anyone whose schedule flips between days and nights." in the hero
+subhead, with a photo of a nurse heading home at dawn.
+
+### CORE-22 · Question the rest of the generated-page kit
+Each of these needs a reason specific to this product, or it goes:
+- an icon in a tinted rounded square above every feature title;
+- a small uppercase eyebrow label above every section heading;
+- a pill badge ("New", "Now in beta") above the hero headline when nothing is new;
+- a row of checkmarks with "No credit card / Cancel anytime" under every button;
+- a grid of identical cards repeated in two or more sections;
+- a gradient blob or glow behind the hero for no stated light source;
+- a stat strip of big numbers that the brief never supplied.
+- **Why:** each item alone is harmless; together they are the template every generator ships.
+- **Check:** for each kit item present, you can name what it does for this product. Otherwise remove it.
+
 ## Where to go next
 
 | Task | Read next |
@@ -160,6 +198,7 @@ Never write notes like "image unavailable" or "placeholder font" into the interf
 | Any layout or spacing decision | `rules/layout.md` |
 | Fonts, sizes, line length | `rules/typography.md` |
 | Palette, contrast, shadows | `rules/color.md` |
+| Transitions, hover and press states, loading, scroll effects | `rules/motion.md` |
 | Icons, photos, illustrations, image prompts | `rules/imagery-and-icons.md` |
 | Checking your work | `rules/review-checklist.md` |
 | Product UI | `guides/web-app.md` |
