@@ -33,8 +33,10 @@ An archetype gives you a coherent kit. It does not make the page distinctive on 
 least two choices from the subject's world (CORE-23), write a plan and run the sameness test (CORE-24), and
 make one bold decision (CORE-8). Push the archetype toward the subject: change the accent, the imagery, and
 the opening moment so that two products using the same archetype still look like two different companies.
-Broadsheet, Night Console, and Ambient Glow sit close to house styles that generators overuse (CORE-25); pick
-them only when the subject really is news, a developer platform, or a product used in the dark.
+Broadsheet, Night Console, Ambient Glow, and Monochrome Stage sit close to house styles that are easy to
+overuse (CORE-25); pick them only when the subject really calls for them — news, a developer platform, a
+product used in the dark, or a story a black-and-white fine-art image genuinely carries — not because the user
+said "smooth" or "premium". Smoothness is in the motion rules and belongs to every archetype.
 
 ## How to pick an archetype when there is no brand
 
@@ -58,11 +60,15 @@ them only when the subject really is news, a developer platform, or a product us
    | Fashion, luxury goods, hospitality | Atelier Serif, Gallery Wall | photography of rooms or work should lead rather than type |
    | Science, health, research | Specimen Notes | — |
    | AI, creative tools, crypto | Ambient Glow, Frosted Depth | there is a central object and the platform already uses translucency |
-   | Launch pages for dev tools, AI, open source, premium software | Monochrome Stage, Working Surface | the real product view is more persuasive than an image |
+   | Launch pages for dev tools, AI, open source, premium software | Working Surface, Monochrome Stage | a dramatic black-and-white fine-art image carries the story better than the real product view |
    | Consumer brands, campaigns, events | Signal Color, Toybox | the audience is families or the voice is playful |
 
    If nothing matches, use Calm Utility for product UI. For a marketing page, pick by the user's mood words and
-   say so; when the user asks for "smooth", "premium", or "cinematic", start from Monochrome Stage.
+   say so. "Smooth" is never an archetype: it comes from the motion rules (rules/motion.md) and every archetype
+   can be smooth, so never read it as a reason to go dark or monochrome. "Premium" and "cinematic" are moods
+   that several archetypes meet — match them to the subject: Atelier Serif or Gallery Wall for editorial calm,
+   Wide Horizon for a place, Frosted Depth for soft depth, Monochrome Stage only when a black-and-white fine-art
+   image truly leads. Do not funnel every premium page into one dark look.
 5. Apply identity only. The archetype decides type, color, shape, elevation, and imagery. The number of sections,
    split ratios, density, and components still come from the content and the task guide (CORE-12).
 6. Let user choices win. Any font, color, radius, or shadow setting the user names replaces the archetype's
