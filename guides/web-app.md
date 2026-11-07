@@ -237,6 +237,59 @@ tables follow `guides/dashboard-and-tables.md`. The dominant region and the prim
 - **Why:** a hierarchy that works only at desktop width fails everyone else.
 - **Check:** at 375, 768, and 1440 the primary action is visible without searching (CHK-12).
 
+## Craft
+
+Correct product UI is the floor. These rules are what make a working screen feel made by a team that cares,
+the way the best tools feel, without adding decoration.
+
+### WEB-22 · Make the working surface the hero
+Spend the screen's boldness (CORE-8) on the thing the user works with: a schedule timeline, a map, a canvas,
+a queue, a chart. Design that one surface with care and give it room: custom rather than stock, with real
+labels, current-time markers, selection, and the states that matter. Everything around it (navigation,
+filters, secondary panels) stays quiet so it can be the richest part of the screen.
+- **Why:** in a tool, the impression comes from the core surface, not from headers or tiles around it.
+- **Check:** the largest and most detailed region on the screen is the one the user acts on.
+
+### WEB-23 · Show the product alive
+A static screen should look like a moment in use, not an empty template. Show one live state where it helps
+understanding: a row selected with its detail open, a hover card or popover open, a toast confirming the
+last action, a "now" line moving across a timeline, a person's presence. Use only one or two per screen.
+- **Why:** a captured moment of use explains the product faster than any label.
+- **Check:** at least one element shows an in-progress or selected state taken from the brief's data.
+
+### WEB-24 · Make people and content feel real
+Show people with their names, roles, locations or time zones, and an avatar: a supplied photo, or a
+generated portrait (rules/imagery-and-icons.md) that fits the team; fall back to initials only when images
+are impossible. Vary lengths, timestamps, and values the way real data varies. Never use "John Doe",
+"Lorem ipsum", or the same avatar twice.
+- **Why:** believable content is half of what makes a screen feel finished.
+- **Check:** no placeholder names or repeated faces, and every person shows at least a name and one detail.
+
+### WEB-25 · Refine the small details
+- Separate surfaces with two or three lightness steps and 1 px borders at low contrast (about 8–12%
+  against the ground), never heavy outlines.
+- Align numbers with tabular figures and right-align them; keep icon sizes to 16 and 20 px with one stroke
+  width.
+- Show keyboard shortcuts next to frequent actions and in menus (for example a `K` hint on search).
+- Tighten heading tracking slightly (−1% to −2%) and keep body text at its natural spacing.
+- Give every interactive element its hover, pressed, and focus states (rules/motion.md).
+- **Why:** premium tools are recognized by precision in the small things, not by effects.
+- **Check:** zoom to 200% on any region; borders, alignment, and icon sizes stay consistent.
+
+### WEB-26 · Give the brand color one confident place
+Keep the interface mostly neutral and let the brand color own one meaningful job at full strength: the
+current selection, the "now" marker, the primary series in the main chart, or the person on call. Status
+colors stay separate (rules/color.md).
+- **Why:** one saturated element on a calm surface reads as intentional; color everywhere reads as noise.
+- **Check:** the brand color appears at full strength in one role, and you can name that role.
+
+### WEB-27 · Add depth through layers, not decoration
+When a panel, popover, or inspector sits above the working surface, separate it with a lighter or darker
+surface step and a soft shadow (rules/color.md), and keep the surface underneath visible so the user stays
+oriented. Avoid gradients, glow, and glass on working surfaces.
+- **Why:** layered panels explain what sits on top of what; decoration only adds noise.
+- **Check:** every raised layer has a reason (it overlays something) and the layer below stays visible.
+
 ## Before you hand off
 
 Run `rules/review-checklist.md` after each section and on the whole screen; for product UI, stress these:
@@ -247,3 +300,4 @@ Run `rules/review-checklist.md` after each section and on the whole screen; for 
 | CHK-5 | One primary action per section, ranked per WEB-12 |
 | CHK-9 | All five states from WEB-15 exist for each data surface |
 | CHK-15 | Every control is reachable by keyboard and shows a visible focus ring |
+| CHK-18 | The working surface is the richest, most crafted region and would be worth a screenshot (WEB-22) |

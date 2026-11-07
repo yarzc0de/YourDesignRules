@@ -89,7 +89,8 @@ You can name the one memorable thing on the page (CORE-8) and the real-world sou
 choices (CORE-23). The page does not match a generator house style without a stated reason (CORE-25), and
 none of the template chrome in CORE-22 appears without a job. On marketing pages, the first screen is
 worth a screenshot on its own: a key visual or a product view strong enough that someone would share it
-(LAND-18).
+(LAND-18). In product UI, the working surface is the most crafted region on the screen (WEB-22 to
+WEB-27).
 
 ## Copy-paste version
 
