@@ -26,13 +26,14 @@ runs could generate images.
 
 | Before | After | Rules |
 |---|---|---|
-| Cream ground, serif headline, orange accent, one word in orange italic | Night ground and sunrise gold sampled from the key visual | CORE-25, CORE-22, LAND-18 |
-| Pill badge above the headline, logo strip of integrations | Neither; integrations are one line in the pricing area | CORE-22 |
-| Text column beside a small boxed schedule widget | Full-bleed photograph of Earth at sunrise, chosen from four candidates, with a 104 px headline in the sky | LAY-20, LAND-18, IMG-22 |
-| Three zigzag feature rows and a row of three equal cards | One sample incident told across three live product views | CORE-8, CORE-21 |
-| Every section fades in the same way (and stays invisible in a full-page capture) | Load sequence, then a scroll story: the sun brightens, a pinned rotation band sweeps a full day, the incident timeline writes itself | MOTION-19, MOTION-20, MOTION-25 |
+| Cream ground, serif headline, orange accent, one word in orange italic | White daylit ground, one burnt-orange accent held back for actions and the live "now" state, cool-gray section bands | CORE-25, COLOR-8 |
+| Pill badge above the headline, logo strip of integrations | Neither; integrations are named as text and shown inside the real product crops | CORE-22, IMG-5 |
+| Text column beside a small boxed schedule widget | The product's own follow-the-sun rotation board shown large as the hero: a 24-hour day/night band with each engineer in their time zone and a live UTC "now" line | LAY-20, LAND-18, WEB-22 |
+| Three zigzag feature rows and a row of three equal cards | One live rotation surface; the handoff, incident, and escalation shown as real product crops, with no equal feature cards | CORE-8, CORE-21 |
+| Every section fades in the same way (and stays invisible in a full-page capture) | Load sequence, then a scroll story: the sun sweeps a full UTC day and the on-call baton passes Jonas → Dana → Mei; each later section plays its entrance once | MOTION-19, MOTION-25, MOTION-28 |
 
-Archetype chosen: **Working Surface**, pushed toward the subject with a night ground and sunrise gold.
+Archetype chosen: **Working Surface** — the product's own follow-the-sun rotation board is the hero, on a
+light ground with a single burnt-orange accent reserved for actions and the live state.
 
 ## SaaS app screen: Sunshift "Now"
 
