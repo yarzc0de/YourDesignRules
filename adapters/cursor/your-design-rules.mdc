@@ -1,0 +1,29 @@
+---
+description: Design rules for building or restyling any UI (pages, app screens, dashboards, tables, forms, mobile, slides). Apply when generating or editing interface code or choosing fonts, colors, spacing, icons, or images.
+globs: ["**/*.html", "**/*.css", "**/*.scss", "**/*.jsx", "**/*.tsx", "**/*.vue", "**/*.svelte", "**/*.swift", "**/*.dart"]
+alwaysApply: false
+---
+
+# Your Design Rules
+
+If the `your-design-rules` skill is installed, follow its SKILL.md. Otherwise use the rule files copied into
+`design-rules/` at the project root:
+
+1. Read `design-rules/rules/core.md` first.
+2. Read the guide for the task in `design-rules/guides/` (web-app, landing-page, mobile-app,
+   dashboard-and-tables, slides).
+3. No brand or style given? Pick one archetype from `design-rules/archetypes/README.md`, say which and why,
+   and read its file. User-specified fonts and colors always win.
+4. Consult `design-rules/rules/layout.md`, `typography.md`, `color.md`, `imagery-and-icons.md` as needed.
+5. Build section by section; after each section render it and run `design-rules/rules/review-checklist.md`.
+   Fix in place.
+
+Non-negotiables:
+- One job, one primary action, one dominant region per view.
+- No card-wrapping without a job; separate with whitespace, alignment, hairlines, or tone.
+- Gradients, shadows, big radii, glow, glass only on purpose; shadows soft and diffuse, never hard.
+- No beige, cream, ivory, tan, or warm off-white backgrounds.
+- Accent color only for actions and selection.
+- No invented metrics, logos, testimonials, or image URLs; label samples as samples.
+- Build UI from real elements, never images of UI; never hand-draw logos from SVG paths.
+- Body text ≥ 16 px on web, contrast ≥ 4.5:1, tap targets ≥ 44 px.

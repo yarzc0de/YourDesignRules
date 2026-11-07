@@ -1,0 +1,19 @@
+{
+  "name": "your-design-rules",
+  "interface": {
+    "displayName": "YourDesignRules"
+  },
+  "plugins": [
+    {
+      "name": "your-design-rules",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "your-design-rules",
+  "owner": {
+    "name": "yarzc0de"
+  },
+  "metadata": {
+    "description": "A design rulebook that AI coding agents load to produce high-quality UI."
+  },
+  "plugins": [
+    {
+      "name": "your-design-rules",
+      "source": ".",
+      "description": "Design rules for AI coding agents: layout, typography, color, imagery, review checklist, task guides, and 16 visual archetypes."
+    }
+  ]
+}

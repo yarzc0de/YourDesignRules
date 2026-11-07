@@ -1,0 +1,13 @@
+{
+  "name": "your-design-rules",
+  "version": "0.1.0",
+  "description": "Design rules for AI coding agents: layout, typography, color, imagery, review checklist, task guides, and 16 visual archetypes.",
+  "author": {
+    "name": "yarzc0de"
+  },
+  "homepage": "https://github.com/yarzc0de/YourDesignRules",
+  "repository": "https://github.com/yarzc0de/YourDesignRules",
+  "license": "CC-BY-4.0 AND MIT",
+  "keywords": ["design", "ui", "design-rules", "frontend", "agent-skills"],
+  "skills": ["./skills/your-design-rules"]
+}
