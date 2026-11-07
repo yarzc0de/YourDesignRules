@@ -60,7 +60,9 @@ If you remember nothing else:
 - Accent color is for actions and selection, not decoration.
 - Use real content. Never invent metrics, logos, testimonials, or image URLs.
 - Build UI as real elements, never as images of UI. Never hand-draw logos from SVG paths.
-- Motion only with a job: 150–350 ms, ease-out curves, transform and opacity only, reduced motion respected.
+- Motion with a plan: marketing pages get a short hero load sequence and a scroll story of two or three
+  scroll-linked scenes; apps get fluid 150–300 ms state transitions. Never hijack scrolling, animate only
+  transform and opacity, and respect reduced motion (MOTION-2, MOTION-19, MOTION-27).
 - Clean is the floor, not the goal: one bold decision per page, taken from the subject's world (CORE-8,
   CORE-23), and none of the house styles generators default to (CORE-25).
 - Check the render after every section, and fix in place.

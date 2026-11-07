@@ -222,6 +222,8 @@ Before writing code, put down a compact plan:
 - **Type:** families, roles, and the size of the largest and smallest text.
 - **Layout:** one sentence per main section plus a rough ASCII wireframe of the first screen.
 - **Bold decision:** the one lever from CORE-8 and where it lives.
+- **Motion:** the hero load sequence and the two or three scroll-linked scenes for marketing pages
+  (MOTION-19, MOTION-25), or the key state transitions for product UI (MOTION-27).
 - **Mood:** three words for how the page should feel (for example "cinematic, nocturnal, calm"), and for
   marketing pages the key-visual concept in one sentence (LAND-18).
 

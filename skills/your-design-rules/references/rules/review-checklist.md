@@ -82,7 +82,9 @@ Missing fonts, failed images, or assumed data are mentioned in your reply to the
 ### CHK-17 · Motion has a job and can be turned off
 Every animation confirms, orients, keeps continuity, or flags a change (MOTION-1). Durations and easing come
 from references/rules/motion.md, only transform and opacity animate, and with reduced motion enabled nothing slides or
-scales. With JavaScript off, no content is stuck invisible.
+scales. With JavaScript off, no content is stuck invisible. Capture a scroll filmstrip (a frame every
+300–400 px) and confirm every frame is readable and the scroll story advances; in apps, click through state
+changes and confirm none of them jumps (MOTION-27).
 
 ### CHK-18 · The page makes one bold decision
 You can name the one memorable thing on the page (CORE-8) and the real-world source of at least two visual

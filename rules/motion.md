@@ -8,18 +8,22 @@ nothing, it is decoration, and CORE-7 applies.
 ## Purpose
 
 ### MOTION-1 · Give every animation a job
-Animate only to do one of four things: confirm an action (feedback), show where something came from or went
-(orientation), keep the user's place across a change (continuity), or point out something that changed
-while they weren't looking (attention). Everything else stays still.
+Animate only to do one of five things: confirm an action (feedback), show where something came from or went
+(orientation), keep the user's place across a change (continuity), point out something that changed while
+they weren't looking (attention), or, on marketing pages, carry the product story as the reader scrolls
+(narrative, MOTION-19). Everything else stays still.
 - **Why:** motion without a job slows the user down and makes the interface feel busy.
-- **Check:** for each animation you can name which of the four jobs it does.
+- **Check:** for each animation you can name which of the five jobs it does.
 
-### MOTION-2 · Keep one signature moment per page at most
-A marketing page may have one expressive motion moment: a headline that resolves as it scrolls in, a product
-walkthrough, a crossfade between two states of the hero image. Everything around it uses the quiet defaults
-below. Product UI gets no signature moment; its motion is feedback and continuity only.
-- **Why:** several competing effects cancel each other out and read as a template.
-- **Check:** you can point to the single expressive animation, and the rest of the page uses the defaults.
+### MOTION-2 · Give marketing pages one choreography, and apps fluid transitions
+A marketing page gets a planned motion language: a short load sequence for the hero (MOTION-25) and a scroll
+story that carries the product narrative down the page (MOTION-19). Every animated part uses the same
+easing, distances, and rhythm, so the page moves as one piece rather than as a collection of effects.
+Product UI gets no showpiece; it gets fluid transitions between states and views (MOTION-26, MOTION-27) so it
+never feels rigid.
+- **Why:** motion that follows one plan reads as craft; unrelated effects read as a template.
+- **Check:** you can describe the page's motion in two sentences (load sequence, scroll story), and every
+  animation on the page fits that description.
 
 ### MOTION-3 · Design the still frame first
 Every screen must look finished with all motion switched off. Animation is applied on top of a correct
@@ -59,7 +63,8 @@ starts within 100 ms, even when the work behind it takes longer.
 ## Easing
 
 ### MOTION-7 · Never use linear or the browser default for movement
-`linear` is only for things that move at constant speed: progress bars, spinners, marquees, video scrubbing.
+`linear` is only for things that move at constant speed: progress bars, spinners, marquees, video scrubbing,
+and the timeline of a scroll-linked scene (the reader's scroll supplies the pacing).
 The CSS default `ease` and the generic `ease-in-out` keyword are not chosen curves. Define and use easing
 tokens instead:
 
@@ -180,16 +185,47 @@ Never flash a spinner for a fast result: delay it about 300 ms, then keep it vis
 
 ## Scroll
 
-### MOTION-19 · Prefer one orchestrated moment to a reveal on every section
-A fade-and-rise on every section is the generic default and reads as generated. Spend motion on the page's
-one signature moment (MOTION-2) instead. If you still use scroll reveals on a marketing page, apply them to at
-most two or three elements that benefit from arriving (a diagram, a key number, a product view): fade in
-while rising 16–32 px over 500–700 ms on `--ease-out`, once, never replayed on scroll back. Trigger with `IntersectionObserver` (threshold about 0.15),
-never an unthrottled scroll listener. Do not reveal content in product UI, tables, or dashboards, and never
-delay the hero headline or the primary CTA.
-- **Why:** one well-timed reveal is noticed; ten identical ones are noise, and in a tool they delay work.
-- **Check:** the first screen is fully visible on load, no more than three elements use scroll reveals, and
-  none animates a second time.
+### MOTION-19 · Tell a scroll story on marketing pages, not a fade on every block
+A fade-and-rise on every section is the generic default. Instead, plan where scrolling *does* something that
+explains the product, and let the rest of the page simply be there. Use two tools:
+- **Scroll-triggered entrances**, chosen per content type: headlines rise line by line inside a clip mask,
+  images uncover through a mask or settle from 1.04 to 1.0 scale, diagrams draw in, lists stagger
+  (MOTION-12). Each plays once, 500–800 ms, on `--ease-out`.
+- **Scroll-linked scenes**, where animation progress follows the scroll position: a pinned section whose
+  product view changes state as the reader scrolls, a "now" line or timeline that advances, a key visual that
+  turns or shifts depth. See the pattern table below.
+
+Limits: two or three scroll-linked scenes per page, each pinned for at most 200–300 vh; every frame of a
+scene is readable on its own; the hero headline and primary CTA are never delayed. No scroll effects in
+product UI, tables, or dashboards.
+
+| Pattern | Use it for | How |
+|---|---|---|
+| Pinned walkthrough | showing a workflow in 3–5 steps | `position: sticky` stage inside a 200–300 vh section; scroll progress picks the step |
+| Scrubbed diagram | a timeline, route, or process that unfolds | progress drives `stroke-dashoffset`, a moving marker, or which rows are lit |
+| Sticky text, changing visual | explaining several features of one product | text column scrolls normally; the visual beside it stays pinned and crossfades per step |
+| Headline mask reveal | the key statement of a section | each line rises from behind an `overflow: hidden` line box, staggered 80–100 ms |
+| Depth layers | a key visual with foreground and background | layers move at 0.85–1.0× scroll speed; text never moves at a different speed |
+| Horizontal gallery | a set of examples or screens | vertical scroll drives `translateX` of a pinned track; provide a normal list on phones |
+
+```css
+/* Scroll-linked entrance with native CSS; JS fallback below for browsers without support */
+@supports (animation-timeline: view()) {
+  .rise { animation: rise both; animation-timeline: view(); animation-range: entry 10% cover 35%; }
+}
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } }
+
+/* Pinned scene: the stage sticks while its tall parent scrolls past */
+.scene { height: 250vh; }
+.scene-stage { position: sticky; top: 0; height: 100vh; }
+```
+```js
+// Progress 0..1 for a pinned scene, read on scroll with a passive listener and rAF
+const p = Math.min(1, Math.max(0, (scrollY - scene.offsetTop) / (scene.offsetHeight - innerHeight)));
+```
+- **Why:** motion that explains the product as the reader moves is memorable; identical fades are noise.
+- **Check:** the first screen is visible on load, each scroll-linked scene is readable at any position, and no
+  two consecutive sections use the same entrance.
 
 ### MOTION-20 · Never hide content behind JavaScript
 Start revealed elements visible in the HTML and hide them only after a script adds a class (for example
@@ -197,11 +233,16 @@ Start revealed elements visible in the HTML and hide them only after a script ad
 - **Why:** content stuck at `opacity: 0` is the most common way motion breaks a page.
 - **Check:** with JavaScript disabled, every section is visible.
 
-### MOTION-21 · Don't hijack scrolling
-No scroll-jacking, scroll snapping on long text pages, or parallax on text. Parallax, if used at all, is
-limited to one background image moving at 0.8–0.9× scroll speed.
-- **Why:** taking control of scroll breaks trackpads, keyboard paging, and screen readers.
-- **Check:** the page scrolls at native speed with mouse wheel, trackpad, keyboard, and touch.
+### MOTION-21 · Link animation to scroll, never hijack it
+Animation may follow the scroll position; it must never change how scrolling itself behaves. No wheel or touch
+interception, no changed scroll speed, no forced snapping on long pages, no blocking the page until an
+animation ends. Smooth-scroll libraries are acceptable only if the page still feels native, anchors, keyboard
+paging, and find-in-page work, and they switch off under reduced motion. Parallax belongs to image and
+decoration layers (0.85–1.0× speed); text and controls always move with the page. Avoid a slow, continuous zoom
+on background photos as the default scroll effect.
+- **Why:** taking control of scroll breaks trackpads, keyboard paging, and screen readers, and feels laggy.
+- **Check:** the page scrolls at native speed with mouse wheel, trackpad, keyboard, and touch, and stopping
+  the scroll stops all scroll-linked motion.
 
 ## Accessibility
 
@@ -237,6 +278,37 @@ Use `will-change` only on elements about to animate and remove it afterwards. Av
 `requestAnimationFrame`. Test on a throttled CPU (4× slowdown in browser dev tools).
 - **Why:** dropped frames make even well-designed motion feel broken.
 - **Check:** a performance recording of the main interactions shows no long frames over 16 ms.
+
+## Load and transitions
+
+### MOTION-25 · Open the page with a short load sequence
+The first screen assembles once, in under 1.2 s: the key visual settles (opacity in, scale 1.04 → 1.0 over
+800–1000 ms), the headline lines rise inside clip masks staggered 80–100 ms, then the supporting line and the
+CTA follow. The largest content must be visible early; never wait for animation before showing the headline.
+Without JavaScript or with reduced motion, everything is simply there.
+- **Why:** a composed entrance sets the tone for the whole page in one second.
+- **Check:** the sequence finishes within 1.2 s, and a no-JS render shows the complete first screen.
+
+### MOTION-26 · Transition between pages and views
+Navigations should not cut hard. Use the View Transitions API: `@view-transition { navigation: auto; }` for
+multi-page sites and `document.startViewTransition()` for single-page apps. Crossfade content over 200–300 ms,
+keep persistent chrome (navigation, sidebar) still, and give a shared element (a thumbnail that becomes a
+hero, a row that becomes a detail header) the same `view-transition-name` on both views so it morphs
+(MOTION-16).
+- **Why:** a transition tells the user the new view is related to the old one.
+- **Check:** moving between views never flashes white, and the sidebar or header does not re-animate.
+
+### MOTION-27 · Keep product UI fluid, never rigid
+Every change of state in an app animates briefly (150–300 ms) so the user can follow it:
+- items added, removed, or reordered in a list slide into place (FLIP), and removed rows collapse;
+- the active indicator in navigation, tabs, and segmented controls slides to the new item;
+- panels, inspectors, and drawers slide from their edge; popovers grow from their trigger (MOTION-11);
+- charts move from old values to new ones on filter changes (MOTION-17);
+- skeletons crossfade into content in 150–200 ms (MOTION-18);
+- hovering a row reveals its actions with a quick fade.
+- **Why:** an app that cuts between states feels stiff and hides what changed.
+- **Check:** click through tabs, filters, selection, and add/remove; nothing jumps without a transition, and
+  nothing takes longer than 300 ms.
 
 ## Platform notes
 

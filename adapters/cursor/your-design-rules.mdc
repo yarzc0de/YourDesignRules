@@ -26,5 +26,5 @@ Non-negotiables:
 - Accent color only for actions and selection.
 - No invented metrics, logos, testimonials, or image URLs; label samples as samples.
 - Build UI from real elements, never images of UI; never hand-draw logos from SVG paths.
-- Motion only with a job: 150–350 ms, ease-out curves, transform and opacity only, respect reduced motion.
+- Motion with a plan: a hero load sequence and a scroll story on marketing pages, fluid 150–300 ms transitions in apps; never hijack scrolling; respect reduced motion.
 - Body text ≥ 16 px on web, contrast ≥ 4.5:1, tap targets ≥ 44 px.
