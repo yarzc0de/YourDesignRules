@@ -84,6 +84,11 @@ Every animation confirms, orients, keeps continuity, or flags a change (MOTION-1
 from rules/motion.md, only transform and opacity animate, and with reduced motion enabled nothing slides or
 scales. With JavaScript off, no content is stuck invisible.
 
+### CHK-18 · The page makes one bold decision
+You can name the one memorable thing on the page (CORE-8) and the real-world source of at least two visual
+choices (CORE-23). The page does not match a generator house style without a stated reason (CORE-25), and
+none of the template chrome in CORE-22 appears without a job.
+
 ## Copy-paste version
 
 ```
@@ -106,4 +111,5 @@ Whole screen:
 [ ] CHK-15 keyboard + focus
 [ ] CHK-16 limitations reported in reply
 [ ] CHK-17 motion has a job, reduced motion works
+[ ] CHK-18 one bold decision, drawn from the subject
 ```

@@ -180,13 +180,16 @@ Never flash a spinner for a fast result: delay it about 300 ms, then keep it vis
 
 ## Scroll
 
-### MOTION-19 · Reveal sections once, gently, and only on marketing pages
-Sections entering the viewport may fade in while rising 16–32 px over 500–700 ms on `--ease-out`. Reveal each
-section once and never replay it on scroll back. Trigger with `IntersectionObserver` (threshold about 0.15),
+### MOTION-19 · Prefer one orchestrated moment to a reveal on every section
+A fade-and-rise on every section is the generic default and reads as generated. Spend motion on the page's
+one signature moment (MOTION-2) instead. If you still use scroll reveals on a marketing page, apply them to at
+most two or three elements that benefit from arriving (a diagram, a key number, a product view): fade in
+while rising 16–32 px over 500–700 ms on `--ease-out`, once, never replayed on scroll back. Trigger with `IntersectionObserver` (threshold about 0.15),
 never an unthrottled scroll listener. Do not reveal content in product UI, tables, or dashboards, and never
 delay the hero headline or the primary CTA.
-- **Why:** a light reveal adds pace to a long page; reveals in a tool just delay work.
-- **Check:** the first screen is fully visible on load, and no section animates a second time.
+- **Why:** one well-timed reveal is noticed; ten identical ones are noise, and in a tool they delay work.
+- **Check:** the first screen is fully visible on load, no more than three elements use scroll reveals, and
+  none animates a second time.
 
 ### MOTION-20 · Never hide content behind JavaScript
 Start revealed elements visible in the HTML and hide them only after a script adds a class (for example

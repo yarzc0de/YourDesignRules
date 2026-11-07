@@ -64,13 +64,21 @@ light source). One deliberate effect beats four default ones. Shadow and gradien
 - **Why:** stacked effects date a design instantly and hide weak structure.
 - **Check:** each effect on the page has a reason you can say out loud.
 
-### CORE-8 · Break monotony with one distinctive move
-Identical cards in identical grids, section after section, look machine-made. Give each page at least one
-structural moment that belongs to this product: an oversized number, an asymmetric split, a full-bleed
-image, a type-only section, a diagram. Product UIs still reuse their patterns (see `guides/web-app.md`);
-this rule is about avoiding sameness, not about inventing new controls.
-- **Why:** distinctiveness is what makes a design feel authored.
-- **Check:** scroll the page quickly. Not every section has the same shape.
+### CORE-8 · Make one bold decision and commit to it
+Clean is the floor, not the goal. Every page needs one thing a visitor would remember and describe to someone
+else, pushed far enough to be unmistakable, with everything around it kept quiet. Pick one lever:
+- **Scale:** display type 6–10× the body size, or one number set as large as the screen allows.
+- **Color:** a whole section or the entire ground in one confident, saturated color.
+- **Image:** a single art-directed photograph or illustration, full-bleed, cropped with intent.
+- **Product:** the real interface shown huge, in a meaningful state, built from live elements.
+- **Structure:** an asymmetric grid, a type-only section, a diagram, or an interactive moment.
+
+Product UIs spend their boldness on the working surface (a hero chart, a canvas, a map), never on
+decoration, and still reuse their patterns (see `guides/web-app.md`).
+- **Why:** a page that only avoids mistakes looks like every other careful page; distinctiveness is what
+  makes it feel authored.
+- **Check:** describe the page in one sentence without naming its content. If the sentence would fit any
+  product ("clean layout, white background, blue button"), the bold decision is missing.
 
 ## Honest content
 
@@ -187,9 +195,51 @@ Each of these needs a reason specific to this product, or it goes:
 - a row of checkmarks with "No credit card / Cancel anytime" under every button;
 - a grid of identical cards repeated in two or more sections;
 - a gradient blob or glow behind the hero for no stated light source;
-- a stat strip of big numbers that the brief never supplied.
+- a stat strip of big numbers that the brief never supplied;
+- one word in the headline picked out in italic, bold, or a different color;
+- tracked-out all-caps labels on small text everywhere;
+- metadata strung together with middle dots ("A · B · C") as the default way to show facts;
+- a monospace face for small labels and numbers when the product has nothing to do with code or data;
+- an arrow glyph appended to every link and button label;
+- numbered markers (01 / 02 / 03) on content that is not a sequence.
 - **Why:** each item alone is harmless; together they are the template every generator ships.
 - **Check:** for each kit item present, you can name what it does for this product. Otherwise remove it.
+
+## Distinctiveness
+
+### CORE-23 · Take the look from the subject's world
+Before choosing a palette or a font, list what the product's world actually looks like: its materials,
+tools, places, documents, signage, and vocabulary. A night-shift sleep product lives in dim rooms and early
+light; a freight tool lives in manifests, containers, and route maps; a kids' coding app lives in toy
+blocks and bright plastic. Draw at least two choices (color, type, image, structure, or the opening moment)
+from that list, and open the page with the most characteristic thing in that world.
+- **Why:** choices borrowed from the subject cannot be mistaken for another product's page.
+- **Check:** you can name the real-world source behind at least two visual choices.
+
+### CORE-24 · Write a design plan, then test it for sameness
+Before writing code, put down a compact plan:
+- **Palette:** 4–6 named hex values with their roles.
+- **Type:** families, roles, and the size of the largest and smallest text.
+- **Layout:** one sentence per main section plus a rough ASCII wireframe of the first screen.
+- **Bold decision:** the one lever from CORE-8 and where it lives.
+
+Then run the sameness test: imagine a similar brief for a competitor. Would you produce nearly the same plan?
+For each part where the answer is yes, change it to something this brief specifically justifies, and say what
+you changed. Only then build.
+- **Why:** generated designs converge because the first idea is always the average idea.
+- **Check:** the plan names at least one change made after the sameness test.
+
+### CORE-25 · Avoid the house styles generators fall into
+These looks show up regardless of the subject. Use one only when the brief asks for it or the subject
+genuinely calls for it, and say why:
+- cream or warm off-white ground, high-contrast serif headline, terracotta or clay accent;
+- near-black ground with a single acid-green, electric-blue, or vermilion accent;
+- newspaper layout with hairline rules, zero radius, and dense columns;
+- the SaaS card kit: everything in identical rounded cards with one radius, one soft gray shadow, and
+  decorative gradient washes;
+- dark navy page with a purple-to-blue gradient and glowing product screenshots.
+- **Why:** a look that appears for every subject tells the visitor nobody made a choice.
+- **Check:** if your plan matches one of these, the plan states the brief-specific reason.
 
 ## Where to go next
 

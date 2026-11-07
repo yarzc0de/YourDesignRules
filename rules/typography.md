@@ -132,11 +132,15 @@ Write line height as a unitless value so it scales with the font size.
 
 ## Case and line breaks
 
-### TYPE-14 · Keep all caps to short labels
-Use capitals only for eyebrows, tags, and labels of a few words; never for a sentence or a paragraph. Apply
-them with `text-transform: uppercase` so the source text keeps normal case.
-- **Why:** capitals erase word shapes and slow reading beyond a few words.
-- **Check:** no all-caps text runs past one line or about four words.
+### TYPE-14 · Keep all caps rare and short
+Use capitals only for tags and labels of a few words that carry information (a status, a category, a unit),
+never for a sentence or a paragraph. An eyebrow label above a heading needs its own reason, such as a section
+number in a real sequence or a category the reader filters by; never put one above every heading by habit
+(CORE-22). Apply capitals with `text-transform: uppercase` so the source text keeps normal case. Archetypes
+that mention uppercase labels follow this limit too.
+- **Why:** capitals erase word shapes, and tracked caps everywhere are a template tell.
+- **Check:** no all-caps text runs past about four words, and fewer than half the section headings carry an
+  eyebrow.
 
 ### TYPE-15 · Break headlines on purpose
 Break display lines at phrase boundaries, and never leave one word alone on the last line. Use

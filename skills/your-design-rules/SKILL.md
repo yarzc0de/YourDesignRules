@@ -31,16 +31,20 @@ All paths below are relative to this skill's folder.
      skip archetypes. User choices always win (CORE-13).
    - If not, read `references/archetypes/README.md`, pick one archetype that fits the product and audience,
      tell the user which one and why in one sentence, then read that archetype's file.
-4. **Read the rule files you need** as decisions come up:
+4. **Write a design plan before any code** (CORE-23, CORE-24): what the subject's world looks like, a 4–6
+   color palette with roles, type families and sizes, a sentence per section plus an ASCII sketch of the
+   first screen, and the one bold decision (CORE-8). Run the sameness test and change anything a competitor's
+   page would share. Show the plan to the user in a few lines, then build.
+5. **Read the rule files you need** as decisions come up:
    - spacing, grids, hero composition, responsive behavior → `references/rules/layout.md`
    - fonts, sizes, line length, numerals → `references/rules/typography.md`
    - palette roles, contrast, banned backgrounds, shadows, dark mode → `references/rules/color.md`
    - icons vs. photos vs. generated images vs. SVG, image prompts → `references/rules/imagery-and-icons.md`
    - transitions, hover/press/focus states, loading, scroll effects → `references/rules/motion.md`
-5. **Build section by section.** After each section, render it and run `references/rules/review-checklist.md`
+6. **Build section by section.** After each section, render it and run `references/rules/review-checklist.md`
    on the actual render (screenshot, browser, simulator). Fix problems in place before moving on (CORE-15,
    CORE-16).
-6. **Finish with the whole-screen checks** in the checklist: breakpoints 375/768/1440, rhythm, reduction pass,
+7. **Finish with the whole-screen checks** in the checklist: breakpoints 375/768/1440, rhythm, reduction pass,
    keyboard and focus. Tell the user about anything you could not verify or had to assume.
 
 ## The rules that matter most
@@ -57,6 +61,8 @@ If you remember nothing else:
 - Use real content. Never invent metrics, logos, testimonials, or image URLs.
 - Build UI as real elements, never as images of UI. Never hand-draw logos from SVG paths.
 - Motion only with a job: 150–350 ms, ease-out curves, transform and opacity only, reduced motion respected.
+- Clean is the floor, not the goal: one bold decision per page, taken from the subject's world (CORE-8,
+  CORE-23), and none of the house styles generators default to (CORE-25).
 - Check the render after every section, and fix in place.
 
 ## When the user only wants a small change

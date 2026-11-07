@@ -26,6 +26,15 @@ rules/color.md apply under every archetype.
 | [Broadsheet](broadsheet.md) | A front page rebuilt for screens: a masthead rule, heavy serif headlines, and a multi-column grid in which a story's importance sets its width. | Publications, newsrooms, education, public information | Light (or one deliberate color) | Petrona, Alata |
 | [Toybox](toybox.md) | Saturated color, inflated shapes, and sticker-like pieces arranged with intent around one clear statement and a calm path people can actually use. | Playful consumer brands, games, family products, events | Light (with saturated fields) | Unbounded, Outfit |
 
+## Archetypes are a starting point
+
+An archetype gives you a coherent kit. It does not make the page distinctive on its own: you still draw at
+least two choices from the subject's world (CORE-23), write a plan and run the sameness test (CORE-24), and
+make one bold decision (CORE-8). Push the archetype toward the subject: change the accent, the imagery, and
+the opening moment so that two products using the same archetype still look like two different companies.
+Broadsheet, Night Console, and Ambient Glow sit close to house styles that generators overuse (CORE-25); pick
+them only when the subject really is news, a developer platform, or a product used in the dark.
+
 ## How to pick an archetype when there is no brand
 
 1. Look for direction first. If the user supplied a brand, a style guide, reference designs, or named fonts and
