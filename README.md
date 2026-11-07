@@ -44,8 +44,6 @@ them in reviews.
 
 ## Install
 
-> The repository must be public for the remote install commands below to work.
-
 ### Claude Code
 
 ```

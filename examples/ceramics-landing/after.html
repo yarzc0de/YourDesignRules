@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marl — small-batch stoneware, thrown by hand</title>
+<meta name="description" content="Marl is a one-person ceramics studio throwing small-batch stoneware for the table. Mugs, bowls, plates and vases, each one of a kind. A new collection the first of each month.">
+<script>
+  document.documentElement.classList.add('js');
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion-ok');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300;0,400;0,500;1,400&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Gallery Wall, pushed toward a ceramics studio: a white catalogue mat, warmth from the
+       photographs and the type, one deep iron-glaze accent on the actions only. */
+    --mat: #FFFFFF;              /* ground: the gallery mat / catalogue page */
+    --mat-cool: #EEF0F2;         /* one cool neutral band (care & terms), keeps the page off a cream read */
+    --ink: #1C1815;              /* primary text: a warm near-black, warmth carried in the type */
+    --ink-2: #574E46;            /* secondary text */
+    --ink-muted: #6A6159;        /* captions, plate lines, legal (>=4.5:1 on white and on --mat-cool) */
+    --on-photo: #F4F1EA;         /* warm off-white for type set into a photograph's dark quiet zone */
+    --on-photo-2: #DBD3C6;       /* secondary type on a photograph */
+    --rule: #DCD8D2;             /* hairlines, hanging lines */
+    --rule-strong: #857C72;      /* stronger rule / caption separator */
+    --accent: #7A3A2A;           /* deep iron / oxblood reduction-glaze tone: actions and links only (8.5:1 on white) */
+    --accent-hover: #6A3123;
+    --accent-active: #5A2A1E;
+    --accent-fg: #FFFFFF;
+
+    --font-display: "Cormorant Infant", Georgia, "Times New Roman", serif;
+    --font-body: "Karla", system-ui, -apple-system, Segoe UI, sans-serif;
+
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+    --dur-hover: 180ms;
+    --dur-press: 110ms;
+    --dur-reveal: 640ms;
+    --dur-fade: 600ms;
+
+    --wrap: 1200px;
+    --pad-x: 32px;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--mat);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  h1, h2, h3 { margin: 0; font-weight: 400; }
+  p { margin: 0; }
+
+  .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--pad-x); }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .lede { max-width: 56ch; text-wrap: pretty; }
+
+  /* ---- buttons / links ---- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-size: 15px; font-weight: 500; letter-spacing: 0.01em;
+    padding: 12px 24px; border-radius: 3px; border: 1px solid transparent;
+    background: var(--accent); color: var(--accent-fg); cursor: pointer;
+    text-decoration: none; white-space: nowrap;
+    transition: background-color var(--dur-hover) var(--ease-out), transform var(--dur-press) var(--ease-out);
+  }
+  .btn:hover { background: var(--accent-hover); }
+  .btn:active { transform: scale(0.98); background: var(--accent-active); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; transition: none; }
+  /* over the hero photo, a light hairline keeps the button boundary distinct from the dark image */
+  .btn--onphoto { border-color: rgba(247, 244, 238, 0.6); }
+  .btn--onphoto:focus-visible { outline-color: var(--on-photo); }
+
+  .tlink {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 15px; font-weight: 500; color: var(--ink);
+    text-decoration: none; border-bottom: 1px solid var(--rule-strong); padding-bottom: 2px;
+    transition: border-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+  }
+  .tlink:hover { color: var(--accent); border-color: var(--accent); }
+  .tlink:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .tlink--onphoto { color: var(--on-photo); border-color: rgba(244,241,234,0.55); }
+  .tlink--onphoto:hover { color: #fff; border-color: #fff; }
+  .tlink--onphoto:focus-visible { outline-color: var(--on-photo); }
+
+  .kicker {
+    font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--ink-muted);
+  }
+
+  /* ---- top nav ---- */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.86); backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav__in { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 24px; }
+  .brand { font-family: var(--font-display); font-weight: 500; font-size: 28px; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; line-height: 1; }
+  .nav__links { display: flex; align-items: center; gap: 32px; }
+  .nav__links a { color: var(--ink-2); text-decoration: none; font-size: 15px; transition: color var(--dur-hover) var(--ease-out); }
+  .nav__links a:hover { color: var(--ink); }
+  .nav__right { display: flex; align-items: center; gap: 24px; }
+  .nav__menu { display: none; }
+  .nav__toggle { display: none; }
+
+  /* ---- hero ---- */
+  .hero { position: relative; isolation: isolate; min-height: 86vh; display: flex; }
+  .hero__media { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+  .hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; }
+  /* local tonal fade behind the copy only (right side), far side untouched (COLOR-12) */
+  .hero__scrim {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgba(28,20,12,0) 34%, rgba(28,20,12,0.30) 62%, rgba(24,16,10,0.52) 100%);
+  }
+  .hero__in { width: 100%; display: grid; grid-template-columns: 1fr; align-content: center; padding-block: 128px 64px; }
+  .hero__copy { margin-left: auto; width: min(560px, 100%); color: var(--on-photo); }
+  .hero__title { font-size: clamp(44px, 6vw, 86px); line-height: 1.04; color: var(--on-photo); }
+  .hero__sub { margin-top: 24px; color: var(--on-photo-2); font-size: clamp(17px, 1.4vw, 19px); max-width: 60ch; }
+  .hero__actions { margin-top: 32px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+
+  /* line-mask for the hero load sequence; 0.2em padding offset so descenders (g,y,p,j) never clip */
+  .mask { display: block; overflow: hidden; padding-bottom: 0.2em; margin-bottom: -0.2em; }
+  .mask > span { display: block; }
+  .motion-ok .hero__title .mask > span { transform: translateY(104%); }
+  .motion-ok .hero.start .hero__title .mask > span { transform: translateY(0); transition: transform 350ms var(--ease-out); }
+  .motion-ok .hero__title .mask:nth-child(2) > span { transition-delay: 75ms; }
+  .motion-ok .hero__title .mask:nth-child(3) > span { transition-delay: 150ms; }
+  .motion-ok .hero__sub, .motion-ok .hero__actions { opacity: 0; transform: translateY(10px); }
+  .motion-ok .hero.start .hero__sub { opacity: 1; transform: none; transition: opacity 320ms var(--ease-out) 180ms, transform 320ms var(--ease-out) 180ms; }
+  .motion-ok .hero.start .hero__actions { opacity: 1; transform: none; transition: opacity 300ms var(--ease-out) 200ms, transform 300ms var(--ease-out) 200ms; }
+  .motion-ok .hero__media img { transform: scale(1.04); }
+  .motion-ok .hero.start .hero__media img { transform: scale(1); transition: transform 1000ms var(--ease-out); }
+
+  /* ---- generic section rhythm ---- */
+  section { position: relative; }
+  .band { padding-block: clamp(64px, 10vw, 128px); }
+  .band--cool { background: var(--mat-cool); }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .sec-head h2 { font-size: clamp(32px, 4.4vw, 52px); }
+  .sec-head .kicker { margin-bottom: 16px; }
+
+  /* reveal: visible by default (no-JS/reduced-motion safe); JS hides then reveals */
+  .motion-ok .reveal { opacity: 0; transform: translateY(22px); }
+  .motion-ok .reveal.in { opacity: 1; transform: none; transition: opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out); }
+
+  /* ---- manifesto (scroll-linked scene 1: words light up, desktop only) ---- */
+  .manifesto__stage { padding-block: clamp(64px, 10vw, 128px); }
+  .manifesto__line { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; line-height: 1.16; font-size: clamp(30px, 5vw, 62px); max-width: 20ch; }
+  .manifesto__line .w { color: var(--ink); transition: color 120ms linear; }
+  .manifesto__foot { margin-top: 48px; max-width: 44ch; color: var(--ink-2); }
+  @media (min-width: 901px) {
+    .motion-ok .manifesto { height: 168vh; }
+    .motion-ok .manifesto__stage { position: sticky; top: 0; min-height: 100vh; display: flex; align-items: center; padding-block: 0; }
+    .motion-ok .manifesto__line .w { color: #948A80; }
+  }
+
+  /* ---- the work: catalogue plates ---- */
+  .plates { margin-top: 64px; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 48px 32px; align-items: start; }
+  .plate figure { margin: 0; }
+  .plate__img { position: relative; overflow: hidden; background: var(--mat-cool); }
+  .plate__img img { width: 100%; height: 100%; object-fit: cover; }
+  .motion-ok .plate__img img { transform: scale(1.03); }
+  .motion-ok .plate__img.in img { transform: scale(1); transition: transform 900ms var(--ease-out); }
+  .motion-ok .plate__img::after { content: ""; position: absolute; inset: 0; background: var(--mat); opacity: 1; }
+  .motion-ok .plate__img.in::after { opacity: 0; transition: opacity 700ms var(--ease-out); }
+  .plate--lead .plate__img { aspect-ratio: 3 / 4; }
+  .plate__img--tall { aspect-ratio: 4 / 5; }
+  .plate__img--wide { aspect-ratio: 3 / 2; }
+  figcaption { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--rule); display: flex; gap: 16px; align-items: baseline; }
+  .plate__no { font-size: 12px; letter-spacing: 0.12em; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+  .plate__meta { display: block; }
+  .plate__title { display: block; font-family: var(--font-display); font-size: 24px; font-weight: 500; line-height: 1.1; }
+  .plate__spec { display: block; font-size: 13px; color: var(--ink-muted); margin-top: 3px; }
+  .plate-wide { margin-top: 64px; }
+  .plate-wide .plate__img { aspect-ratio: 3 / 2; }
+  .plate-wide figcaption { max-width: 560px; }
+  .work__note { margin-top: 48px; max-width: 54ch; color: var(--ink-2); }
+
+  /* ---- the making: scroll-linked scene 2 (sticky visual, advancing steps) ---- */
+  .making__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .making__stickywrap { position: relative; }
+  .making__sticky { position: sticky; top: 96px; }
+  .making__frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--mat-cool); }
+  .making__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity var(--dur-fade) var(--ease-out); }
+  .making__frame img.show { opacity: 1; }
+  /* no-JS / reduced motion: first frame simply shows */
+  html:not(.motion-ok) .making__frame img:first-child, html:not(.js) .making__frame img:first-child { opacity: 1; }
+  .making__steps { display: flex; flex-direction: column; gap: 4px; padding-top: 8px; }
+  .making__step { padding: 32px 0; border-top: 1px solid var(--rule); }
+  .making__step:last-child { border-bottom: 1px solid var(--rule); }
+  .making__step h3 { font-family: var(--font-display); font-size: clamp(26px, 3vw, 36px); font-weight: 400; line-height: 1.1; }
+  .making__step p { margin-top: 8px; color: var(--ink-2); max-width: 36ch; }
+  .making__num { font-size: 12px; letter-spacing: 0.12em; color: var(--ink-muted); font-variant-numeric: tabular-nums; display: block; margin-bottom: 8px; }
+  .making__step.active .making__num { color: var(--accent); transition: color 240ms var(--ease-out); }
+
+  /* ---- this month ---- */
+  .month__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+  .month__img { aspect-ratio: 3 / 2; overflow: hidden; background: var(--mat-cool); }
+  .month__img img { width: 100%; height: 100%; object-fit: cover; }
+  .month__body h2 { font-size: clamp(32px, 4.4vw, 52px); }
+  .month__body p { margin-top: 24px; color: var(--ink-2); max-width: 46ch; }
+  .month__price { margin-top: 24px; font-family: var(--font-display); font-size: 26px; color: var(--ink); }
+  .month__price span { font-size: 15px; font-family: var(--font-body); color: var(--ink-muted); }
+  .month__actions { margin-top: 32px; display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
+
+  /* ---- care & terms: a hairline definition list, not boxes ---- */
+  .care__grid { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 64px; }
+  .care__item { padding: 24px 0; border-top: 1px solid var(--rule); }
+  .care__item dt { font-family: var(--font-display); font-size: 22px; font-weight: 500; line-height: 1.15; }
+  .care__item dd { margin: 8px 0 0; color: var(--ink-2); max-width: 40ch; }
+
+  /* ---- final cta ---- */
+  .final { text-align: center; }
+  .final h2 { font-size: clamp(36px, 5.2vw, 68px); max-width: 16ch; margin-inline: auto; }
+  .final p { margin-top: 24px; color: var(--ink-2); }
+  .final .btn { margin-top: 32px; }
+
+  /* ---- footer ---- */
+  .foot { border-top: 1px solid var(--rule); padding-block: 64px 48px; }
+  .foot__in { display: flex; justify-content: space-between; gap: 48px; flex-wrap: wrap; }
+  .foot__brand { max-width: 30ch; }
+  .foot__brand .brand { font-size: 32px; }
+  .foot__brand p { margin-top: 12px; color: var(--ink-muted); font-size: 14px; }
+  .foot__cols { display: flex; gap: 64px; flex-wrap: wrap; }
+  .foot__col h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-muted); font-weight: 500; margin: 0 0 16px; }
+  .foot__col a { display: block; color: var(--ink-2); text-decoration: none; font-size: 15px; padding: 4px 0; }
+  .foot__col a:hover { color: var(--ink); }
+  .foot__legal { margin-top: 48px; color: var(--ink-muted); font-size: 13px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    :root { --pad-x: 20px; }
+    .nav__links { display: none; }
+    .nav__toggle {
+      display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+      border: 1px solid var(--rule); border-radius: 3px; background: var(--mat); cursor: pointer; color: var(--ink);
+      list-style: none;
+    }
+    .nav__toggle::-webkit-details-marker { display: none; }
+    details[open] .nav__toggle { border-color: var(--rule-strong); }
+    .nav__menu {
+      display: none; position: absolute; left: 0; right: 0; top: 72px;
+      background: var(--mat); border-bottom: 1px solid var(--rule);
+      padding: 12px var(--pad-x) 32px;
+    }
+    details[open] .nav__menu { display: block; min-height: calc(100svh - 72px); }
+    .motion-ok details[open] .nav__menu { animation: menuIn 250ms var(--ease-out); }
+    .nav__menu a { display: block; color: var(--ink); text-decoration: none; font-size: 20px; font-family: var(--font-display); padding: 16px 0; border-bottom: 1px solid var(--rule); }
+    .nav__menu .btn { margin-top: 24px; width: 100%; justify-content: center; color: var(--accent-fg); font-family: var(--font-body); font-size: 15px; }
+    .nav__cta-bar { display: none; }
+
+    /* mobile hero: Gallery Wall "band of mat directly above" — type on white, photo full-bleed below */
+    .hero { min-height: 100svh; flex-direction: column; background: var(--mat); }
+    .hero__media { position: static; order: 2; flex: 1 1 auto; min-height: 52svh; }
+    .hero__media img { object-position: 50% 42%; }
+    .hero__scrim { display: none; }
+    .hero__in { order: 1; padding: 96px var(--pad-x) 32px; align-content: start; }
+    .hero__copy { margin-left: 0; width: 100%; color: var(--ink); }
+    .hero__title { color: var(--ink); }
+    .hero__sub { color: var(--ink-2); max-width: 36ch; }
+    .tlink--onphoto { color: var(--ink); border-color: var(--rule-strong); }
+    .tlink--onphoto:hover { color: var(--accent); border-color: var(--accent); }
+
+    .plates { grid-template-columns: 1fr; gap: 48px; }
+    .making__grid { grid-template-columns: 1fr; gap: 20px; }
+    .making__sticky { position: static; }
+    .making__frame { aspect-ratio: 3 / 2; margin-bottom: 24px; }
+    .month__grid { grid-template-columns: 1fr; gap: 32px; }
+    .month__img { order: -1; }
+    .care__grid { grid-template-columns: 1fr; }
+  }
+  /* tablet: keep the catalogue to two columns so it is not one very tall column */
+  @media (min-width: 601px) and (max-width: 900px) {
+    .plates { grid-template-columns: 1fr 1fr; gap: 48px 32px; }
+    .care__grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .foot__in { flex-direction: column; }
+    .foot__cols { gap: 32px; }
+  }
+
+  @keyframes menuIn { from { opacity: 0; transform: translateY(-8px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#top" aria-label="Marl, home">Marl.</a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#work">The work</a>
+      <a href="#making">The making</a>
+      <a href="#month">This month</a>
+      <a href="#care">Care</a>
+    </nav>
+    <div class="nav__right">
+      <a class="btn nav__cta-bar" href="#month">Shop this month's pots</a>
+      <details class="nav__mob">
+        <summary class="nav__toggle" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h14"/></svg>
+        </summary>
+        <div class="nav__menu">
+          <a href="#work">The work</a>
+          <a href="#making">The making</a>
+          <a href="#month">This month</a>
+          <a href="#care">Care</a>
+          <a class="btn" href="#month">Shop this month's pots</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-label="Introduction">
+    <div class="hero__media">
+      <picture>
+        <source media="(max-width: 900px)" srcset="assets/hero-portrait.jpg">
+        <img src="assets/hero.jpg" alt="A potter's hands shaping a tall cylinder of wet stoneware on the wheel." fetchpriority="high">
+      </picture>
+    </div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="wrap hero__in">
+      <div class="hero__copy">
+        <h1 class="hero__title display">
+          <span class="mask"><span>One pair of hands,</span></span>
+          <span class="mask"><span>one pot</span></span>
+          <span class="mask"><span>at a time.</span></span>
+        </h1>
+        <p class="hero__sub">A one-person studio throwing small-batch stoneware for the table — mugs, bowls, plates and vases, each one of a kind.</p>
+        <div class="hero__actions">
+          <a class="btn btn--onphoto" href="#month">Shop this month's pots</a>
+          <a class="tlink tlink--onphoto" href="#making">See how it's made</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO (scroll-linked: words light up) -->
+  <section class="manifesto" id="why" aria-label="Why handmade">
+    <div class="manifesto__stage">
+      <div class="wrap">
+        <p class="manifesto__line" id="manifesto">Every piece is thrown by hand, on a wheel, by one person — so no two are ever quite the same.</p>
+        <p class="manifesto__foot reveal">A factory presses out the same cup until it stops counting. Here the count is one, then one, then one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE WORK: catalogue plates -->
+  <section class="band" id="work" aria-label="The work">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="kicker">The work</div>
+          <h2 class="display">Recent pieces, mounted like plates in a catalogue.</h2>
+        </div>
+      </div>
+      <div class="plates">
+        <div class="plate plate--lead reveal">
+          <figure>
+            <div class="plate__img" data-plate><img loading="lazy" decoding="async" src="assets/piece-vase.jpg" alt="A tall stoneware vase with a speckled oatmeal glaze, lit by warm side light."></div>
+            <figcaption>
+              <span class="plate__no">No. 01</span>
+              <span class="plate__meta"><span class="plate__title">Vase</span><span class="plate__spec">Wheel-thrown stoneware · One of one</span></span>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="plate reveal">
+          <figure>
+            <div class="plate__img plate__img--tall" data-plate><img loading="lazy" decoding="async" src="assets/piece-bowl.jpg" alt="A stoneware bowl with a celadon-green glaze pooling in the well and an iron-speckled rim."></div>
+            <figcaption>
+              <span class="plate__no">No. 02</span>
+              <span class="plate__meta"><span class="plate__title">Bowl</span><span class="plate__spec">Wheel-thrown stoneware · One of one</span></span>
+            </figcaption>
+          </figure>
+        </div>
+        <div class="plate reveal">
+          <figure>
+            <div class="plate__img plate__img--tall" data-plate><img loading="lazy" decoding="async" src="assets/piece-mug.jpg" alt="A stoneware mug with a speckled satin glaze and a bare clay foot."></div>
+            <figcaption>
+              <span class="plate__no">No. 03</span>
+              <span class="plate__meta"><span class="plate__title">Mug</span><span class="plate__spec">Wheel-thrown stoneware · One of one</span></span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="plate-wide reveal">
+        <figure>
+          <div class="plate__img plate__img--wide" data-plate><img loading="lazy" decoding="async" src="assets/plates.jpg" alt="A short stack of three stoneware dinner plates in oatmeal, slate and cream glazes."></div>
+          <figcaption>
+            <span class="plate__no">No. 04</span>
+            <span class="plate__meta"><span class="plate__title">Plates</span><span class="plate__spec">Wheel-thrown stoneware · One of one</span></span>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="work__note">These are recent pieces, shown to give a feel for the hand and the glazes. The shelf you actually shop from is small and changes on the first of each month.</p>
+    </div>
+  </section>
+
+  <!-- THE MAKING: sticky visual, advancing steps -->
+  <section class="band band--cool" id="making" aria-label="The making">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom: 8px;">
+        <div>
+          <h2 class="display">From a lump of clay to stoneware for good.</h2>
+        </div>
+      </div>
+      <div class="making__grid">
+        <div class="making__stickywrap">
+          <div class="making__sticky">
+            <div class="making__frame" id="makingFrame">
+              <img loading="lazy" decoding="async" class="show" data-step="0" src="assets/making.jpg" alt="Overhead view of hands trimming a leather-hard stoneware bowl on the wheel.">
+              <img loading="lazy" decoding="async" data-step="1" src="assets/making.jpg" alt="" aria-hidden="true">
+              <img loading="lazy" decoding="async" data-step="2" src="assets/fired.jpg" alt="" aria-hidden="true">
+              <img loading="lazy" decoding="async" data-step="3" src="assets/fired.jpg" alt="" aria-hidden="true">
+            </div>
+          </div>
+        </div>
+        <div class="making__steps" id="makingSteps">
+          <div class="making__step active" data-step="0">
+            <span class="making__num">01</span>
+            <h3 class="display">Thrown on the wheel</h3>
+            <p>Every piece starts as a ball of stoneware clay, centred and pulled up by hand on the wheel — one at a time.</p>
+          </div>
+          <div class="making__step" data-step="1">
+            <span class="making__num">02</span>
+            <h3 class="display">Trimmed and dried</h3>
+            <p>Once it's leather-hard, the foot is trimmed, the piece dries slowly, then it's bisque-fired to set the clay.</p>
+          </div>
+          <div class="making__step" data-step="2">
+            <span class="making__num">03</span>
+            <h3 class="display">Glazed by hand</h3>
+            <p>Each pot is glazed by hand in lead-free glazes. No two take the glaze in exactly the same way.</p>
+          </div>
+          <div class="making__step" data-step="3">
+            <span class="making__num">04</span>
+            <h3 class="display">Fired to 1240°C</h3>
+            <p>A final glaze firing to 1240°C turns it to dense, hard stoneware — safe for the dishwasher and the microwave.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THIS MONTH -->
+  <section class="band" id="month" aria-label="This month's collection">
+    <div class="wrap">
+      <div class="month__grid">
+        <div class="month__img reveal">
+          <img loading="lazy" decoding="async" src="assets/collection.jpg" alt="A studio shelf lined with freshly fired mugs, bowls and a vase in muted glazes.">
+        </div>
+        <div class="month__body reveal">
+          <div class="kicker" style="margin-bottom:16px;">This month</div>
+          <h2 class="display">A new small collection, the first of every month.</h2>
+          <p>On the first, a handful of new pieces go up. It's a small batch, made to order, and it tends to sell out. When this month's is gone, the next one arrives on the first.</p>
+          <p class="month__price">$28–$120 <span>· made to order · ships in about two weeks</span></p>
+          <div class="month__actions">
+            <a class="btn" href="#month">Shop this month's pots</a>
+            <a class="tlink" href="#care">Care &amp; returns</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARE & TERMS -->
+  <section class="band band--cool" id="care" aria-label="Care and terms">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2 class="display">Made to be used, not shelved.</h2>
+        </div>
+      </div>
+      <dl class="care__grid">
+        <div class="care__item"><dt>Dishwasher &amp; microwave safe</dt><dd>Fired dense and glazed to live in daily use, not behind glass.</dd></div>
+        <div class="care__item"><dt>Lead-free glazes</dt><dd>Every glaze is lead-free.</dd></div>
+        <div class="care__item"><dt>Fired to 1240°C</dt><dd>A high stoneware firing makes each piece hard and dense.</dd></div>
+        <div class="care__item"><dt>Made to order</dt><dd>Pieces are made for you and ship in about two weeks.</dd></div>
+        <div class="care__item"><dt>30-day returns</dt><dd>If a piece isn't right, send it back within 30 days.</dd></div>
+        <div class="care__item"><dt>No subscription</dt><dd>Nothing recurring. Buy a piece when you want one, and no more.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="band final" id="shop" aria-label="Shop this month">
+    <div class="wrap">
+      <h2 class="display reveal">This month's pots are on the shelf.</h2>
+      <p class="reveal">Small batch, one of a kind, gone when they're gone.</p>
+      <a class="btn reveal" href="#month">Shop this month's pots</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <div class="foot__brand">
+      <a class="brand" href="#top">Marl.</a>
+      <p>Small-batch stoneware, thrown by hand, one pot at a time.</p>
+    </div>
+    <div class="foot__cols">
+      <div class="foot__col">
+        <h4>Shop</h4>
+        <a href="#month">This month</a>
+        <a href="#work">The work</a>
+        <a href="#care">Care &amp; returns</a>
+      </div>
+      <div class="foot__col">
+        <h4>Studio</h4>
+        <a href="#making">The making</a>
+        <a href="#why">Why handmade</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot__legal">© Marl — a one-person ceramics studio.</div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var motionOK = root.classList.contains('motion-ok');
+
+  // Hero load sequence (CSS does the work once .start is added)
+  var hero = document.getElementById('hero');
+  if (hero) requestAnimationFrame(function () { requestAnimationFrame(function () { hero.classList.add('start'); }); });
+
+  // Mobile menu: full panel, scroll lock, close on link tap or Escape (MOTION-15)
+  var mob = document.querySelector('.nav__mob');
+  if (mob) {
+    var summary = mob.querySelector('summary');
+    mob.addEventListener('click', function (e) { if (e.target.closest('a')) mob.removeAttribute('open'); });
+    mob.addEventListener('toggle', function () { document.body.style.overflow = mob.open ? 'hidden' : ''; });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mob.open) { mob.removeAttribute('open'); if (summary) summary.focus(); }
+    });
+  }
+
+  if (!motionOK) return; // reduced motion / no-JS: everything is already in its final, readable state
+
+  // One-shot reveals, with a scroll/position safety net so no element can stay hidden (MOTION-20)
+  var revealEls = Array.prototype.slice.call(document.querySelectorAll('.reveal, [data-plate]'));
+  function revealEl(el) { if (!el.classList.contains('in')) { el.classList.add('in'); io.unobserve(el); } }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) revealEl(en.target); });
+  }, { threshold: 0.01, rootMargin: '0px 0px -8% 0px' });
+  revealEls.forEach(function (el) { io.observe(el); });
+  function revealSafety() {
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    for (var i = 0; i < revealEls.length; i++) {
+      var el = revealEls[i]; if (el.classList.contains('in')) continue;
+      if (el.getBoundingClientRect().top < vh * 0.92) revealEl(el);
+    }
+  }
+  window.addEventListener('scroll', revealSafety, { passive: true });
+  window.addEventListener('load', revealSafety);
+  revealSafety();
+
+  // --- Scroll-linked scenes, one rAF loop, cached measurements ---
+  var manifesto = document.getElementById('manifesto');
+  var words = [];
+  if (manifesto) {
+    var txt = manifesto.textContent;
+    manifesto.textContent = '';
+    txt.split(/(\s+)/).forEach(function (tok) {
+      if (/^\s+$/.test(tok)) { manifesto.appendChild(document.createTextNode(tok)); }
+      else if (tok) { var s = document.createElement('span'); s.className = 'w'; s.textContent = tok; manifesto.appendChild(s); words.push(s); }
+    });
+  }
+  var manifestoSec = document.getElementById('why');
+  var makingSec = document.getElementById('making');
+  var frameImgs = Array.prototype.slice.call(document.querySelectorAll('#makingFrame img'));
+  var steps = Array.prototype.slice.call(document.querySelectorAll('#makingSteps .making__step'));
+
+  var box = {};
+  function measure() {
+    if (manifestoSec) box.man = { top: manifestoSec.offsetTop, h: manifestoSec.offsetHeight };
+    if (makingSec) box.mk = { top: makingSec.offsetTop, h: makingSec.offsetHeight };
+    box.vh = window.innerHeight;
+  }
+  var lit = -1, curStep = -1, targetStep = 0, shownStep = 0;
+  function update(y) {
+    // manifesto: light words in reading order across the pinned range
+    if (box.man && words.length) {
+      var p = (y - box.man.top) / (box.man.h - box.vh);
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      var target = Math.round(p * 1.08 * words.length);
+      if (target !== lit) {
+        for (var i = 0; i < words.length; i++) words[i].style.color = i < target ? 'var(--ink)' : '';
+        lit = target;
+      }
+    }
+    // making: which step is active follows scroll through the section
+    if (box.mk && steps.length) {
+      var q = (y + box.vh * 0.5 - box.mk.top) / box.mk.h;
+      q = q < 0 ? 0 : q > 1 ? 1 : q;
+      targetStep = Math.min(steps.length - 1, Math.floor(q * steps.length));
+      if (targetStep !== curStep) {
+        steps.forEach(function (s, i) { s.classList.toggle('active', i === targetStep); });
+        curStep = targetStep;
+      }
+    }
+  }
+  // crossfade the making frame with a lerp-smoothed step so native scroll still glides
+  function tickFrame() {
+    if (targetStep !== shownStep) {
+      shownStep = targetStep;
+      frameImgs.forEach(function (im) { im.classList.toggle('show', +im.dataset.step === shownStep); });
+    }
+  }
+  var raf;
+  var lastY = -1;
+  function loop() {
+    var y = window.scrollY || window.pageYOffset;
+    if (y !== lastY) { update(y); lastY = y; }
+    tickFrame();
+    raf = requestAnimationFrame(loop);
+  }
+  measure();
+  window.addEventListener('resize', function () { clearTimeout(measure._t); measure._t = setTimeout(measure, 150); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

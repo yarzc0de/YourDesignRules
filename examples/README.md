@@ -10,6 +10,21 @@ Four tasks, each built twice from the same prompt and the same facts by the same
 The checklist loop is part of the skill, so the "after" runs took longer. That difference is the point: the
 rules make the agent look at its own render and fix what it sees.
 
+## One skill, three identities
+
+Asked for three different subjects, the skill picks three different archetypes and builds three pages that do
+not look like each other. That is the job of the archetype layer: smooth motion is shared craft, but the
+identity comes from the subject.
+
+| Page | Archetype | Ground | Type |
+|---|---|---|---|
+| [Sunshift](saas-landing/after.html) — on-call SaaS ([fold](saas-landing/after-fold.jpg)) | Working Surface | White, daylit | Space Grotesk · Manrope |
+| [Marl](ceramics-landing/after.html) — ceramics studio ([fold](ceramics-landing/after-fold.jpg)) | Gallery Wall | White, warm | Cormorant Infant · Karla |
+| [This repo's site](../docs/index.html) — [live](https://yarzc0de.github.io/YourDesignRules/) ([fold](project-site/fold.jpg)) | Monochrome Stage | Black, cinematic | Plus Jakarta Sans |
+
+All three pass the same checks — smooth scroll, no frame over 25 ms at 2× density and 4× CPU, no rows of equal
+boxes. Only the identity differs, because the subject does.
+
 ## SaaS landing page: Sunshift
 
 On-call scheduling and incident handoff for engineering teams across time zones. The brief listed the
@@ -111,6 +126,36 @@ What the rules changed:
 Archetype chosen: **Calm Utility** (Manrope, Karla, Fragment Mono). Below 1024 px the sidebar becomes a
 sheet that slides in from the left (MOTION-15), and the tables turn into list rows (DATA-17). Loading, empty,
 and error states can be previewed with `?state=loading`, `?state=empty`, or `?state=error`.
+
+## Landing page: Marl (ceramics studio)
+
+A one-person studio throwing small-batch stoneware. The brief had only product facts (one-of-a-kind pieces,
+lead-free glazes, a monthly drop, $28–$120, made to order, 30-day returns) and, as the reference and three
+mood words the skill asks for when there is no brand, "a quiet printed gallery catalogue" and "warm, handmade,
+editorial".
+
+| | Desktop | Phone |
+|---|---|---|
+| After | [after-1440.jpg](ceramics-landing/after-1440.jpg) | [after-390.jpg](ceramics-landing/after-390.jpg) |
+| HTML | [after.html](ceramics-landing/after.html) | |
+
+Archetype chosen: **Gallery Wall** — the reference is the archetype almost verbatim. One art-directed,
+warm-lit full-bleed photograph of the making carries the hero, and the page reads as a catalogue of numbered
+plates with evidence captions. The accent is a single deep iron-oxide glaze tone, kept off any cream ground to
+dodge the generator house style (CORE-25); the collection is an asymmetric hang, not a four-up card grid
+(CORE-21). This run and Sunshift started from the same rules and the same model; only the subject changed.
+
+## The project's own site: Monochrome Stage
+
+This repository's landing page — [live](https://yarzc0de.github.io/YourDesignRules/), source at
+[docs/index.html](../docs/index.html) — was built with the skill. It is the Monochrome Stage case: black and
+white, one monumental fine-art key visual, large soft geometric type, and a scroll that glides from scene to
+scene ([fold](project-site/fold.jpg), [full page](project-site/full-1440.jpg)).
+
+Archetype chosen: **Monochrome Stage**. The bold decision is a single black-and-white fine-art image carrying
+the hero, with the headline set in its empty sky; the page then moves through a word-by-word manifesto, a
+before/after wipe over the two SaaS examples, and a horizontal rules track. One Lenis loop, transform and
+opacity only, no frame over 25 ms at 2× density.
 
 ## Reproduce
 
