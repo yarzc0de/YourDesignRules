@@ -12,8 +12,8 @@ short, imperative, and testable, and comes with a one-line reason.
 <!-- before/after -->
 | Without the rules | With the rules |
 |---|---|
-| ![Landing page without the rules](examples/landing-page/before-1440.png) | ![Landing page with the rules](examples/landing-page/after-1440.png) |
-| ![Dashboard without the rules](examples/dashboard/before-1440.png) | ![Dashboard with the rules](examples/dashboard/after-1440.png) |
+| ![Landing page without the rules](examples/landing-page/before-1440.jpg) | ![Landing page with the rules](examples/landing-page/after-1440.jpg) |
+| ![Dashboard without the rules](examples/dashboard/before-1440.jpg) | ![Dashboard with the rules](examples/dashboard/after-1440.jpg) |
 
 Same prompt, same facts, same model. The left column is a plain request; the right column had the skill
 active. See [`examples/`](examples/) for the HTML, phone-width renders, and the checklist results.

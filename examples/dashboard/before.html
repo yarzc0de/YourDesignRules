@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard · Crumb &amp; Co</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F2EC;
+  --surface:#FFFFFF;
+  --surface-2:#FAF7F3;
+  --border:#E7DFD4;
+  --border-soft:#F1ECE5;
+  --border-strong:#D9CEC0;
+  --text:#1E1915;
+  --text-2:#5A5047;
+  --text-3:#71665A;
+  --accent:#A8501F;
+  --accent-hover:#8F431A;
+  --accent-soft:#F6E7DC;
+  --danger:#B42318;
+  --danger-soft:#FDEDEB;
+  --danger-border:#F2C4BD;
+  --warn:#94570A;
+  --warn-soft:#FDF2DF;
+  --warn-fill:#D98A1E;
+  --ok:#0B7046;
+  --ok-soft:#E5F4EC;
+  --info:#2F5FA8;
+  --info-soft:#E8EFFA;
+  --neutral-soft:#EFEAE4;
+  --sidebar:#211A15;
+  --sidebar-text:#EDE5DB;
+  --sidebar-muted:#B1A598;
+  --sidebar-hover:#2F2620;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(30,25,21,.04),0 6px 20px rgba(30,25,21,.04);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+
+/* Sidebar */
+.sidebar{position:sticky;top:0;height:100vh;background:var(--sidebar);color:var(--sidebar-text);display:flex;flex-direction:column;padding:20px 14px}
+.brand{display:flex;align-items:center;gap:11px;padding:4px 10px 24px}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:var(--accent);display:grid;place-items:center;font-family:Fraunces,serif;font-weight:600;font-size:18px;color:#fff;flex:none}
+.brand-name{font-family:Fraunces,serif;font-weight:600;font-size:18px;letter-spacing:-.01em;line-height:1.15;color:#fff}
+.brand-sub{display:block;font-family:Inter,sans-serif;font-size:11.5px;color:var(--sidebar-muted);font-weight:500;letter-spacing:.02em}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:9px;color:var(--sidebar-muted);font-weight:500}
+.nav a:hover{background:var(--sidebar-hover);color:var(--sidebar-text)}
+.nav a[aria-current="page"]{background:#3A2E26;color:#fff}
+.nav a[aria-current="page"] svg{color:#F0A47A}
+.nav .count{margin-left:auto;font-size:11.5px;font-weight:600;background:#5C2B1B;color:#FFDCC8;padding:1px 8px;border-radius:999px}
+.sidebar-foot{margin-top:auto;border-top:1px solid #3A2F28;padding:16px 8px 2px;display:flex;align-items:center;gap:11px}
+.avatar{width:36px;height:36px;border-radius:50%;background:#E9C9A8;color:#3B2414;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.user-name{font-weight:600;font-size:13.5px;color:#fff;line-height:1.3}
+.user-role{font-size:12px;color:var(--sidebar-muted);line-height:1.35}
+.backdrop{display:none;position:fixed;inset:0;background:rgba(20,15,10,.45);z-index:30}
+
+/* Main */
+.main{min-width:0;padding:26px 32px 56px;max-width:1360px;width:100%}
+.topbar{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.eyebrow{margin:0 0 2px;font-size:13px;color:var(--text-3);font-weight:500}
+.live{display:inline-flex;align-items:center;gap:6px}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:#2E9E6A;box-shadow:0 0 0 3px rgba(46,158,106,.18)}
+h1{margin:0;font-family:Fraunces,serif;font-weight:500;font-size:28px;letter-spacing:-.015em;line-height:1.15}
+.top-actions{margin-left:auto;display:flex;gap:10px;align-items:center}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0 12px;height:40px;width:280px;color:var(--text-3)}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search input{border:0;outline:0;background:transparent;font:inherit;color:var(--text);width:100%}
+.search input::placeholder{color:var(--text-3)}
+.icon-btn{width:40px;height:40px;border-radius:10px;border:1px solid var(--border);background:var(--surface);display:grid;place-items:center;cursor:pointer;position:relative;color:var(--text-2);flex:none}
+.icon-btn:hover{background:var(--surface-2)}
+.icon-btn .dot{position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--danger);border:2px solid var(--surface)}
+.menu-btn{display:none}
+
+/* Pills */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;line-height:1.6;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.danger{background:var(--danger-soft);color:var(--danger)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.info{background:var(--info-soft);color:var(--info)}
+.pill.neutral{background:var(--neutral-soft);color:var(--text-2)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px;border-radius:10px;font-weight:600;font-size:13.5px;border:1px solid var(--border-strong);background:var(--surface);cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn svg.i{width:16px;height:16px}
+.link{color:var(--accent);font-weight:600;font-size:13px;display:inline-flex;gap:4px;align-items:center}
+.link:hover{color:var(--accent-hover);text-decoration:underline;text-underline-offset:3px}
+.link svg.i{width:15px;height:15px}
+
+/* Attention card */
+.attention{background:var(--surface);border:1px solid var(--danger-border);border-radius:18px;box-shadow:var(--shadow);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);overflow:hidden;margin-bottom:30px}
+.attention-lead{padding:24px 26px 26px;background:linear-gradient(165deg,#FFF4F0 0%,#FFFFFF 75%);border-right:1px solid var(--border);display:flex;flex-direction:column}
+.attention-lead .kicker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--text-3);font-weight:500}
+.attention h2{font-family:Fraunces,serif;font-size:36px;font-weight:600;margin:14px 0 8px;letter-spacing:-.02em;line-height:1.05}
+.attention-lead p{margin:0 0 22px;color:var(--text-2);font-size:15px;max-width:44ch}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+.issues{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.issue{background:var(--surface);padding:18px 20px 20px;display:flex;gap:13px;min-width:0}
+.issue-icon{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none}
+.issue-icon.danger{background:var(--danger-soft);color:var(--danger)}
+.issue-icon.warn{background:var(--warn-soft);color:var(--warn)}
+.issue-icon.neutral{background:var(--neutral-soft);color:var(--text-2)}
+.issue-body{min-width:0;flex:1}
+.issue h3{margin:0 0 3px;font-size:14px;font-weight:600}
+.issue p{margin:0;color:var(--text-2);font-size:13px}
+.mini{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.mini li{display:flex;align-items:center;gap:8px}
+.mini .val{margin-left:auto;color:var(--text-2)}
+.led{width:8px;height:8px;border-radius:50%;flex:none}
+.led.on{background:#2E9E6A;box-shadow:0 0 0 3px rgba(46,158,106,.15)}
+.led.off{background:var(--danger);box-shadow:0 0 0 3px rgba(180,35,24,.14)}
+.mini-meter{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center;margin-top:10px;font-size:13px}
+.mini-meter .bar{grid-column:1 / -1;height:5px;border-radius:999px;background:#F1EBE3;overflow:hidden;margin-bottom:6px}
+.mini-meter .bar span{display:block;height:100%;border-radius:inherit;background:var(--danger)}
+
+/* Sections */
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 12px;flex-wrap:wrap}
+.section-head h2{font-size:16px;font-weight:600;margin:0}
+.section-head .meta{color:var(--text-3);font-size:13px}
+
+/* Store cards */
+.stores{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:30px}
+.store{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.store.is-alert{border-color:var(--danger-border)}
+.store.is-alert::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--danger)}
+.store-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.store-name{font-weight:600;font-size:15px}
+.store-rev{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.store-rev strong{font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.delta{font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:2px;white-space:nowrap}
+.delta svg.i{width:14px;height:14px;stroke-width:2.2}
+.delta.up{color:var(--ok)}
+.delta.down{color:var(--danger)}
+.delta small{font-weight:500;color:var(--text-3);font-size:12px;margin-left:4px}
+.store-row{display:flex;justify-content:space-between;gap:8px;color:var(--text-2);font-size:13px}
+.share{height:6px;border-radius:999px;background:#F1EBE3;overflow:hidden}
+.share span{display:block;height:100%;background:#C98A62;border-radius:inherit}
+.store.is-alert .share span{background:var(--accent)}
+
+/* Panels */
+.cols{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:20px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.panel-head h2{margin:0;font-size:16px;font-weight:600}
+.panel-head .meta{color:var(--text-3);font-size:13px;font-weight:500;margin-left:6px}
+.panel-foot{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface-2)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:12px 20px 0}
+.chip{height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:12.5px;font-weight:500;color:var(--text-2);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip:hover{border-color:var(--border-strong);color:var(--text)}
+.chip .n{color:var(--text-3);font-variant-numeric:tabular-nums}
+.chip[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:#fff}
+.chip[aria-pressed="true"] .n{color:#CFC5BA}
+.table-wrap{overflow-x:auto;padding-top:10px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;font-weight:600;color:var(--text-3);padding:9px 20px;background:var(--surface-2);border-top:1px solid var(--border-soft);border-bottom:1px solid var(--border)}
+td{padding:12px 20px;border-bottom:1px solid var(--border-soft);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:#FCFAF7}
+.r{text-align:right}
+td.time{color:var(--text-2)}
+td.total{font-weight:600}
+td.total.refunded{color:var(--text-3);text-decoration:line-through;font-weight:500}
+.tag{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:1px 7px;border-radius:6px}
+.empty{padding:24px 20px;color:var(--text-3);text-align:center}
+
+/* Low stock */
+.stock{list-style:none;margin:0;padding:6px 0}
+.stock li{padding:12px 20px;display:flex;flex-direction:column;gap:8px}
+.stock li + li{border-top:1px solid var(--border-soft)}
+.stock-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.stock-item{font-weight:600}
+.stock-store{font-size:12.5px;color:var(--text-3)}
+.stock-store.alert{color:var(--danger);font-weight:500}
+.stock-qty{text-align:right;font-size:13px;color:var(--text-2);white-space:nowrap}
+.stock-qty strong{color:var(--text);font-size:15px}
+.meter{height:6px;border-radius:999px;background:#F1EBE3;overflow:hidden}
+.meter span{display:block;height:100%;border-radius:inherit;background:var(--warn-fill)}
+.meter.critical span{background:var(--danger)}
+
+/* Responsive */
+@media (max-width:1120px){
+  .stores{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .attention{grid-template-columns:1fr}
+  .attention-lead{border-right:0;border-bottom:1px solid var(--border)}
+  .actions{margin-top:0}
+  .cols{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;bottom:0;width:272px;max-width:85vw;z-index:40;transform:translateX(-100%);transition:transform .22s ease;visibility:hidden}
+  .sidebar.open{transform:none;visibility:visible}
+  .backdrop.show{display:block}
+  .menu-btn{display:grid}
+  .search{display:none}
+  .main{padding:16px 16px 44px}
+}
+@media (max-width:600px){
+  .stores{grid-template-columns:1fr}
+  .issues{grid-template-columns:1fr}
+  h1{font-size:23px}
+  .attention h2{font-size:30px}
+  .attention-lead{padding:20px}
+  .issue{padding:16px 20px}
+  th,td{padding-left:14px;padding-right:14px}
+  .hide-sm{display:none}
+  .panel-head,.chips,.panel-foot{padding-left:16px;padding-right:16px}
+  .stock li{padding-left:16px;padding-right:16px}
+}
+@media (prefers-reduced-motion:reduce){.sidebar{transition:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">C</div>
+      <div class="brand-name">Crumb &amp; Co<span class="brand-sub">Back office</span></div>
+    </div>
+    <nav class="nav">
+      <a href="#" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Dashboard</a>
+      <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>Orders</a>
+      <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>Inventory<span class="count" aria-label="4 items low on stock">4</span></a>
+      <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v10h16V10"/><path d="M3 4h18l-1 6H4z"/><path d="M10 20v-5h4v5"/></svg>Stores</a>
+      <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.6 3 5.2"/></svg>Staff</a>
+      <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21h18"/><path d="M6 17v-6M11 17V6M16 17v-4M21 17V9"/></svg>Reports</a>
+      <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>Settings</a>
+    </nav>
+    <div class="sidebar-foot">
+      <div class="avatar" aria-hidden="true">MC</div>
+      <div>
+        <div class="user-name">Maya Chen</div>
+        <div class="user-role">Regional operations manager</div>
+      </div>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <div>
+        <p class="eyebrow"><span class="live">Saturday, 7 November · Updated 10:43</span></p>
+        <h1>Good morning, Maya</h1>
+      </div>
+      <div class="top-actions">
+        <label class="search">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span class="sr-only">Search</span>
+          <input type="search" placeholder="Search orders, items, stores">
+        </label>
+        <button class="icon-btn" aria-label="Notifications, unread"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg><span class="dot"></span></button>
+      </div>
+    </header>
+
+    <!-- Answer first: which store needs attention -->
+    <section class="attention" aria-labelledby="attn-title">
+      <div class="attention-lead">
+        <div class="kicker"><span class="pill danger">Needs attention now</span> 1 of 4 stores</div>
+        <h2 id="attn-title">Old Town</h2>
+        <p>Revenue is down 14% on last Saturday, oven 2 has been offline since 08:15, and two items are below their reorder point.</p>
+        <div class="actions">
+          <a class="btn primary" href="#">Open Old Town<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn" href="#">Reorder stock</a>
+          <a class="btn" href="#">View oven ticket</a>
+        </div>
+      </div>
+      <div class="issues">
+        <div class="issue">
+          <div class="issue-icon danger"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.6 1.2 2.5 2 2.5-.5-3 0-5.5 1-8z"/></svg></div>
+          <div class="issue-body">
+            <h3>Oven 2 offline</h3>
+            <p>Since 08:15. Maintenance ticket open.</p>
+            <ul class="mini num">
+              <li><span class="led on"></span>Oven 1<span class="val">Running</span></li>
+              <li><span class="led off"></span>Oven 2<span class="val">Offline · 2h 28m</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="issue">
+          <div class="issue-icon danger"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 7 6 6 4-4 8 8"/><path d="M15 17h6v-6"/></svg></div>
+          <div class="issue-body">
+            <h3>Revenue down 14%</h3>
+            <p class="num">$3,310 from 187 orders, vs. last Saturday. The only store below last week.</p>
+          </div>
+        </div>
+        <div class="issue">
+          <div class="issue-icon warn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg></div>
+          <div class="issue-body">
+            <h3>2 items below reorder point</h3>
+            <div class="mini-meter num">
+              <span>Sourdough loaf</span><span><strong>4</strong> / 20</span>
+              <div class="bar"><span style="width:20%"></span></div>
+              <span>Butter croissant</span><span><strong>9</strong> / 30</span>
+              <div class="bar"><span style="width:30%"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="issue">
+          <div class="issue-icon neutral"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></div>
+          <div class="issue-body">
+            <h3>1 refund this morning</h3>
+            <p class="num">10:35 · 2 items · $9.80</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stores -->
+    <section aria-labelledby="stores-title">
+      <div class="section-head">
+        <h2 id="stores-title">Stores today</h2>
+        <span class="meta num">636 orders · $11,575 revenue · vs. last Saturday</span>
+      </div>
+      <div class="stores">
+        <article class="store is-alert">
+          <div class="store-top"><span class="store-name">Old Town</span><span class="pill danger">Attention</span></div>
+          <div class="store-rev num"><strong>$3,310</strong><span class="delta down"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>14%</span></div>
+          <div class="store-row num"><span>187 orders</span><span>29% of revenue</span></div>
+          <div class="share" aria-hidden="true"><span style="width:29%"></span></div>
+        </article>
+        <article class="store">
+          <div class="store-top"><span class="store-name">Harbor</span><span class="pill warn">1 low item</span></div>
+          <div class="store-rev num"><strong>$1,720</strong><span class="delta up"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>2%</span></div>
+          <div class="store-row num"><span>96 orders</span><span>15% of revenue</span></div>
+          <div class="share" aria-hidden="true"><span style="width:15%"></span></div>
+        </article>
+        <article class="store">
+          <div class="store-top"><span class="store-name">Northgate</span><span class="pill warn">1 low item</span></div>
+          <div class="store-rev num"><strong>$2,605</strong><span class="delta up"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>11%</span></div>
+          <div class="store-row num"><span>141 orders</span><span>23% of revenue</span></div>
+          <div class="share" aria-hidden="true"><span style="width:23%"></span></div>
+        </article>
+        <article class="store">
+          <div class="store-top"><span class="store-name">Riverside</span><span class="pill ok">On track</span></div>
+          <div class="store-rev num"><strong>$3,940</strong><span class="delta up"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>6%</span></div>
+          <div class="store-row num"><span>212 orders</span><span>34% of revenue</span></div>
+          <div class="share" aria-hidden="true"><span style="width:34%"></span></div>
+        </article>
+      </div>
+    </section>
+
+    <div class="cols">
+      <!-- Recent orders -->
+      <section class="panel" aria-labelledby="orders-title">
+        <div class="panel-head">
+          <h2 id="orders-title">Recent orders<span class="meta" id="ordersCount">8 shown</span></h2>
+          <a class="link" href="#">All orders<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="chips" role="group" aria-label="Filter by store">
+          <button class="chip" data-filter="all" aria-pressed="true">All <span class="n">8</span></button>
+          <button class="chip" data-filter="Old Town" aria-pressed="false">Old Town <span class="n">3</span></button>
+          <button class="chip" data-filter="Riverside" aria-pressed="false">Riverside <span class="n">2</span></button>
+          <button class="chip" data-filter="Northgate" aria-pressed="false">Northgate <span class="n">2</span></button>
+          <button class="chip" data-filter="Harbor" aria-pressed="false">Harbor <span class="n">1</span></button>
+        </div>
+        <div class="table-wrap">
+          <table class="num">
+            <thead>
+              <tr><th>Time</th><th>Store</th><th>Items</th><th class="r">Total</th><th>Status</th></tr>
+            </thead>
+            <tbody id="ordersBody">
+              <tr data-store="Riverside"><td class="time">10:42</td><td>Riverside</td><td>3 items</td><td class="r total">$18.50</td><td><span class="pill ok">Ready</span></td></tr>
+              <tr data-store="Old Town"><td class="time">10:40</td><td>Old Town</td><td>1 item</td><td class="r total">$4.20</td><td><span class="pill ok">Ready</span></td></tr>
+              <tr data-store="Northgate"><td class="time">10:37</td><td>Northgate</td><td>6 items</td><td class="r total">$41.75</td><td><span class="pill info">Preparing</span></td></tr>
+              <tr data-store="Old Town"><td class="time">10:35</td><td>Old Town</td><td>2 items</td><td class="r total refunded">$9.80</td><td><span class="pill neutral">Refunded</span></td></tr>
+              <tr data-store="Harbor"><td class="time">10:31</td><td>Harbor</td><td>4 items</td><td class="r total">$22.10</td><td><span class="pill ok">Ready</span></td></tr>
+              <tr data-store="Riverside"><td class="time">10:28</td><td>Riverside</td><td>12 items<span class="tag">Catering</span></td><td class="r total">$96.00</td><td><span class="pill info">Preparing</span></td></tr>
+              <tr data-store="Old Town"><td class="time">10:26</td><td>Old Town</td><td>2 items</td><td class="r total">$7.40</td><td><span class="pill ok">Ready</span></td></tr>
+              <tr data-store="Northgate"><td class="time">10:22</td><td>Northgate</td><td>1 item</td><td class="r total">$3.90</td><td><span class="pill ok">Ready</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Low stock -->
+      <section class="panel" aria-labelledby="stock-title">
+        <div class="panel-head">
+          <h2 id="stock-title">Low stock<span class="meta">4 items</span></h2>
+          <a class="link" href="#">Inventory<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <ul class="stock num">
+          <li>
+            <div class="stock-top">
+              <div><div class="stock-item">Sourdough loaf</div><div class="stock-store alert">Old Town</div></div>
+              <div class="stock-qty"><strong>4</strong> left<br>reorder at 20</div>
+            </div>
+            <div class="meter critical" role="img" aria-label="4 of 20, 20% of reorder point"><span style="width:20%"></span></div>
+          </li>
+          <li>
+            <div class="stock-top">
+              <div><div class="stock-item">Butter croissant</div><div class="stock-store alert">Old Town</div></div>
+              <div class="stock-qty"><strong>9</strong> left<br>reorder at 30</div>
+            </div>
+            <div class="meter critical" role="img" aria-label="9 of 30, 30% of reorder point"><span style="width:30%"></span></div>
+          </li>
+          <li>
+            <div class="stock-top">
+              <div><div class="stock-item">Rye starter</div><div class="stock-store">Harbor</div></div>
+              <div class="stock-qty"><strong>1 kg</strong> left<br>reorder at 3 kg</div>
+            </div>
+            <div class="meter" role="img" aria-label="1 of 3 kg, 33% of reorder point"><span style="width:33%"></span></div>
+          </li>
+          <li>
+            <div class="stock-top">
+              <div><div class="stock-item">Oat milk</div><div class="stock-store">Northgate</div></div>
+              <div class="stock-qty"><strong>2 cartons</strong> left<br>reorder at 6</div>
+            </div>
+            <div class="meter" role="img" aria-label="2 of 6 cartons, 33% of reorder point"><span style="width:33%"></span></div>
+          </li>
+        </ul>
+        <div class="panel-foot">
+          <span class="hide-sm" style="color:var(--text-3);font-size:13px">Bar shows stock left against reorder point</span>
+          <a class="btn primary" href="#">Create reorder</a>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  var sidebar=document.getElementById('sidebar'),
+      backdrop=document.getElementById('backdrop'),
+      menuBtn=document.getElementById('menuBtn');
+  function setMenu(open){
+    sidebar.classList.toggle('open',open);
+    backdrop.classList.toggle('show',open);
+    menuBtn.setAttribute('aria-expanded',String(open));
+    if(open){var first=sidebar.querySelector('a');if(first)first.focus();}
+  }
+  menuBtn.addEventListener('click',function(){setMenu(!sidebar.classList.contains('open'));});
+  backdrop.addEventListener('click',function(){setMenu(false);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&sidebar.classList.contains('open')){setMenu(false);menuBtn.focus();}
+  });
+
+  var chips=document.querySelectorAll('.chip'),
+      rows=document.querySelectorAll('#ordersBody tr'),
+      count=document.getElementById('ordersCount');
+  chips.forEach(function(chip){
+    chip.addEventListener('click',function(){
+      var f=chip.getAttribute('data-filter'),shown=0;
+      chips.forEach(function(c){c.setAttribute('aria-pressed',String(c===chip));});
+      rows.forEach(function(r){
+        var show=f==='all'||r.getAttribute('data-store')===f;
+        r.hidden=!show; if(show)shown++;
+      });
+      count.textContent=shown+' shown';
+    });
+  });
+})();
+</script>
+</body>
+</html>

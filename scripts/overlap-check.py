@@ -26,6 +26,7 @@ SKIP_DIRS = {".git", "node_modules", "references", ".render"}
 SKIP_FILES = {"LICENSE", "LICENSE-CONTENT"}
 WORD = re.compile(r"[a-z0-9]+(?:['.\-][a-z0-9]+)*")
 URL = re.compile(r"https?://\S+")
+SVG_LINE = re.compile(r"<(svg|path|symbol|use|circle|rect|line|polyline)\b", re.I)
 
 
 def words(text):
@@ -62,6 +63,8 @@ def scan_file(path, grams, n):
     lines = path.read_text(errors="ignore").splitlines()
     tokens = []  # (word, line_no)
     for i, line in enumerate(lines, 1):
+        if SVG_LINE.search(line):
+            continue  # icon path data is code, not prose
         tokens.extend((w, i) for w in words(line))
     hit = [False] * len(tokens)
     seq = [t[0] for t in tokens]

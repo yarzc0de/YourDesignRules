@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard · Crumb &amp; Co</title>
+<script>document.documentElement.classList.add('js');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Karla:wght@400;500;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Calm Utility palette: neutral ground, one blue accent for actions and selection */
+    --background: #FFFFFF;
+    --surface: #F5F7FA;
+    --surface-hover: #E8ECF1;
+    --surface-strong: #EEF1F5;
+    --accent-subtle: #EAF0FD;
+    --foreground: #111827;
+    --secondary-foreground: #4B5563;
+    --muted-foreground: #646B78;
+    --primary: #2F5FD0;
+    --primary-hover: #284FB0;
+    --primary-active: #22449A;
+    --primary-foreground: #FFFFFF;
+    --ring: #2F5FD0;
+    --border: #E2E6EC;
+    --border-strong: #838D9C;
+    --chart-neutral: #7A8290;
+    --success: #15803D;
+    --success-subtle: #EDF7F0;
+    --error: #C0262D;
+    --error-subtle: #FCEDEE;
+    --scrim: rgb(17 24 39 / 0.4);
+    --shadow-sheet: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(0 0 0 / 0.08);
+
+    --font-heading: "Manrope", system-ui, sans-serif;
+    --font-body: "Karla", system-ui, sans-serif;
+    --font-mono: "Fragment Mono", ui-monospace, monospace;
+
+    --radius-control: 8px;
+    --sidebar-w: 256px;
+    --topbar-h: 56px;
+    --page-pad: 32px;
+
+    /* Motion: feedback and continuity only (MOTION-2) */
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    --dur-press: 100ms;
+    --dur-hover: 150ms;
+    --dur-morph: 220ms;
+    --dur-sheet-in: 280ms;
+    --dur-sheet-out: 190ms;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { font-synthesis: none; -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font: 400 0.875rem/1.4 var(--font-body);
+  }
+  h1, h2, p, ol, ul, dl, dd { margin: 0; }
+  ol, ul { padding: 0; list-style: none; }
+  h1, h2 { font-family: var(--font-heading); line-height: 1.2; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  a { color: inherit; }
+  .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .tnum { font-variant-numeric: tabular-nums; }
+  .icon { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5;
+          stroke-linecap: round; stroke-linejoin: round; }
+  .icon-20 { width: 20px; height: 20px; }
+  .icon-24 { width: 24px; height: 24px; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  html:not(.js) .js-only { display: none !important; }
+  .skip { position: absolute; z-index: 40; left: 16px; top: 8px; padding: 10px 16px; border-radius: var(--radius-control);
+          background: var(--primary); color: var(--primary-foreground); font-weight: 700; transform: translateY(-200%); }
+  .skip:focus-visible { transform: none; }
+  main:focus { outline: none; }
+
+  /* Controls: hover tint, pressed scale, instant focus ring, inert disabled state (MOTION-13) */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 40px; padding: 10px 16px; border-radius: var(--radius-control);
+    font: 700 0.875rem/1.2 var(--font-body); text-decoration: none; cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--background); color: var(--foreground);
+    transition: background-color var(--dur-hover) var(--ease-out), border-color var(--dur-hover) var(--ease-out),
+                transform var(--dur-press) var(--ease-out);
+  }
+  .btn:not(:disabled):hover { background: var(--surface); }
+  .btn:not(:disabled):active { background: var(--surface-strong); transform: scale(0.98); }
+  .btn:disabled { cursor: default; color: var(--muted-foreground); border-color: var(--border); }
+  .btn-primary { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); }
+  .btn-primary:not(:disabled):hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+  .btn-primary:not(:disabled):active { background: var(--primary-active); border-color: var(--primary-active); }
+  .btn .spinner { display: none; }
+  .btn.is-busy .spinner { display: block; animation: spin 800ms linear infinite; }
+  .btn.is-busy .icon-idle { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .link {
+    color: var(--primary); font-weight: 700; text-decoration: underline; text-decoration-color: transparent;
+    text-underline-offset: 3px; border-radius: 2px;
+    transition: text-decoration-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+  }
+  .link:hover { text-decoration-color: currentColor; }
+  .link:active { color: var(--primary-active); }
+  .link-row { display: inline-flex; align-items: center; gap: 4px; min-height: 24px; }
+
+  .icon-btn {
+    display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0;
+    border: 0; border-radius: var(--radius-control); background: transparent; color: var(--foreground); cursor: pointer;
+    transition: background-color var(--dur-hover) var(--ease-out), transform var(--dur-press) var(--ease-out);
+  }
+  .icon-btn:hover { background: var(--surface-hover); }
+  .icon-btn:active { transform: scale(0.98); }
+
+  /* Menu icon morphs into a close icon (MOTION-14) */
+  .morph path { transform-box: view-box; transform-origin: 12px 12px;
+                transition: transform var(--dur-morph) var(--ease-in-out), opacity var(--dur-morph) var(--ease-in-out); }
+  .nav-open .morph .l1 { transform: rotate(45deg) translateY(7px); }
+  .nav-open .morph .l2 { opacity: 0; }
+  .nav-open .morph .l3 { transform: rotate(-45deg) translateY(-7px); }
+
+  /* App frame */
+  .app { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100vh; }
+  .topbar { display: none; }
+  .wordmark { font: 700 1.125rem/1.2 var(--font-heading); letter-spacing: -0.01em; }
+
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border); }
+  .sidebar-inner {
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 24px; padding: 24px 16px;
+  }
+  .sidebar-brand { padding: 4px 12px; }
+  .nav { display: flex; flex-direction: column; }
+  .nav-link {
+    display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 10px 12px;
+    border-radius: var(--radius-control); color: var(--secondary-foreground); font-weight: 500; text-decoration: none;
+    transition: background-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out),
+                transform var(--dur-press) var(--ease-out);
+  }
+  .nav-link:hover { background: var(--surface-hover); color: var(--foreground); }
+  .nav-link:active { transform: scale(0.98); }
+  .nav-link[aria-current="page"] { background: var(--accent-subtle); color: var(--primary); font-weight: 700; }
+  .user { margin-top: auto; display: flex; align-items: center; gap: 12px; padding: 16px 12px 0; border-top: 1px solid var(--border); }
+  .avatar {
+    display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 50%;
+    background: var(--surface-strong); color: var(--secondary-foreground); font-weight: 700; font-size: 0.75rem;
+    box-shadow: inset 0 0 0 1px var(--border);
+  }
+  .user-name { display: block; font-weight: 700; }
+  .user-role { display: block; color: var(--muted-foreground); }
+  .scrim { display: none; }
+
+  /* Page */
+  .page { max-width: 1280px; margin-inline: auto; padding: 32px var(--page-pad) 48px; display: flex; flex-direction: column; gap: 32px; }
+  .page-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "title action" "meta action";
+               column-gap: 16px; row-gap: 4px; align-items: center; }
+  .page-head h1 { grid-area: title; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+  .page-meta { grid-area: meta; color: var(--muted-foreground); }
+  .page-head .btn { grid-area: action; }
+
+  .overview, .detail { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  section { min-width: 0; }
+
+  /* Lead: the answer to "which store needs attention" */
+  .lead { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .flag { display: inline-flex; align-items: center; gap: 8px; color: var(--error); font-weight: 700; }
+  .lead-name { font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  .readout { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .readout-figure { display: inline-flex; align-items: center; gap: 4px; color: var(--error);
+                    font: 700 3rem/1 var(--font-heading); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .readout-caption { color: var(--secondary-foreground); font-size: 1rem; line-height: 1.45; }
+  .readout-caption .tnum { color: var(--foreground); font-weight: 500; }
+  .facts { display: flex; flex-direction: column; gap: 12px; width: 100%;
+           padding-top: 16px; border-top: 1px solid var(--border); font-size: 1rem; line-height: 1.45; }
+  .fact { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 16px; }
+  .facts dt { font-weight: 700; }
+  .facts dd { display: flex; flex-direction: column; gap: 4px; color: var(--secondary-foreground); }
+  .facts dd > span { text-wrap: pretty; }
+  .facts .bad { color: var(--error); font-weight: 700; }
+  .lead-actions { padding-top: 8px; }
+
+  /* Section heads */
+  .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 16px; }
+  .section-head h2 { font-size: 1.125rem; font-weight: 600; }
+  .section-sub { margin-top: 4px; color: var(--muted-foreground); }
+
+  /* Store comparison: diverging bars computed from the data */
+  .store { display: flex; flex-direction: column; gap: 8px; padding-block: 12px; border-bottom: 1px solid var(--border); }
+  .store:first-child { border-top: 1px solid var(--border-strong); }
+  .store-line { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .store-name { font-weight: 500; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px;
+                border-radius: 2px; transition: text-decoration-color var(--dur-hover) var(--ease-out); }
+  .store-name:hover { text-decoration-color: currentColor; }
+  .store-name:active { color: var(--primary-active); }
+  .store.is-focus .store-name { font-weight: 700; }
+  .store-figs { color: var(--muted-foreground); white-space: nowrap; }
+  .diverge { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+  .half { display: flex; align-items: center; gap: 8px; min-height: 24px; }
+  .neg { justify-content: flex-end; border-right: 1px solid var(--border-strong); }
+  .bar { height: 12px; width: calc((100% - 48px) * var(--f)); flex: none; background: var(--chart-neutral); }
+  .neg .bar { border-radius: 2px 0 0 2px; }
+  .pos .bar { border-radius: 0 2px 2px 0; }
+  .bar-label { font-family: var(--font-mono); font-variant-numeric: tabular-nums; color: var(--secondary-foreground); white-space: nowrap; }
+  .is-focus .bar { background: var(--error); }
+  .is-focus .bar-label { color: var(--error); }
+
+  /* Tables */
+  .table { width: 100%; border-collapse: collapse; }
+  .table th { padding: 0 16px 8px 0; text-align: left; color: var(--muted-foreground); font-weight: 500; white-space: nowrap;
+              border-bottom: 1px solid var(--border-strong); }
+  .table td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .table th:last-child, .table td:last-child { padding-right: 0; }
+  .table .r { text-align: right; }
+  .muted { color: var(--muted-foreground); }
+  .unit { color: var(--muted-foreground); font-family: var(--font-body); }
+  .m-only { display: none; }
+  .badge { display: inline-flex; align-items: center; min-height: 24px; padding: 4px 8px; border-radius: 999px;
+           font-size: 0.75rem; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+  .badge-ready { background: var(--success-subtle); color: var(--success); }
+  .badge-preparing { background: var(--surface-strong); color: var(--secondary-foreground); }
+  .badge-refunded { background: var(--error-subtle); color: var(--error); }
+  .table-foot { padding-top: 12px; }
+
+  .field { display: flex; align-items: center; gap: 8px; }
+  .field label { font-weight: 500; color: var(--secondary-foreground); }
+  .select-wrap { display: grid; align-items: center; }
+  .select-wrap > * { grid-area: 1 / 1; }
+  .select-wrap .icon { justify-self: end; margin-right: 8px; pointer-events: none; color: var(--secondary-foreground); }
+  select {
+    appearance: none; min-height: 40px; padding: 8px 32px 8px 12px; border: 1px solid var(--border-strong);
+    border-radius: var(--radius-control); background: var(--background); color: var(--foreground);
+    font: 500 0.875rem/1.2 var(--font-body); cursor: pointer;
+    transition: border-color var(--dur-hover) var(--ease-out), background-color var(--dur-hover) var(--ease-out);
+  }
+  select:not(:disabled):hover { border-color: var(--secondary-foreground); background: var(--surface); }
+  select:disabled { cursor: default; color: var(--muted-foreground); border-color: var(--border); }
+  .lead .state { align-self: stretch; }
+
+  /* Data states */
+  .state { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding-block: 24px;
+           border-top: 1px solid var(--border-strong); border-bottom: 1px solid var(--border); color: var(--secondary-foreground); }
+  .state strong { display: flex; align-items: center; gap: 8px; color: var(--foreground); font-weight: 700; }
+  .state.is-error strong { color: var(--error); }
+  .sk { display: block; height: 12px; max-width: 100%; border-radius: 4px; background: var(--surface-strong);
+        animation: pulse 1.6s var(--ease-in-out) infinite; }
+  @keyframes pulse { 50% { opacity: 0.5; } }
+
+  @media (min-width: 1280px) {
+    .overview, .detail { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+  }
+
+  /* Below 1024: top bar plus a navigation sheet that slides from the left edge (MOTION-15) */
+  @media (max-width: 1023px) {
+    :root { --page-pad: 24px; }
+    .app { grid-template-columns: minmax(0, 1fr); }
+    .topbar {
+      display: flex; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 30;
+      min-height: var(--topbar-h); padding: 0 var(--page-pad) 0 12px;
+      background: var(--background); border-bottom: 1px solid var(--border);
+    }
+    html:not(.js) .topbar { padding-left: var(--page-pad); }
+    .sidebar-brand { display: none; }
+    html:not(.js) .sidebar { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--border); }
+
+    .sidebar-inner { position: static; height: auto; }
+    .js .sidebar {
+      position: fixed; z-index: 20; top: var(--topbar-h); bottom: 0; left: 0; overflow-y: auto;
+      width: min(320px, 100vw); border-right: 1px solid var(--border);
+      transform: translateX(-100%); visibility: hidden;
+      box-shadow: var(--shadow-sheet);
+      transition: transform var(--dur-sheet-out) var(--ease-in), visibility 0s linear var(--dur-sheet-out);
+    }
+    .js .nav-open .sidebar {
+      transform: none; visibility: visible;
+      transition: transform var(--dur-sheet-in) var(--ease-out), visibility 0s linear 0s;
+    }
+    .js .scrim {
+      display: block; position: fixed; inset: var(--topbar-h) 0 0 0; z-index: 10; background: var(--scrim);
+      opacity: 0; visibility: hidden;
+      transition: opacity var(--dur-sheet-out) var(--ease-in), visibility 0s linear var(--dur-sheet-out);
+    }
+    .js .nav-open .scrim { opacity: 1; visibility: visible; transition: opacity var(--dur-sheet-in) var(--ease-out), visibility 0s linear 0s; }
+    .nav-open { overflow: hidden; }
+    .js .nav-link { min-height: 44px; }
+    /* Links stagger in once per open, first seven only, done within 400 ms (MOTION-12) */
+    .nav-open .nav li, .nav-open .user { animation: nav-in 200ms var(--ease-out) both; }
+    .nav-open .nav li:nth-child(2) { animation-delay: 30ms; }
+    .nav-open .nav li:nth-child(3) { animation-delay: 60ms; }
+    .nav-open .nav li:nth-child(4) { animation-delay: 90ms; }
+    .nav-open .nav li:nth-child(5) { animation-delay: 120ms; }
+    .nav-open .nav li:nth-child(6) { animation-delay: 150ms; }
+    .nav-open .nav li:nth-child(7) { animation-delay: 180ms; }
+    .nav-open .user { animation-name: fade-in; animation-delay: 180ms; }
+  }
+  @keyframes nav-in { from { opacity: 0; transform: translateX(-8px); } }
+  @keyframes fade-in { from { opacity: 0; } }
+
+  @media (max-width: 639px) {
+    :root { --page-pad: 20px; }
+    .page { padding-top: 24px; gap: 32px; }
+    .btn, select { min-height: 44px; }
+    .lead-name { font-size: 1.875rem; }
+    .readout-figure { font-size: 2.25rem; }
+    .fact { grid-template-columns: minmax(0, 1fr); }
+    .lead-actions, .lead-actions .btn { width: 100%; }
+    .section-head { align-items: stretch; flex-direction: column; }
+    .field .select-wrap { flex: 1; }
+    .js .sidebar { width: 100vw; border-right: 0; }
+    /* 44 px tap targets for the inline links (CHK-12) */
+    .link-row { min-height: 44px; }
+    .store-line { align-items: center; }
+    .store-name { display: inline-flex; align-items: center; min-height: 44px; }
+
+    /* Tables become list rows (DATA-17) */
+    .table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .table, .table tbody { display: block; }
+    .table tr { display: grid; column-gap: 16px; row-gap: 4px; align-items: center; min-height: 64px; padding-block: 12px;
+                border-bottom: 1px solid var(--border); }
+    .table tbody tr:first-child { border-top: 1px solid var(--border-strong); }
+    .table td { padding: 0; border: 0; }
+    .m-only { display: inline; }
+    .orders-table tr { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "store store total" "time items status"; }
+    .orders-table .c-store { grid-area: store; font-weight: 500; }
+    .orders-table .c-total { grid-area: total; }
+    .orders-table .c-time { grid-area: time; }
+    .orders-table .c-items { grid-area: items; color: var(--muted-foreground); }
+    .orders-table .c-status { grid-area: status; justify-self: end; }
+    .stock-table tr { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "item left" "store reorder"; }
+    .stock-table .c-item { grid-area: item; font-weight: 500; }
+    .stock-table .c-store { grid-area: store; color: var(--muted-foreground); }
+    .stock-table .c-left { grid-area: left; }
+    .stock-table .c-reorder { grid-area: reorder; color: var(--muted-foreground); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0s !important;
+      animation-delay: 0s !important;
+      scroll-behavior: auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- Lucide icons (lucide.dev), 24 px grid, 1.5 px stroke -->
+  <symbol id="i-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M12 17V7"/><path d="M16 8h-6a2 2 0 0 0 0 4h4a2 2 0 0 1 0 4H8"/><path d="M4 3a1 1 0 0 1 1-1 1.3 1.3 0 0 1 .7.2l.933.6a1.3 1.3 0 0 0 1.4 0l.934-.6a1.3 1.3 0 0 1 1.4 0l.933.6a1.3 1.3 0 0 0 1.4 0l.933-.6a1.3 1.3 0 0 1 1.4 0l.934.6a1.3 1.3 0 0 0 1.4 0l.933-.6A1.3 1.3 0 0 1 19 2a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1 1.3 1.3 0 0 1-.7-.2l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.934.6a1.3 1.3 0 0 1-1.4 0l-.933-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-1.4 0l-.934-.6a1.3 1.3 0 0 0-1.4 0l-.933.6a1.3 1.3 0 0 1-.7.2 1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"/><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"/><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-circle-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to dashboard</a>
+<div class="app" id="app">
+  <header class="topbar">
+    <button class="icon-btn js-only" type="button" id="menu-toggle" aria-expanded="false" aria-controls="sidebar" aria-label="Open navigation">
+      <svg class="icon icon-24 morph" viewBox="0 0 24 24" aria-hidden="true"><path class="l1" d="M4 5h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 19h16"/></svg>
+    </button>
+    <span class="wordmark">Crumb &amp; Co</span>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+   <div class="sidebar-inner">
+    <div class="sidebar-brand"><span class="wordmark">Crumb &amp; Co</span></div>
+    <nav aria-label="Main">
+      <ul class="nav">
+        <li><a class="nav-link" href="#dashboard" aria-current="page"><svg class="icon icon-20" aria-hidden="true"><use href="#i-dashboard"/></svg>Dashboard</a></li>
+        <li><a class="nav-link" href="#orders"><svg class="icon icon-20" aria-hidden="true"><use href="#i-receipt"/></svg>Orders</a></li>
+        <li><a class="nav-link" href="#inventory"><svg class="icon icon-20" aria-hidden="true"><use href="#i-package"/></svg>Inventory</a></li>
+        <li><a class="nav-link" href="#stores"><svg class="icon icon-20" aria-hidden="true"><use href="#i-store"/></svg>Stores</a></li>
+        <li><a class="nav-link" href="#staff"><svg class="icon icon-20" aria-hidden="true"><use href="#i-users"/></svg>Staff</a></li>
+        <li><a class="nav-link" href="#reports"><svg class="icon icon-20" aria-hidden="true"><use href="#i-chart"/></svg>Reports</a></li>
+        <li><a class="nav-link" href="#settings"><svg class="icon icon-20" aria-hidden="true"><use href="#i-settings"/></svg>Settings</a></li>
+      </ul>
+    </nav>
+    <div class="user">
+      <span class="avatar" aria-hidden="true">MC</span>
+      <span><span class="user-name">Maya Chen</span><span class="user-role">Regional operations manager</span></span>
+    </div>
+   </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <main class="main" id="main" tabindex="-1">
+    <div class="page">
+      <header class="page-head">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="page-meta" data-region="meta">Today across 4 stores · latest order <span class="tnum">10:42</span></p>
+        </div>
+        <button class="btn js-only" type="button" id="refresh">
+          <svg class="icon icon-idle" aria-hidden="true"><use href="#i-refresh"/></svg>
+          <svg class="icon spinner" aria-hidden="true"><use href="#i-loader"/></svg>
+          <span class="btn-label">Refresh</span>
+        </button>
+      </header>
+
+      <div class="overview">
+        <section class="lead" aria-labelledby="lead-title" data-region="lead">
+      <p class="flag"><svg class="icon icon-20" aria-hidden="true"><use href="#i-alert"/></svg>Needs attention</p>
+      <h2 id="lead-title" class="lead-name">Old Town</h2>
+      <div class="readout">
+        <p class="readout-figure"><svg class="icon icon-24" aria-hidden="true"><use href="#i-arrow-down"/></svg><span>−14%</span></p>
+        <p class="readout-caption">Sales vs. same weekday last week<br><span class="tnum">$3,310</span> from <span class="tnum">187</span> orders today</p>
+      </div>
+      <dl class="facts"><div class="fact"><dt>Ovens</dt><dd><span><span class="bad">Oven 2 offline</span> since <span class="tnum">08:15</span>, maintenance ticket open</span><span>Oven 1 running</span></dd></div><div class="fact"><dt>Stock</dt><dd><span>Sourdough loaf (<span class="tnum">4</span> left) and butter croissant (<span class="tnum">9</span> left) are below reorder point</span></dd></div><div class="fact"><dt>Refund</dt><dd><span><span class="tnum">10:35</span> · 2 items · <span class="tnum">$9.80</span></span></dd></div></dl>
+      <p class="lead-actions"><a class="btn btn-primary" href="#stores">Open Old Town<svg class="icon " aria-hidden="true"><use href="#i-arrow-right"/></svg></a></p></section>
+        <section aria-labelledby="stores-title" data-region="stores"><div class="section-head"><div><h2 id="stores-title">Old Town is the only store below last week</h2><p class="section-sub">Sales today vs. same weekday last week, lowest first</p></div></div><ol><li class="store is-focus">
+        <div class="store-line"><a class="store-name" href="#stores">Old Town</a>
+          <span class="store-figs"><span class="num">187</span> orders · <span class="num">$3,310</span></span></div>
+        <div class="diverge" role="img" aria-label="Old Town: down 14% vs. same weekday last week">
+          <span class="half neg"><span class="bar-label">−14%</span><span class="bar" style="--f:1.000"></span></span>
+          <span class="half pos"></span>
+        </div></li><li class="store">
+        <div class="store-line"><a class="store-name" href="#stores">Harbor</a>
+          <span class="store-figs"><span class="num">96</span> orders · <span class="num">$1,720</span></span></div>
+        <div class="diverge" role="img" aria-label="Harbor: up 2% vs. same weekday last week">
+          <span class="half neg"></span>
+          <span class="half pos"><span class="bar" style="--f:0.143"></span><span class="bar-label">+2%</span></span>
+        </div></li><li class="store">
+        <div class="store-line"><a class="store-name" href="#stores">Riverside</a>
+          <span class="store-figs"><span class="num">212</span> orders · <span class="num">$3,940</span></span></div>
+        <div class="diverge" role="img" aria-label="Riverside: up 6% vs. same weekday last week">
+          <span class="half neg"></span>
+          <span class="half pos"><span class="bar" style="--f:0.429"></span><span class="bar-label">+6%</span></span>
+        </div></li><li class="store">
+        <div class="store-line"><a class="store-name" href="#stores">Northgate</a>
+          <span class="store-figs"><span class="num">141</span> orders · <span class="num">$2,605</span></span></div>
+        <div class="diverge" role="img" aria-label="Northgate: up 11% vs. same weekday last week">
+          <span class="half neg"></span>
+          <span class="half pos"><span class="bar" style="--f:0.786"></span><span class="bar-label">+11%</span></span>
+        </div></li></ol></section>
+      </div>
+
+      <div class="detail">
+        <section aria-labelledby="orders-title">
+          <div class="section-head">
+            <div>
+              <h2 id="orders-title">Recent orders</h2>
+              <p class="section-sub" data-region="ordersMeta">Latest 8, <span class="tnum">10:22</span> to <span class="tnum">10:42</span></p>
+            </div>
+            <div class="field js-only">
+              <label for="store-filter">Store</label>
+              <span class="select-wrap">
+                <select id="store-filter"><option value="">All stores</option><option>Riverside</option><option>Old Town</option><option>Harbor</option><option>Northgate</option></select>
+                <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+              </span>
+            </div>
+          </div>
+          <div data-region="orders"><table class="table orders-table"><thead><tr><th scope="col">Time</th><th scope="col">Store</th><th scope="col">Items</th><th scope="col">Status</th><th scope="col" class="r">Total (USD)</th></tr></thead><tbody><tr>
+      <td class="c-time"><span class="num">10:42</span></td>
+      <td class="c-store">Riverside</td>
+      <td class="c-items">3 items</td>
+      <td class="c-status"><span class="badge badge-ready">Ready</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>18.50</span></td></tr><tr>
+      <td class="c-time"><span class="num">10:40</span></td>
+      <td class="c-store">Old Town</td>
+      <td class="c-items">1 item</td>
+      <td class="c-status"><span class="badge badge-ready">Ready</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>4.20</span></td></tr><tr>
+      <td class="c-time"><span class="num">10:37</span></td>
+      <td class="c-store">Northgate</td>
+      <td class="c-items">6 items</td>
+      <td class="c-status"><span class="badge badge-preparing">Preparing</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>41.75</span></td></tr><tr>
+      <td class="c-time"><span class="num">10:35</span></td>
+      <td class="c-store">Old Town</td>
+      <td class="c-items">2 items</td>
+      <td class="c-status"><span class="badge badge-refunded">Refunded</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>9.80</span></td></tr><tr>
+      <td class="c-time"><span class="num">10:31</span></td>
+      <td class="c-store">Harbor</td>
+      <td class="c-items">4 items</td>
+      <td class="c-status"><span class="badge badge-ready">Ready</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>22.10</span></td></tr><tr>
+      <td class="c-time"><span class="num">10:28</span></td>
+      <td class="c-store">Riverside</td>
+      <td class="c-items">12 items · Catering</td>
+      <td class="c-status"><span class="badge badge-preparing">Preparing</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>96.00</span></td></tr><tr>
+      <td class="c-time"><span class="num">10:26</span></td>
+      <td class="c-store">Old Town</td>
+      <td class="c-items">2 items</td>
+      <td class="c-status"><span class="badge badge-ready">Ready</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>7.40</span></td></tr><tr>
+      <td class="c-time"><span class="num">10:22</span></td>
+      <td class="c-store">Northgate</td>
+      <td class="c-items">1 item</td>
+      <td class="c-status"><span class="badge badge-ready">Ready</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>3.90</span></td></tr></tbody></table></div>
+          <p class="table-foot"><a class="link link-row" href="#orders">View all orders<svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></p>
+        </section>
+
+        <section aria-labelledby="stock-title">
+          <div class="section-head">
+            <div>
+              <h2 id="stock-title">Below reorder point</h2>
+              <p class="section-sub" data-region="stockMeta">4 items, lowest against reorder point first</p>
+            </div>
+          </div>
+          <div data-region="stock"><table class="table stock-table"><thead><tr><th scope="col">Item</th><th scope="col">Store</th><th scope="col" class="r">Left</th><th scope="col" class="r">Reorder point</th></tr></thead><tbody><tr>
+      <td class="c-item">Sourdough loaf</td>
+      <td class="c-store">Old Town</td>
+      <td class="c-left r"><span class="num">4</span><span class="m-only"> left</span></td>
+      <td class="c-reorder r"><span class="m-only">reorder at </span><span class="num">20</span></td></tr><tr>
+      <td class="c-item">Butter croissant</td>
+      <td class="c-store">Old Town</td>
+      <td class="c-left r"><span class="num">9</span><span class="m-only"> left</span></td>
+      <td class="c-reorder r"><span class="m-only">reorder at </span><span class="num">30</span></td></tr><tr>
+      <td class="c-item">Rye starter</td>
+      <td class="c-store">Harbor</td>
+      <td class="c-left r"><span class="num">1</span> <span class="unit">kg</span><span class="m-only"> left</span></td>
+      <td class="c-reorder r"><span class="m-only">reorder at </span><span class="num">3</span> <span class="unit">kg</span></td></tr><tr>
+      <td class="c-item">Oat milk</td>
+      <td class="c-store">Northgate</td>
+      <td class="c-left r"><span class="num">2</span> <span class="unit">cartons</span><span class="m-only"> left</span></td>
+      <td class="c-reorder r"><span class="m-only">reorder at </span><span class="num">6</span> <span class="unit">cartons</span></td></tr></tbody></table></div>
+          <p class="table-foot"><a class="link link-row" href="#inventory">Open inventory<svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></p>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* The complete dataset from the brief. Every figure on the page is read or computed from it. */
+const DATA = {
+  comparison: 'same weekday last week',
+  stores: [
+    { name: 'Riverside', orders: 212, revenue: 3940, change: 6 },
+    { name: 'Old Town',  orders: 187, revenue: 3310, change: -14 },
+    { name: 'Harbor',    orders: 96,  revenue: 1720, change: 2 },
+    { name: 'Northgate', orders: 141, revenue: 2605, change: 11 },
+  ],
+  lowStock: [
+    { store: 'Old Town',  item: 'Sourdough loaf',   left: 4, reorderAt: 20, unit: '' },
+    { store: 'Old Town',  item: 'Butter croissant', left: 9, reorderAt: 30, unit: '' },
+    { store: 'Harbor',    item: 'Rye starter',      left: 1, reorderAt: 3,  unit: 'kg' },
+    { store: 'Northgate', item: 'Oat milk',         left: 2, reorderAt: 6,  unit: 'cartons' },
+  ],
+  ovens: [
+    { store: 'Old Town', name: 'Oven 1', running: true },
+    { store: 'Old Town', name: 'Oven 2', running: false, since: '08:15', ticket: 'Maintenance ticket open' },
+  ],
+  orders: [
+    { time: '10:42', store: 'Riverside', items: 3,  total: 18.50, status: 'ready' },
+    { time: '10:40', store: 'Old Town',  items: 1,  total: 4.20,  status: 'ready' },
+    { time: '10:37', store: 'Northgate', items: 6,  total: 41.75, status: 'preparing' },
+    { time: '10:35', store: 'Old Town',  items: 2,  total: 9.80,  status: 'refunded' },
+    { time: '10:31', store: 'Harbor',    items: 4,  total: 22.10, status: 'ready' },
+    { time: '10:28', store: 'Riverside', items: 12, total: 96.00, status: 'preparing', note: 'Catering' },
+    { time: '10:26', store: 'Old Town',  items: 2,  total: 7.40,  status: 'ready' },
+    { time: '10:22', store: 'Northgate', items: 1,  total: 3.90,  status: 'ready' },
+  ],
+};
+
+const icon = (name, cls = '') => `<svg class="icon ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
+const dollars = v => '$' + v.toLocaleString('en-US');
+const cents = v => v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = d => (d < 0 ? '−' : '+') + Math.abs(d) + '%';
+const count = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+const qty = (n, unit) => `<span class="num">${n}</span>${unit ? ` <span class="unit">${unit}</span>` : ''}`;
+const lower = s => s.charAt(0).toLowerCase() + s.slice(1);
+const listJoin = a => a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+const sk = (w, h = 12) => `<span class="sk" style="width:${w};height:${h}px"></span>`;
+const stateBlock = (title, text, action = '', cls = '') =>
+  `<div class="state ${cls}"><strong>${title}</strong>${text ? `<span>${text}</span>` : ''}${action}</div>`;
+const retry = source => `<button class="btn" type="button" data-retry="${source}">${icon('refresh', 'icon-idle')}${icon('loader', 'spinner')}<span class="btn-label">Retry</span></button>`;
+const READY = { stores: 'ready', stock: 'ready', orders: 'ready' };
+
+/* The store that needs attention: the largest drop against last week. */
+const byChange = () => [...DATA.stores].sort((a, b) => a.change - b.change);
+const focusStore = () => byChange()[0];
+
+/* Each view reads the state of the feed it depends on: st = { stores, stock, orders },
+   each one of 'ready' | 'loading' | 'empty' | 'error'. */
+const VIEWS = {
+  meta(st) {
+    if (st.stores === 'loading' || st.orders === 'loading') return 'Loading today’s figures';
+    const base = `Today across ${DATA.stores.length} stores`;
+    if (st.orders !== 'ready') return base;
+    return `${base} · latest order <span class="tnum">${DATA.orders[0].time}</span>`;
+  },
+
+  lead(st) {
+    if (st.stores === 'loading') return `<h2 id="lead-title" class="visually-hidden">Loading store that needs attention</h2>
+      ${sk('120px')}${sk('220px', 40)}${sk('280px', 48)}${sk('100%')}${sk('80%')}`;
+    if (st.stores === 'error') return `<h2 id="lead-title" class="visually-hidden">Store that needs attention</h2>
+      ${stateBlock(`${icon('circle-alert')}Today’s store figures didn’t load`, 'Retry to see which store needs attention.', retry('stores'), 'is-error')}`;
+    if (st.stores === 'empty') return `<h2 id="lead-title" class="lead-name">Waiting for today’s first orders</h2>
+      <p class="readout-caption">The store that needs attention shows here once stores start taking orders.</p>`;
+    const s = focusStore();
+    if (s.change >= 0) return `<h2 id="lead-title" class="lead-name">Every store is at or above last week</h2>`;
+    const ovens = DATA.ovens.filter(o => o.store === s.name).sort((a, b) => a.running - b.running);
+    const stock = st.stock === 'ready' ? DATA.lowStock.filter(r => r.store === s.name) : [];
+    const refunds = st.orders === 'ready' ? DATA.orders.filter(o => o.store === s.name && o.status === 'refunded') : [];
+    const facts = [];
+    if (ovens.length) facts.push(['Ovens', ovens.map(o => o.running
+      ? `<span>${o.name} running</span>`
+      : `<span><span class="bad">${o.name} offline</span> since <span class="tnum">${o.since}</span>, ${lower(o.ticket)}</span>`).join('')]);
+    if (stock.length) facts.push(['Stock', `<span>${listJoin(stock.map((r, i) =>
+      `${i ? lower(r.item) : r.item} (<span class="tnum">${r.left}</span>${r.unit ? ' ' + r.unit : ''} left)`))} ${stock.length === 1 ? 'is' : 'are'} below reorder point</span>`]);
+    if (refunds.length) facts.push([refunds.length === 1 ? 'Refund' : 'Refunds', refunds.map(o =>
+      `<span><span class="tnum">${o.time}</span> · ${count(o.items, 'item', 'items')} · <span class="tnum">$${cents(o.total)}</span></span>`).join('')]);
+    return `
+      <p class="flag">${icon('alert', 'icon-20')}Needs attention</p>
+      <h2 id="lead-title" class="lead-name">${s.name}</h2>
+      <div class="readout">
+        <p class="readout-figure">${icon('arrow-down', 'icon-24')}<span>${pct(s.change)}</span></p>
+        <p class="readout-caption">Sales vs. ${DATA.comparison}<br><span class="tnum">${dollars(s.revenue)}</span> from <span class="tnum">${s.orders}</span> orders today</p>
+      </div>
+      <dl class="facts">${facts.map(([k, v]) => `<div class="fact"><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+      <p class="lead-actions"><a class="btn btn-primary" href="#stores">Open ${s.name}${icon('arrow-right')}</a></p>`;
+  },
+
+  stores(st) {
+    const head = (title, sub) => `<div class="section-head"><div><h2 id="stores-title">${title}</h2>${sub ? `<p class="section-sub">${sub}</p>` : ''}</div></div>`;
+    const sub = `Sales today vs. ${DATA.comparison}, lowest first`;
+    if (st.stores === 'loading') return head('All stores', 'Loading') +
+      `<ol aria-hidden="true">${DATA.stores.map(() => `<li class="store">${sk('60%')}${sk('100%')}</li>`).join('')}</ol>`;
+    /* Same feed as the lead, so its Retry covers this chart too */
+    if (st.stores === 'error') return head('All stores', '') +
+      stateBlock(`${icon('circle-alert')}Store figures didn’t load`, '', '', 'is-error');
+    if (st.stores === 'empty') return head('All stores', '') +
+      stateBlock('No sales yet today', 'Each store appears here after its first order.');
+    const rows = byChange();
+    const below = rows.filter(s => s.change < 0);
+    const title = below.length === 0 ? 'No store is below last week'
+      : below.length === 1 ? `${below[0].name} is the only store below last week`
+      : `${below.length} stores are below last week`;
+    const max = Math.max(...rows.map(s => Math.abs(s.change)), 1);
+    const focus = focusStore();
+    return head(title, sub) + `<ol>${rows.map(s => {
+      const f = s.change < 0 && s.name === focus.name ? ' is-focus' : '';
+      const bar = `<span class="bar" style="--f:${(Math.abs(s.change) / max).toFixed(3)}"></span>`;
+      const label = `<span class="bar-label">${pct(s.change)}</span>`;
+      return `<li class="store${f}">
+        <div class="store-line"><a class="store-name" href="#stores">${s.name}</a>
+          <span class="store-figs"><span class="num">${s.orders}</span> orders · <span class="num">${dollars(s.revenue)}</span></span></div>
+        <div class="diverge" role="img" aria-label="${s.name}: ${s.change < 0 ? 'down' : 'up'} ${Math.abs(s.change)}% vs. ${DATA.comparison}">
+          <span class="half neg">${s.change < 0 ? label + bar : ''}</span>
+          <span class="half pos">${s.change >= 0 ? bar + label : ''}</span>
+        </div></li>`;
+    }).join('')}</ol>`;
+  },
+
+  ordersMeta(st, filter = '') {
+    if (st.orders !== 'ready') return 'All stores';
+    const o = DATA.orders;
+    const span = `<span class="tnum">${o[o.length - 1].time}</span> to <span class="tnum">${o[0].time}</span>`;
+    if (filter) return `${o.filter(x => x.store === filter).length} of the latest ${o.length}, ${span}`;
+    return `Latest ${o.length}, ${span}`;
+  },
+
+  storeOptions() {
+    return ['<option value="">All stores</option>', ...DATA.stores.map(s => `<option>${s.name}</option>`)].join('');
+  },
+
+  orders(st, filter = '') {
+    const head = `<thead><tr><th scope="col">Time</th><th scope="col">Store</th><th scope="col">Items</th><th scope="col">Status</th><th scope="col" class="r">Total (USD)</th></tr></thead>`;
+    if (st.orders === 'loading') return `<table class="table orders-table" aria-busy="true">${head}<tbody>${
+      Array.from({ length: 6 }, () => `<tr><td>${sk('40px')}</td><td>${sk('80px')}</td><td>${sk('56px')}</td><td>${sk('64px', 24)}</td><td class="r">${sk('48px')}</td></tr>`).join('')}</tbody></table>`;
+    if (st.orders === 'error') return stateBlock(`${icon('circle-alert')}Recent orders didn’t load`, 'Retry, or open Orders for the full list.', retry('orders'), 'is-error');
+    if (st.orders === 'empty') return stateBlock('No orders yet today', 'Orders appear here as stores take them.');
+    const rows = DATA.orders.filter(o => !filter || o.store === filter);
+    if (!rows.length) return stateBlock(`No recent orders from ${filter}`, '', `<button class="btn" type="button" data-clear-filter>Show all stores</button>`);
+    return `<table class="table orders-table">${head}<tbody>${rows.map(o => `<tr>
+      <td class="c-time"><span class="num">${o.time}</span></td>
+      <td class="c-store">${o.store}</td>
+      <td class="c-items">${count(o.items, 'item', 'items')}${o.note ? ` · ${o.note}` : ''}</td>
+      <td class="c-status"><span class="badge badge-${o.status}">${o.status.charAt(0).toUpperCase() + o.status.slice(1)}</span></td>
+      <td class="c-total r"><span class="num"><span class="m-only">$</span>${cents(o.total)}</span></td></tr>`).join('')}</tbody></table>`;
+  },
+
+  stockMeta(st) {
+    if (st.stock === 'loading') return 'Checking stock levels';
+    if (st.stock !== 'ready') return 'All stores';
+    return `${count(DATA.lowStock.length, 'item', 'items')}, lowest against reorder point first`;
+  },
+
+  stock(st) {
+    const head = `<thead><tr><th scope="col">Item</th><th scope="col">Store</th><th scope="col" class="r">Left</th><th scope="col" class="r">Reorder point</th></tr></thead>`;
+    if (st.stock === 'loading') return `<table class="table stock-table" aria-busy="true">${head}<tbody>${
+      Array.from({ length: 4 }, () => `<tr><td>${sk('112px')}</td><td>${sk('72px')}</td><td class="r">${sk('32px')}</td><td class="r">${sk('32px')}</td></tr>`).join('')}</tbody></table>`;
+    if (st.stock === 'error') return stateBlock(`${icon('circle-alert')}Stock levels didn’t load`, 'Retry, or open Inventory for current levels.', retry('stock'), 'is-error');
+    if (st.stock === 'empty') return stateBlock(`${icon('circle-check')}Every item is above its reorder point`, 'Items appear here as soon as one drops below.');
+    const rows = [...DATA.lowStock].sort((a, b) => a.left / a.reorderAt - b.left / b.reorderAt);
+    return `<table class="table stock-table">${head}<tbody>${rows.map(r => `<tr>
+      <td class="c-item">${r.item}</td>
+      <td class="c-store">${r.store}</td>
+      <td class="c-left r">${qty(r.left, r.unit)}<span class="m-only"> left</span></td>
+      <td class="c-reorder r"><span class="m-only">reorder at </span>${qty(r.reorderAt, r.unit)}</td></tr>`).join('')}</tbody></table>`;
+  },
+};
+
+function boot() {
+  /* ?state=loading|empty|error sets every feed; ?fail=orders,stock fails only those feeds */
+  const params = new URLSearchParams(location.search);
+  const all = params.get('state') || 'ready';
+  const st = { stores: all, stock: all, orders: all };
+  (params.get('fail') || '').split(',').filter(k => k in st).forEach(k => { st[k] = 'error'; });
+  const SOURCE = { meta: 'orders', lead: 'stores', stores: 'stores', ordersMeta: 'orders', orders: 'orders', stockMeta: 'stock', stock: 'stock' };
+  let filter = '';
+  const regions = [...document.querySelectorAll('[data-region]')];
+  const select = document.getElementById('store-filter');
+
+  function render() {
+    regions.forEach(el => {
+      const name = el.dataset.region;
+      el.innerHTML = VIEWS[name](st, filter);
+      el.toggleAttribute('aria-busy', st[SOURCE[name]] === 'loading');
+    });
+    select.disabled = st.orders !== 'ready';
+  }
+
+  /* Refresh and retry: pressed state at once, spinner only if the wait passes 300 ms,
+     then kept for at least 500 ms (MOTION-18). Figures update in place, without count-ups. */
+  function reload(btn, sources) {
+    if (btn.classList.contains('is-busy') || btn.dataset.pending) return;
+    btn.dataset.pending = '1';
+    const label = btn.querySelector('.btn-label');
+    const idle = label.textContent;
+    let shownAt = 0;
+    const spin = setTimeout(() => { shownAt = Date.now(); btn.classList.add('is-busy'); btn.disabled = true; label.textContent = idle === 'Retry' ? 'Retrying' : 'Refreshing'; }, 300);
+    const work = 900; /* stands in for the request */
+    setTimeout(() => {
+      clearTimeout(spin);
+      const wait = shownAt ? Math.max(0, 500 - (Date.now() - shownAt)) : 0;
+      setTimeout(() => {
+        btn.classList.remove('is-busy'); btn.disabled = false; label.textContent = idle; delete btn.dataset.pending;
+        sources.forEach(k => { st[k] = 'ready'; }); render();
+      }, wait);
+    }, work);
+  }
+
+  document.getElementById('refresh').addEventListener('click', e => reload(e.currentTarget, Object.keys(st)));
+  document.addEventListener('click', e => {
+    const r = e.target.closest('[data-retry]');
+    if (r) reload(r, [r.dataset.retry]);
+    if (e.target.closest('[data-clear-filter]')) { filter = ''; select.value = ''; render(); select.focus(); }
+  });
+  select.addEventListener('change', () => { filter = select.value; render(); });
+
+  /* Navigation sheet below 1024 px */
+  const app = document.getElementById('app');
+  const toggle = document.getElementById('menu-toggle');
+  const main = document.getElementById('main');
+  const sidebar = document.getElementById('sidebar');
+  const mq = matchMedia('(max-width: 1023px)');
+  function setNav(open, { returnFocus = true } = {}) {
+    app.classList.toggle('nav-open', open);
+    document.documentElement.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    main.inert = open;
+    if (open) sidebar.querySelector('[aria-current="page"]').focus({ preventScroll: true });
+    else if (returnFocus) toggle.focus({ preventScroll: true });
+  }
+  toggle.addEventListener('click', () => setNav(!app.classList.contains('nav-open')));
+  document.getElementById('scrim').addEventListener('click', () => setNav(false));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && app.classList.contains('nav-open')) setNav(false);
+    /* keep Tab inside the menu button and the sheet while it is open */
+    if (e.key === 'Tab' && app.classList.contains('nav-open')) {
+      const items = [toggle, ...sidebar.querySelectorAll('a[href]')];
+      const i = items.indexOf(document.activeElement);
+      const next = e.shiftKey ? (i <= 0 ? items.length - 1 : i - 1) : (i === items.length - 1 ? 0 : i + 1);
+      e.preventDefault(); items[next].focus();
+    }
+  });
+  mq.addEventListener('change', () => { if (!mq.matches && app.classList.contains('nav-open')) setNav(false, { returnFocus: false }); });
+
+  /* Always render from DATA; the pre-rendered markup is only the no-JS fallback */
+  render();
+}
+
+if (typeof document !== 'undefined') boot();
+</script>
+</body>
+</html>
