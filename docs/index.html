@@ -363,8 +363,12 @@ footer { background: var(--background); padding-block: 8px 48px; font-size: 14px
 }
 @media (max-width: 760px) {
   .nav-links a:not(.btn) { display: none; }
-  .nav-links { gap: 4px; }
-  .nav-inner { padding-left: 20px; }
+  .nav-links { gap: 2px; }
+  .nav-inner { gap: 8px; padding: 0 6px 0 16px; }
+  .brand { gap: 6px; font-size: 1.0625rem; min-width: 0; }
+  .brand span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .brand svg { width: 20px; height: 20px; }
+  .nav-links .btn { padding-inline: 14px; }
   .menu-btn { display: block; }
   .hero { padding-block: 104px 24svh; }
   .sec { padding-block: 72px; }
@@ -405,6 +409,10 @@ footer { background: var(--background); padding-block: 8px 48px; font-size: 14px
   .cl-r2 { left: -40%; width: 80%; }
   .cl-r3 { display: none; }
   .install-end img { width: 190%; margin-left: -45%; }
+}
+@media (max-width: 350px) {
+  .brand { font-size: 1rem; }
+  .nav-links .btn { padding-inline: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sky-toggle, .cl-fly { display: none; }
