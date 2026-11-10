@@ -20,10 +20,10 @@ identity comes from the subject.
 |---|---|---|---|
 | [Sunshift](saas-landing/after.html) — on-call SaaS ([fold](saas-landing/after-fold.jpg)) | Working Surface | White, daylit | Space Grotesk · Manrope |
 | [Marl](ceramics-landing/after.html) — ceramics studio ([fold](ceramics-landing/after-fold.jpg)) | Gallery Wall | White, warm | Cormorant Infant · Karla |
-| [This repo's site](../docs/index.html) — [live](https://yarzc0de.github.io/YourDesignRules/) ([fold](project-site/fold.jpg)) | Monochrome Stage | Black, cinematic | Plus Jakarta Sans |
+| [This repo's site](../docs/index.html) — [live](https://yarzc0de.github.io/YourDesignRules/) ([fold](project-site/fold.jpg)) | The owner's own direction: clouds in a blue sky | Sky blue and white | Fraunces · Instrument Sans |
 
-All three pass the same checks — smooth scroll, no frame over 25 ms at 2× density and 4× CPU, no rows of equal
-boxes. Only the identity differs, because the subject does.
+Sunshift and Marl pass the same checks — smooth scroll, no frame over 25 ms at 2× density and 4× CPU, no rows
+of equal boxes. Only the identity differs, because the subject does.
 
 ## SaaS landing page: Sunshift
 
@@ -145,17 +145,19 @@ plates with evidence captions. The accent is a single deep iron-oxide glaze tone
 dodge the generator house style (CORE-25); the collection is an asymmetric hang, not a four-up card grid
 (CORE-21). This run and Sunshift started from the same rules and the same model; only the subject changed.
 
-## The project's own site: Monochrome Stage
+## The project's own site: a sky you rise through
 
 This repository's landing page — [live](https://yarzc0de.github.io/YourDesignRules/), source at
-[docs/index.html](../docs/index.html) — was built with the skill. It is the Monochrome Stage case: black and
-white, one monumental fine-art key visual, large soft geometric type, and a scroll that glides from scene to
-scene ([fold](project-site/fold.jpg), [full page](project-site/full-1440.jpg)).
+[docs/index.html](../docs/index.html) — was built with the skill
+([fold](project-site/fold.jpg), [full page](project-site/full-1440.jpg)).
 
-Archetype chosen: **Monochrome Stage**. The bold decision is a single black-and-white fine-art image carrying
-the hero, with the headline set in its empty sky; the page then moves through a word-by-word manifesto, a
-before/after wipe over the two SaaS examples, and a horizontal rules track. One Lenis loop, transform and
-opacity only, no frame over 25 ms at 2× density.
+No archetype was chosen. The owner asked for clouds in a blue sky on a white page, and a direction the user
+gives outranks every archetype (CORE-13). The bold decision is the sky itself: separate cloud cut-outs sit at
+different depths, drift on a slow clock, part as the page scrolls, and can be paused. The page then moves
+through a rules-off/rules-on switch over the Sunshift app screen, a rail of the other examples, a pinned
+five-step walkthrough, a search over all 265 rules read from `rules/` and `guides/`, and the 17 directions
+painted in their own example palettes. One Lenis loop, transform and opacity only. Its scroll performance has
+not been measured the way the other examples were.
 
 ## Reproduce
 

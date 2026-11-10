@@ -5,276 +5,394 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>YourDesignRules: give your coding agent taste</title>
 <meta name="description" content="An open design rulebook that Claude Code, Codex, Cursor and other coding agents read before they build an interface. 265 rules, 17 visual directions, free to use.">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#072F86">
+<script>document.documentElement.className = 'js'; setTimeout(function () { document.documentElement.classList.add('loaded'); }, 1600);</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&family=Chakra+Petch:wght@600&family=Manrope:wght@700&family=Schibsted+Grotesk:wght@700&family=Bricolage+Grotesque:wght@700&family=Space+Grotesk:wght@600&family=Fraunces:wght@600&family=Cormorant+Infant:wght@600&family=Oswald:wght@600&family=Bodoni+Moda:wght@600&family=Red+Hat+Display:wght@700&family=Archivo+Black&family=Newsreader:wght@600&family=Darker+Grotesque:wght@800&family=Petrona:wght@700&family=Unbounded:wght@700&text=ABCDFGHLNQSTUWabcdefghiklmnoprstuvwxyz&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/hero-ring.jpg" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Instrument+Sans:wght@400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&family=Chakra+Petch:wght@600&family=Manrope:wght@700&family=Schibsted+Grotesk:wght@700&family=Bricolage+Grotesque:wght@700&family=Space+Grotesk:wght@600&family=Cormorant+Infant:wght@600&family=Oswald:wght@600&family=Bodoni+Moda:wght@600&family=Red+Hat+Display:wght@700&family=Archivo+Black&family=Darker+Grotesque:wght@800&family=Petrona:wght@700&family=Plus+Jakarta+Sans:wght@800&family=Unbounded:wght@700&text=ABCDFGHLMNQSTUWabcdefghiklmnoprstuvwxyz%20&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/cloud-bank.webp" fetchpriority="high">
 <style>
 :root {
-  --black: #000;
-  --white: #fff;
-  --text-2: #c9c9c9;
-  --text-3: #8f8f8f;
-  --line: rgb(255 255 255 / 0.14);
-  --surface: #0c0c0c;
+  --background: #FFFFFF;
+  --foreground: #0B1730;
+  --body: #39455E;
+  --muted: #5A6781;
+  --border: rgb(11 23 48 / 0.12);
+  --border-strong: rgb(11 23 48 / 0.45);
+  --sky-950: #041A52;
+  --sky-900: #072F86;
+  --sky-700: #0E4FCB;
+  --sky-500: #2F7FEA;
+  --sky-300: #8DC2FA;
+  --sky-100: #E6F2FF;
+  --on-sky: #FFFFFF;
+  --sun: #FFC53D;
+  --sun-hover: #FFB01F;
+  --on-sun: #0B1730;
+  --glass: rgb(255 255 255 / 0.74);
+  --glass-line: rgb(255 255 255 / 0.8);
+  --shadow: 0 2px 6px rgb(10 50 140 / 0.06), 0 12px 44px rgb(10 50 140 / 0.12);
+  --r-xl: 28px;
+  --r-lg: 20px;
+  --r-md: 14px;
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --gutter: clamp(20px, 5vw, 72px);
-  --max: 1320px;
-  --sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --gutter: clamp(20px, 5vw, 64px);
+  --max: 1200px;
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--black); color: var(--white); -webkit-text-size-adjust: 100%; }
+html { background: var(--background); color: var(--foreground); -webkit-text-size-adjust: 100%; font-synthesis: none; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: clip; }
-body { margin: 0; font-family: var(--sans); font-size: 17px; line-height: 1.6; background: var(--black);
+body { margin: 0; font: 400 1.0625rem/1.6 var(--sans); background: var(--background); color: var(--body); overflow-x: clip;
        -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
 img { display: block; max-width: 100%; }
 a { color: inherit; }
-::selection { background: var(--white); color: var(--black); }
+::selection { background: var(--sun); color: var(--on-sun); }
 .wrap { width: 100%; max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; border-radius: 6px; }
-.skip { position: fixed; left: 16px; top: -60px; z-index: 100; background: var(--white); color: var(--black);
-        padding: 10px 16px; border-radius: 999px; font-weight: 600; text-decoration: none; transition: top 200ms var(--ease-out); }
+:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; border-radius: 6px; }
+.on-sky :focus-visible { outline-color: var(--on-sky); }
+.skip { position: fixed; left: 16px; top: -60px; z-index: 100; background: var(--foreground); color: var(--background); padding: 10px 16px; border-radius: 999px;
+        font: 600 15px/1 var(--sans); text-decoration: none; transition: top 200ms var(--ease-out); }
 .skip:focus { top: 16px; }
+.display { margin: 0; font-family: var(--serif); font-weight: 560; font-variation-settings: "SOFT" 100; letter-spacing: -0.03em; color: var(--foreground); text-wrap: balance; }
+.h2 { font-size: clamp(2.25rem, 4.8vw, 4rem); line-height: 1.04; }
+.link { color: var(--foreground); text-underline-offset: 4px; text-decoration-color: var(--border-strong); transition: text-decoration-color 180ms var(--ease-out); }
+.link:hover { text-decoration-color: var(--foreground); }
+.pill { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 999px; background: var(--sky-100); font: 500 13px/1 var(--mono); color: var(--sky-900); }
 
-/* ---------- Navigation ---------- */
-.nav { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background-color 400ms var(--ease-out), backdrop-filter 400ms var(--ease-out); }
-.nav.scrolled { background: rgb(0 0 0 / 0.72); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); }
-.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 24px; }
-.brand { font-weight: 700; font-size: 18px; letter-spacing: -0.02em; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
-.brand-mark { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--white); position: relative; }
-.brand-mark::after { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--white); }
-.nav-links { display: flex; align-items: center; gap: 32px; }
-.nav-links a { text-decoration: none; color: var(--text-2); font-size: 15px; font-weight: 500; transition: color 200ms var(--ease-out); padding-block: 12px; }
-.nav-links a:hover { color: var(--white); }
-.nav-links a.pill-light, .nav-links a.pill-light:hover { color: var(--black); padding-block: 0; }
-.pill { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 20px;
-        border-radius: 999px; font: 600 15px/1 var(--sans); text-decoration: none; cursor: pointer; border: 0;
-        transition: transform 120ms var(--ease-out), background-color 200ms var(--ease-out), color 200ms var(--ease-out); }
-.pill:active { transform: scale(0.97); }
-.pill-light { background: var(--white); color: var(--black); }
-.pill-light:hover { background: #e6e6e6; }
-.pill-ghost { background: rgb(255 255 255 / 0.08); color: var(--white); box-shadow: inset 0 0 0 1px var(--line); }
-.pill-ghost:hover { background: rgb(255 255 255 / 0.14); }
-.menu-btn { display: none; }
+/* ---------- Buttons and command lines ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 20px; border: 0; border-radius: 999px; background: var(--foreground); color: var(--background);
+       font: 600 15px/1.2 var(--sans); text-decoration: none; cursor: pointer; white-space: nowrap; transition: background-color 180ms var(--ease-out), transform 100ms var(--ease-out); }
+.btn:hover { background: #1C2A4A; }
+.btn:active { transform: scale(0.98); }
+.btn-sun { background: var(--sun); color: var(--on-sun); }
+.btn-sun:hover { background: var(--sun-hover); }
+.btn-ghost { background: var(--sky-100); color: var(--foreground); }
+.btn-ghost:hover { background: #D5E7FD; }
+.btn svg { width: 18px; height: 18px; }
+.cmd { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 6px 6px 6px 20px; border-radius: 999px; min-width: 0; background: var(--foreground); color: var(--background); font: 500 15px/1.4 var(--mono); }
+.cmd code { font: inherit; white-space: nowrap; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; text-align: left; }
+.cmd code::-webkit-scrollbar { display: none; }
+.dollar { color: #9AA8C4; margin-right: 10px; user-select: none; }
+.copy { position: relative; flex: none; }
+.copy .l-copy, .copy .l-done { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.copy svg { width: 16px; height: 16px; }
+.copy .l-done { position: absolute; inset: 0; opacity: 0; }
+.copy .l-copy, .copy .l-done { transition: opacity 150ms var(--ease-out); }
+.copy.done .l-copy { opacity: 0; }
+.copy.done .l-done { opacity: 1; }
 
-/* ---------- Hero ---------- */
-.hero { position: relative; height: 100svh; min-height: 640px; overflow: clip; isolation: isolate; }
-.hero-media { position: absolute; inset: -6% 0 -6% 0; z-index: -2; will-change: transform; }
-.hero-media img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 50%; }
-.hero-shade { position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background:
-    linear-gradient(90deg, rgb(0 0 0 / 0.62) 0%, rgb(0 0 0 / 0.25) 45%, rgb(0 0 0 / 0) 70%),
-    linear-gradient(180deg, rgb(0 0 0 / 0.35) 0%, rgb(0 0 0 / 0) 25%, rgb(0 0 0 / 0) 70%, var(--black) 100%); }
-.hero-copy { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 28px; padding-top: 72px; will-change: opacity; }
-.hero h1 { margin: 0; font-weight: 800; font-size: clamp(3.4rem, 7.9vw, 8.4rem); line-height: 0.93; letter-spacing: -0.055em; max-width: 9.5em; }
-.ln { display: block; overflow: hidden; padding-bottom: 0.22em; margin-bottom: -0.22em; }
+/* ---------- Navigation: one floating bar ---------- */
+.nav { position: fixed; top: 14px; left: 50%; z-index: 50; width: min(940px, calc(100% - 28px)); transform: translateX(-50%); border-radius: 999px;
+       background: var(--glass); box-shadow: inset 0 0 0 1px var(--glass-line), var(--shadow); -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; padding: 0 8px 0 24px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font: 600 1.25rem/1 var(--serif); font-variation-settings: "SOFT" 100; letter-spacing: -0.02em; color: var(--foreground); text-decoration: none; }
+.brand svg { width: 22px; height: 22px; color: var(--sky-700); flex: none; }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a:not(.btn) { font: 500 15px/1 var(--sans); color: var(--body); text-decoration: none; padding-block: 14px; transition: color 180ms var(--ease-out); }
+.nav-links a:not(.btn):hover { color: var(--foreground); }
+.menu-btn { all: unset; box-sizing: border-box; display: none; position: relative; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; }
+.menu-btn:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.menu-btn i { position: absolute; left: 12px; right: 12px; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--foreground); transition: transform 220ms var(--ease-in-out); }
+.menu-btn i:first-child { transform: translateY(-4px); }
+.menu-btn i:last-child { transform: translateY(4px); }
+.menu-btn[aria-expanded="true"] i:first-child { transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] i:last-child { transform: rotate(-45deg); }
+.menu { position: fixed; inset: 0; z-index: 49; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 96px var(--gutter) 32px; background: var(--background);
+        visibility: hidden; opacity: 0; transition: opacity 180ms var(--ease-in), visibility 0s linear 180ms; }
+.menu.open { visibility: visible; opacity: 1; transition: opacity 260ms var(--ease-out), visibility 0s; }
+.menu a { padding-block: 10px; font: 560 2.5rem/1.1 var(--serif); font-variation-settings: "SOFT" 100; letter-spacing: -0.03em; color: var(--foreground); text-decoration: none; opacity: 0; transform: translateY(8px);
+          transition: opacity 250ms var(--ease-out), transform 250ms var(--ease-out); }
+.menu.open a { opacity: 1; transform: none; transition-delay: calc(60ms + var(--i) * 40ms); }
+html.menu-open { overflow: hidden; }
+
+/* ---------- Hero: a sky you rise through ---------- */
+.hero { position: relative; min-height: max(100svh, 720px); overflow: clip; isolation: isolate; display: flex; align-items: center; padding-block: 132px 26svh; }
+.sky { position: absolute; inset: 0; z-index: -3; background: linear-gradient(180deg, var(--sky-900) 0%, var(--sky-700) 34%, #1B66E2 58%, var(--sky-500) 74%, var(--sky-300) 88%, var(--sky-100) 95%, var(--background) 100%); }
+.cl { position: absolute; z-index: -2; pointer-events: none; will-change: transform; }
+.cl img { width: 100%; height: auto; }
+.cl-a { left: -9%; top: 34%; width: 40%; }
+.cl-b { right: -19%; top: 14%; width: 44%; }
+.cl-c { left: 4%; top: 9%; width: 15%; opacity: 0.92; }
+.cl-d { right: 14%; top: 52%; width: 15%; opacity: 0.9; }
+.cl-e { left: 30%; top: 70%; width: 22%; opacity: 0.95; }
+.cl-bank { left: -8%; right: -8%; bottom: -16%; z-index: -1; transform-origin: 50% 100%; }
+.cl-fly { left: 0; }
+.cl-f1 { top: 10.5%; width: 8%; opacity: 0.85; }
+.cl-f2 { top: 62%; width: 13%; }
+.cl-f3 { top: 9%; width: 10%; z-index: -1; opacity: 0.9; }
+.cl-f4 { top: 6%; width: 11%; z-index: -1; opacity: 0.85; }
+.sky-toggle { all: unset; box-sizing: border-box; position: absolute; right: var(--gutter); bottom: 24px; z-index: 2; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+              background: var(--glass); color: var(--foreground); box-shadow: inset 0 0 0 1px var(--glass-line), var(--shadow); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); transition: transform 100ms var(--ease-out); }
+.sky-toggle:active { transform: scale(0.96); }
+.sky-toggle:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.sky-toggle svg { grid-area: 1 / 1; width: 18px; height: 18px; transition: opacity 150ms var(--ease-out); }
+.sky-toggle .i-play, .sky-toggle[aria-pressed="true"] .i-pause { opacity: 0; }
+.sky-toggle[aria-pressed="true"] .i-play { opacity: 1; }
+.hero-copy { position: relative; display: flex; flex-direction: column; align-items: center; gap: 28px; text-align: center; }
+.hero h1 { font-size: clamp(3.25rem, 9.6vw, 9.25rem); line-height: 0.94; letter-spacing: -0.04em; color: var(--on-sky); }
+.ln { display: block; overflow: hidden; padding-block: 0.06em 0.2em; margin-block: -0.06em -0.2em; }
 .ln > span { display: inline-block; }
-.lead { margin: 0; max-width: 33em; font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.55; color: var(--text-2); }
-.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
-.cmd { display: inline-flex; align-items: center; gap: 4px; min-height: 52px; padding: 6px 6px 6px 22px; border-radius: 999px;
-       background: rgb(0 0 0 / 0.45); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.22);
-       -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); font: 500 15px/1 var(--mono); color: var(--white); }
-.cmd code { font: inherit; white-space: nowrap; }
-.cmd .dollar { color: var(--text-3); margin-right: 8px; }
-.copy { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; border: 0;
-        background: rgb(255 255 255 / 0.1); color: var(--white); cursor: pointer; flex: none;
-        transition: background-color 200ms var(--ease-out), transform 120ms var(--ease-out); }
-.copy:hover { background: rgb(255 255 255 / 0.2); }
-.copy:active { transform: scale(0.94); }
-.copy svg { width: 18px; height: 18px; }
-.copy .i-check { display: none; }
-.copy.done .i-copy { display: none; }
-.copy.done .i-check { display: block; }
-.text-link { color: var(--text-2); font-weight: 600; text-decoration: underline; text-decoration-color: rgb(255 255 255 / 0.3);
-             text-underline-offset: 5px; transition: color 200ms var(--ease-out), text-decoration-color 200ms var(--ease-out); padding-block: 12px; }
-.text-link:hover { color: var(--white); text-decoration-color: var(--white); }
-.hero-foot { position: absolute; left: 0; right: 0; bottom: 28px; display: flex; justify-content: space-between; align-items: end;
-             color: var(--text-3); font-size: 14px; }
-.scroll-cue { display: inline-flex; align-items: center; gap: 10px; }
-.scroll-cue i { display: block; width: 1px; height: 40px; background: linear-gradient(var(--text-3), transparent); }
+.lead { margin: 8px 16px 4px; font-size: 1.1875rem; line-height: 1.45; font-weight: 500; color: var(--foreground); text-wrap: balance; }
+.dock { display: flex; flex-direction: column; gap: 12px; width: min(100%, 620px); padding: 16px 12px 14px; border-radius: 36px; background: rgb(255 255 255 / 0.86);
+        box-shadow: inset 0 0 0 1px var(--glass-line), var(--shadow); -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3); }
+.facts { list-style: none; margin: 0; padding: 0 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font: 500 14px/1.5 var(--sans); color: var(--body); }
+.facts li { display: inline-flex; align-items: center; gap: 6px; }
+.facts svg { width: 16px; height: 16px; color: var(--sky-700); flex: none; }
 
-/* Load sequence (armed only when JS runs, so no-JS visitors see everything) */
-.js .hero-media img { opacity: 0; transform: scale(1.06); transition: opacity 1100ms var(--ease-out), transform 1600ms var(--ease-out); }
-.js .hero h1 .ln > span { transform: translateY(105%); transition: transform 1000ms var(--ease-out); }
-.js .hero h1 .ln:nth-child(2) > span { transition-delay: 110ms; }
-.js .hero .lead, .js .hero .cta, .js .hero-foot, .js .nav { opacity: 0; transform: translateY(14px); transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out); }
-.js .hero .lead { transition-delay: 380ms; }
-.js .hero .cta { transition-delay: 470ms; }
-.js .hero-foot { transition-delay: 600ms; }
-.js .nav { transform: none; transition: opacity 800ms var(--ease-out) 300ms, background-color 400ms var(--ease-out); }
-.js.loaded .hero-media img { opacity: 1; transform: scale(1); }
-.js.loaded .hero h1 .ln > span { transform: none; }
-.js.loaded .hero .lead, .js.loaded .hero .cta, .js.loaded .hero-foot, .js.loaded .nav { opacity: 1; transform: none; }
+/* ---------- Sections ---------- */
+.sec { padding-block: clamp(96px, 14vh, 160px); }
+.head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 48px; align-items: end; margin-bottom: 48px; }
+.head p { margin: 16px 0 0; max-width: 34em; font-size: 1.125rem; }
+.head-center { display: block; text-align: center; }
+.head-center p { margin-inline: auto; }
 
-/* ---------- Section basics ---------- */
-section { position: relative; }
-.eyebrowless-head { max-width: 15em; margin: 0; font-weight: 700; font-size: clamp(2.4rem, 5.2vw, 4.75rem); line-height: 1; letter-spacing: -0.045em; }
-.section-lead { max-width: 34em; margin: 24px 0 0; color: var(--text-2); font-size: clamp(1.05rem, 1.3vw, 1.2rem); }
+/* ---------- Why ---------- */
+.why-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px clamp(40px, 6vw, 96px); align-items: center; }
+.cliches { list-style: none; margin: 40px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 12px; }
+.cliches li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px 8px 12px; border-radius: 999px; background: var(--sky-100); font: 500 1rem/1.4 var(--sans); color: var(--foreground); }
+.cliches svg { width: 16px; height: 16px; color: var(--muted); flex: none; }
+.cliches s { text-decoration: none; background: linear-gradient(var(--foreground), var(--foreground)) no-repeat 0 55% / 100% 1.5px; }
+.js .cliches s { background-size: 0% 1.5px; transition: background-size 450ms var(--ease-out); transition-delay: calc(120ms + var(--i) * 110ms); }
+.js .cliches.in s { background-size: 100% 1.5px; }
+.why-end { margin: 32px 0 0; max-width: 28em; font-size: 1.25rem; line-height: 1.5; }
+.why-end strong { font-weight: 600; color: var(--foreground); }
+.why-fig { margin: 0; aspect-ratio: 4 / 5; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow); }
+.why-fig img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; }
 
-/* ---------- Manifesto: words light up as you scroll ---------- */
-.manifesto { height: 240vh; }
-.manifesto-stage { position: sticky; top: 0; height: 100svh; display: flex; align-items: center; }
-.manifesto p { margin: 0; font-weight: 700; font-size: clamp(1.9rem, 4.4vw, 4.1rem); line-height: 1.12; letter-spacing: -0.035em; max-width: 19em; }
-.js .manifesto .w { opacity: 0.16; will-change: opacity; }
-.manifesto .end { display: block; margin-top: 0.5em; }
+/* ---------- Proof: flip the switch ---------- */
+.proof { background: linear-gradient(180deg, var(--background) 0%, var(--sky-100) 26%, var(--sky-100) 74%, var(--background) 100%); }
+.switch-row { display: flex; justify-content: center; margin-bottom: 24px; }
+.switch { all: unset; box-sizing: border-box; display: inline-flex; align-items: center; gap: 14px; min-height: 52px; padding: 8px 22px 8px 10px; border-radius: 999px; background: var(--background);
+          box-shadow: var(--shadow); font: 600 1rem/1 var(--sans); color: var(--foreground); cursor: pointer; }
+.switch:focus-visible { outline: 2px solid var(--foreground); outline-offset: 3px; }
+.sw-track { position: relative; width: 60px; height: 36px; border-radius: 999px; background: #C7D3E6; transition: background-color 250ms var(--ease-out); }
+.sw-thumb { position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 50%; background: var(--background); box-shadow: 0 1px 3px rgb(10 30 80 / 0.12); transition: transform 250ms var(--ease-in-out); }
+.switch[aria-checked="true"] .sw-track { background: var(--sun); }
+.switch[aria-checked="true"] .sw-thumb { transform: translateX(24px); }
+.sw-label { display: grid; }
+.sw-label span { grid-area: 1 / 1; transition: opacity 200ms var(--ease-out); }
+.switch[aria-checked="true"] .sw-off, .switch[aria-checked="false"] .sw-on { opacity: 0; }
+.window { max-width: 1040px; margin-inline: auto; padding: 12px; border-radius: var(--r-xl); background: var(--background); box-shadow: var(--shadow); }
+.shots { position: relative; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden; background: var(--sky-100); }
+.shots img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.shot-after { opacity: 0; transition: opacity 450ms var(--ease-out); }
+.shots.on .shot-after { opacity: 1; }
+.window-cap { margin: 16px auto 0; max-width: 1040px; font-size: 0.9375rem; color: var(--muted); text-align: center; }
+.notes { list-style: none; max-width: 1040px; margin: 48px auto 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+.notes li { padding-block: 18px; border-top: 1px solid var(--border); }
+.rid { font: 500 13px/1.4 var(--mono); color: var(--sky-700); }
+.n-b { margin: 6px 0 0; font-size: 1rem; line-height: 1.45; color: var(--muted); text-decoration: line-through; text-decoration-color: var(--border-strong); }
+.n-a { margin: 4px 0 0; font-size: 1rem; line-height: 1.45; color: var(--foreground); }
 
-/* ---------- Proof: before and after, wiped by scroll ---------- */
-.proof { height: 360vh; }
-.proof-stage { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: center; gap: clamp(18px, 2.6vh, 32px); padding-block: 96px 28px; }
-.proof-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; flex-wrap: wrap; }
-.proof-head h2 { margin: 0; font-weight: 700; font-size: clamp(2rem, 4vw, 3.6rem); line-height: 1; letter-spacing: -0.045em; }
-.proof-head p { margin: 0; max-width: 26em; color: var(--text-2); }
-.frame-wrap { position: relative; width: 100%; max-width: min(1240px, calc((100svh - 380px) * 1.6)); margin-inline: auto; }
-.frame { position: relative; aspect-ratio: 16 / 10; border-radius: 18px; overflow: hidden; background: var(--surface);
-         box-shadow: 0 0 0 1px var(--line), 0 30px 80px rgb(0 0 0 / 0.6); }
-.pair { position: absolute; inset: 0; transition: opacity 500ms var(--ease-out); }
-.pair img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-.after-clip { position: absolute; inset: 0; overflow: hidden; transform: translate3d(50%, 0, 0); will-change: transform; }
-.after-clip img { transform: translate3d(-50%, 0, 0); will-change: transform; }
-.divider { position: absolute; inset: 0; pointer-events: none; transform: translate3d(50%, 0, 0); will-change: transform; }
-.divider::before { content: ""; position: absolute; left: -1px; top: 0; bottom: 0; width: 2px; background: var(--white); box-shadow: 0 0 24px rgb(0 0 0 / 0.5); }
-.divider span { position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); width: 44px; height: 44px; border-radius: 50%;
-                background: var(--white); display: grid; place-items: center; box-shadow: 0 8px 24px rgb(0 0 0 / 0.35); }
-.divider svg { width: 20px; height: 20px; color: var(--black); }
-.tag { position: absolute; top: 16px; z-index: 2; padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
-       background: rgb(0 0 0 / 0.7); color: var(--white); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.tag-off { left: 16px; }
-.tag-on { right: 16px; background: var(--white); color: var(--black); }
-.proof-caption { position: relative; min-height: 3.2em; color: var(--text-2); max-width: 46em; }
-.proof-caption p { margin: 0; position: absolute; inset: 0 auto auto 0; transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out); }
-.proof-caption strong { color: var(--white); font-weight: 600; }
-.proof-caption .cap-2 { opacity: 0; transform: translateY(8px); }
-.proof-steps { display: flex; gap: 8px; }
-.proof-steps i { display: block; width: 28px; height: 3px; border-radius: 3px; background: rgb(255 255 255 / 0.2); overflow: hidden; position: relative; }
-.proof-steps i b { position: absolute; inset: 0; background: var(--white); transform-origin: left; transform: scaleX(0); }
+/* ---------- Examples: a rail you swipe ---------- */
+.rail-nav { display: flex; gap: 8px; }
+.rail-nav button { all: unset; box-sizing: border-box; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--sky-100); color: var(--foreground); cursor: pointer;
+                   transition: background-color 180ms var(--ease-out), transform 100ms var(--ease-out), opacity 180ms var(--ease-out); }
+.rail-nav button:hover { background: #D5E7FD; }
+.rail-nav button:active { transform: scale(0.96); }
+.rail-nav button:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.rail-nav button:disabled { opacity: 0.4; cursor: default; }
+.rail-nav svg { width: 20px; height: 20px; }
+.rail { display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 8px max(var(--gutter), calc((100vw - var(--max)) / 2)) 40px; overscroll-behavior-x: contain; }
+.rail::-webkit-scrollbar { display: none; }
+.rail:focus-visible { outline: 2px solid var(--foreground); outline-offset: -2px; }
+.slide { flex: none; width: min(80vw, 860px); margin: 0; scroll-snap-align: center; }
+.slide img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; border-radius: var(--r-xl); box-shadow: 0 0 0 1px var(--border), var(--shadow); background: var(--sky-100); }
+.slide figcaption { display: grid; grid-template-columns: auto auto minmax(0, 1fr); gap: 6px 14px; align-items: center; margin-top: 20px; }
+.slide b { font: 560 1.75rem/1.1 var(--serif); font-variation-settings: "SOFT" 100; letter-spacing: -0.02em; color: var(--foreground); }
+.slide .brief { grid-column: 1 / -1; font-size: 1rem; line-height: 1.5; max-width: 40em; }
+.rail-foot { margin: 0; font-size: 0.9375rem; color: var(--muted); }
 
-/* ---------- How it works ---------- */
-.how { padding-block: clamp(120px, 18vh, 200px); }
-.how-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(40px, 7vw, 120px); align-items: start; }
-.how-side { position: sticky; top: 120px; }
-.how-side figure { margin: 40px 0 0; border-radius: 18px; overflow: hidden; aspect-ratio: 4 / 3; }
-.how-side figure img { width: 100%; height: 118%; object-fit: cover; will-change: transform; }
-.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(64px, 12vh, 120px); padding-top: 8px; }
-.step-n { font: 500 15px/1 var(--mono); color: var(--text-3); }
-.step h3 { margin: 16px 0 12px; font-weight: 700; font-size: clamp(1.7rem, 2.6vw, 2.4rem); line-height: 1.08; letter-spacing: -0.035em; }
-.step p { margin: 0; color: var(--text-2); max-width: 30em; }
-.step code { font: 500 0.92em var(--mono); color: var(--white); }
+/* ---------- How: five steps on one sky panel; scrolling walks through them ---------- */
+.how-stage { padding-block: 0 clamp(96px, 14vh, 160px); }
+.how-head { margin-bottom: 32px; }
+.js.pin .how { height: 360vh; }
+.js.pin .how-stage { position: sticky; top: 0; height: 100svh; display: flex; align-items: center; padding-block: 88px 24px; }
+.js.pin .how-stage > .wrap { width: 100%; }
+.tour { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 24px 56px; align-items: center; min-height: 520px; padding: 40px 48px;
+        border-radius: 36px; color: var(--on-sky); background: linear-gradient(168deg, var(--sky-900) 0%, var(--sky-700) 46%, var(--sky-500) 82%, var(--sky-300) 100%); box-shadow: var(--shadow); }
+.js.pin .tour { height: min(600px, calc(100svh - 300px)); min-height: 440px; }
+.tour-puff { right: -11%; top: 38%; width: 20%; z-index: -1; opacity: 0.9; }
+.tour-bank { left: -12%; right: -12%; bottom: -57%; z-index: -1; }
+.tour-rail { position: relative; display: flex; flex-direction: column; gap: 4px; }
+.tour-ind { position: absolute; left: 0; right: 0; top: 0; height: 56px; border-radius: 18px; background: rgb(255 255 255 / 0.16); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.28);
+            transition: transform 320ms var(--ease-in-out), height 320ms var(--ease-in-out); }
+.tstep { all: unset; box-sizing: border-box; position: relative; display: grid; grid-template-columns: 2rem 24px minmax(0, 1fr); gap: 12px; align-items: center; min-height: 56px; padding: 10px 18px; border-radius: 18px;
+         font: 600 1.0625rem/1.3 var(--sans); color: rgb(255 255 255 / 0.8); cursor: pointer; transition: color 200ms var(--ease-out); }
+.tstep:hover, .tstep[aria-selected="true"] { color: var(--on-sky); }
+.tstep:focus-visible { outline: 2px solid var(--on-sky); outline-offset: 2px; }
+.tstep svg { width: 22px; height: 22px; }
+.tn { font: 500 13px/1 var(--mono); }
+.tstep[aria-selected="true"] .tn { color: var(--sun); }
+.tour-panels { position: relative; align-self: stretch; }
+.tp { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 16px; opacity: 0; visibility: hidden; transform: translateY(14px);
+      transition: opacity 240ms var(--ease-in), transform 240ms var(--ease-in), visibility 0s linear 240ms; }
+.tp.on { opacity: 1; visibility: visible; transform: none; transition: opacity 360ms var(--ease-out) 80ms, transform 360ms var(--ease-out) 80ms, visibility 0s; }
+.tp-num { position: absolute; right: 0; top: -8px; font: 300 clamp(6rem, 11vw, 10rem)/0.8 var(--serif); font-variation-settings: "SOFT" 100; letter-spacing: -0.05em; color: rgb(255 255 255 / 0.24); }
+.tp h3 { font-size: clamp(2rem, 3.6vw, 3.25rem); line-height: 1.04; color: var(--on-sky); max-width: 11em; }
+.tp p { margin: 0; max-width: 30em; font-size: 1.1875rem; line-height: 1.5; color: var(--on-sky); }
+.tp code { padding: 2px 8px; border-radius: 8px; background: rgb(255 255 255 / 0.18); font: 500 0.875em var(--mono); }
+.checks { list-style: none; margin: 4px 0 0; padding: 16px 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; width: min(100%, 600px); border-radius: var(--r-lg);
+          background: rgb(255 255 255 / 0.94); font: 400 13px/1.4 var(--mono); color: var(--body); }
+.checks li { display: flex; gap: 10px; align-items: center; }
+.checks svg { width: 16px; height: 16px; color: var(--sky-700); flex: none; }
+.checks b { font-weight: 500; color: var(--foreground); }
 
-/* Reveal on enter, used sparingly */
-.js .reveal { opacity: 0; transform: translateY(28px); transition: opacity 900ms var(--ease-out), transform 900ms var(--ease-out); }
-.js .reveal.in { opacity: 1; transform: none; }
+/* ---------- Rules: all 265, searchable ---------- */
+.rules { position: relative; isolation: isolate; overflow: clip; padding-block: clamp(160px, 24vh, 260px) clamp(96px, 14vh, 160px);
+         background: linear-gradient(180deg, var(--background) 0%, var(--sky-100) 6%, var(--sky-300) 14%, var(--sky-500) 26%, var(--sky-700) 54%, var(--sky-900) 100%); }
+.cl-r1 { right: -7%; top: 1%; width: 30%; z-index: -1; }
+.cl-r2 { left: -17%; bottom: -3%; width: 36%; z-index: -1; }
+.cl-r3 { right: 4%; bottom: 3%; width: 16%; z-index: -1; opacity: 0.9; }
+.rules .display, .rules .head p { color: var(--on-sky); }
+.browser { padding: clamp(16px, 2.6vw, 32px); border-radius: var(--r-xl); background: rgb(255 255 255 / 0.95); box-shadow: 0 2px 6px rgb(4 26 82 / 0.1), 0 12px 48px rgb(4 26 82 / 0.12); }
+.br-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+.search { position: relative; }
+.search svg { position: absolute; left: 18px; top: 50%; width: 20px; height: 20px; margin-top: -10px; color: var(--muted); pointer-events: none; }
+.search input { width: 100%; min-height: 52px; padding: 0 20px 0 50px; border: 0; border-radius: 999px; background: var(--sky-100); box-shadow: inset 0 0 0 1px rgb(11 23 48 / 0.45); font: 400 1rem/1.4 var(--sans); color: var(--foreground); }
+.search input::placeholder { color: var(--muted); opacity: 1; }
+.search input:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.br-count { margin: 0; font: 500 14px/1 var(--mono); color: var(--body); white-space: nowrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.chip svg { width: 16px; height: 16px; flex: none; }
+.chip { all: unset; box-sizing: border-box; min-height: 36px; padding: 0 14px 0 12px; display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; background: var(--sky-100); font: 500 14px/1 var(--sans); color: var(--foreground); cursor: pointer;
+        transition: background-color 180ms var(--ease-out), color 180ms var(--ease-out); }
+.chip:hover { background: #D5E7FD; }
+.chip[aria-pressed="true"] { background: var(--foreground); color: var(--background); }
+.chip:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.rule-list { list-style: none; margin: 20px 0 0; padding: 0; border-bottom: 1px solid var(--border); }
+.rule-list li { border-top: 1px solid var(--border); }
+.rule-btn { all: unset; box-sizing: border-box; display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) 20px; gap: 12px; align-items: baseline; width: 100%; padding: 14px 4px; cursor: pointer; }
+.rule-btn:focus-visible { outline: 2px solid var(--foreground); outline-offset: -2px; border-radius: 8px; }
+.rt { font: 600 1.0625rem/1.35 var(--sans); color: var(--foreground); }
+.rule-btn svg { width: 20px; height: 20px; align-self: center; color: var(--muted); transition: transform 220ms var(--ease-in-out); }
+.rule-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.rule-why { padding: 0 4px 18px calc(7.5rem + 16px); animation: whyIn 220ms var(--ease-out); }
+.rule-why[hidden] { display: none; }
+@keyframes whyIn { from { opacity: 0; transform: translateY(-4px); } }
+.rule-why p { margin: 0 0 8px; max-width: 44em; font-size: 1rem; line-height: 1.5; }
+.rule-why b { font-weight: 600; color: var(--foreground); }
+.rule-why a { font-size: 0.9375rem; }
+.br-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+.br-foot p { margin: 0; font-size: 0.9375rem; color: var(--muted); }
+.empty { margin: 0; padding: 40px 4px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 1.0625rem; color: var(--body); }
+.empty > svg { width: 24px; height: 24px; color: var(--muted); }
+.empty[hidden], #more[hidden], .rule-list[hidden] { display: none; }
 
-/* ---------- Rules: a pinned horizontal track ---------- */
-.rules { height: 400vh; }
-.rules-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: clamp(40px, 7vh, 80px); }
-.rules-head { display: flex; justify-content: space-between; align-items: end; gap: 32px; flex-wrap: wrap; }
-.rules-head h2 { margin: 0; }
-.track { display: flex; gap: clamp(56px, 7vw, 120px); padding-inline: var(--gutter); width: max-content; will-change: transform; }
-.rule { width: min(520px, 78vw); flex: none; }
-.rule-id { font: 500 15px/1 var(--mono); color: var(--text-3); }
-.rule h3 { margin: 18px 0 16px; font-weight: 700; font-size: clamp(1.9rem, 3.3vw, 3rem); line-height: 1.04; letter-spacing: -0.04em; }
-.rule p { margin: 0; color: var(--text-2); max-width: 26em; }
-.rules-bar { height: 2px; background: rgb(255 255 255 / 0.14); border-radius: 2px; overflow: hidden; }
-.rules-bar b { display: block; height: 100%; background: var(--white); transform-origin: left; transform: scaleX(0); will-change: transform; }
+/* ---------- Directions: each one painted in its own colours ---------- */
+.dirs { background: var(--sky-900); padding-block: clamp(96px, 14vh, 160px); }
+.dirs .display, .dirs .head p { color: var(--on-sky); }
+.tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(228px, 1fr)); gap: 16px; }
+.tile { position: relative; display: flex; flex-direction: column; gap: 6px; min-height: 176px; padding: 20px; border-radius: var(--r-lg); background: var(--g); color: var(--t); text-decoration: none;
+        box-shadow: 0 0 0 1px rgb(255 255 255 / 0.16); transition: transform 220ms var(--ease-out); }
+.tile:hover { transform: translateY(-4px); }
+.tile:focus-visible { outline: 2px solid var(--on-sky); outline-offset: 3px; }
+.tile-bar { width: 32px; height: 6px; border-radius: 3px; background: var(--a); margin-bottom: auto; }
+.tile-name { font-size: 1.625rem; line-height: 1.1; }
+.tile-for { font: 400 0.875rem/1.4 var(--sans); }
+.tile-fonts { font: 400 12px/1.4 var(--mono); opacity: 0.8; }
+.dirs-note { margin: 28px 0 0; font-size: 0.9375rem; color: var(--on-sky); }
 
-/* ---------- Archetypes ---------- */
-.arch { padding-block: clamp(120px, 18vh, 200px) clamp(80px, 12vh, 140px); }
-.arch-list { list-style: none; margin: clamp(48px, 8vh, 88px) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 34px; }
-.arch-list li { display: block; }
-.arch-list button { all: unset; cursor: default; display: inline-block; font-size: clamp(1.9rem, 4.2vw, 3.6rem); line-height: 1.15;
-                    color: #5c5c5c; transition: color 300ms var(--ease-out); padding-block: 2px; border-radius: 6px; }
-.arch-list button:hover, .arch-list button:focus-visible, .arch-list button[aria-pressed="true"] { color: var(--white); }
-.js .arch-list li { opacity: 0; transform: translateY(18px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); }
-.js .arch-list.in li { opacity: 1; transform: none; }
-.arch-detail { margin-top: 40px; min-height: 3.4em; color: var(--text-2); max-width: 40em; transition: opacity 250ms var(--ease-out); }
-.arch-detail strong { color: var(--white); font-weight: 600; }
-
-/* ---------- Install ---------- */
-.install { position: relative; min-height: 100svh; display: flex; align-items: center; overflow: clip; isolation: isolate; padding-block: 140px 120px; }
-.install-media { position: absolute; inset: -8% 0; z-index: -2; will-change: transform; }
-.install-media img { width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; }
-.install::before { content: ""; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(180deg, var(--black) 0%, rgb(0 0 0 / 0.35) 22%, rgb(0 0 0 / 0.15) 50%, rgb(0 0 0 / 0.7) 100%),
-              linear-gradient(90deg, rgb(0 0 0 / 0.6) 0%, rgb(0 0 0 / 0) 60%); }
-.install h2 { margin: 0; }
-.tabs { margin-top: 44px; max-width: 760px; }
-.tablist { position: relative; display: inline-flex; padding: 5px; border-radius: 999px; background: rgb(0 0 0 / 0.55);
-           box-shadow: inset 0 0 0 1px var(--line); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+/* ---------- Install: above the weather ---------- */
+.install { position: relative; isolation: isolate; overflow: clip; padding-block: clamp(96px, 14vh, 160px) 0; background: linear-gradient(180deg, var(--sky-900) 0%, var(--sky-950) 46%, var(--sky-700) 82%, var(--sky-300) 100%); text-align: center; }
+.install .display, .install-lead { color: var(--on-sky); }
+.install-lead { margin: 20px auto 0; max-width: 30em; font-size: 1.25rem; }
+.tabs { max-width: 720px; margin: 40px auto 0; padding: 12px; border-radius: 36px; background: var(--glass); box-shadow: inset 0 0 0 1px var(--glass-line), 0 12px 48px rgb(4 26 82 / 0.12);
+        -webkit-backdrop-filter: blur(18px) saturate(1.3); backdrop-filter: blur(18px) saturate(1.3); text-align: left; }
+.tablist { position: relative; display: flex; max-width: 100%; padding: 4px; border-radius: 999px; background: rgb(255 255 255 / 0.7); overflow-x: auto; scrollbar-width: none; }
 .tablist::-webkit-scrollbar { display: none; }
-.tab { all: unset; position: relative; z-index: 1; padding: 0 18px; min-height: 40px; display: inline-flex; align-items: center; border-radius: 999px;
-       font-size: 15px; font-weight: 600; color: var(--text-2); cursor: pointer; white-space: nowrap; transition: color 250ms var(--ease-out); }
-.tab[aria-selected="true"] { color: var(--black); }
-.tab:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
-.tab-ind { position: absolute; z-index: 0; top: 5px; bottom: 5px; left: 0; width: 0; border-radius: 999px; background: var(--white);
-           transition: transform 380ms var(--ease-out), width 380ms var(--ease-out); }
-.panels { position: relative; margin-top: 20px; }
-.panel { border-radius: 20px; padding: 26px; background: rgb(0 0 0 / 0.6); box-shadow: inset 0 0 0 1px var(--line);
-         -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.tab { all: unset; box-sizing: border-box; position: relative; z-index: 1; flex: 1 0 auto; min-height: 40px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px;
+       font: 600 15px/1 var(--sans); color: var(--body); cursor: pointer; white-space: nowrap; transition: color 200ms var(--ease-out); }
+.tab:hover { color: var(--foreground); }
+.tab[aria-selected="true"] { color: var(--background); }
+.tab:focus-visible { outline: 2px solid var(--foreground); outline-offset: 2px; }
+.tab-ind { position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: 999px; background: var(--foreground); transition: transform 300ms var(--ease-in-out), width 300ms var(--ease-in-out); }
+.panel { padding: 16px 8px 8px; }
 .panel[hidden] { display: none; }
-.panel.entering { animation: panelIn 420ms var(--ease-out); }
-@keyframes panelIn { from { opacity: 0; transform: translateY(8px); } }
-.panel p { margin: 0 0 16px; color: var(--text-2); }
-.panel p:last-child { margin-bottom: 0; }
-.line { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 18px; border-radius: 14px;
-        background: rgb(255 255 255 / 0.06); font: 500 15px/1.5 var(--mono); margin-bottom: 10px; }
-.line code { font: inherit; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
-.line code::-webkit-scrollbar { display: none; }
-.line .dollar { color: var(--text-3); margin-right: 10px; }
-.panel .path { font: 500 0.92em var(--mono); color: var(--white); }
-
-/* ---------- Footer ---------- */
-footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px; color: var(--text-3); font-size: 15px; }
-.foot { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; align-items: start; }
-.foot p { margin: 0; max-width: 34em; }
-.foot nav { display: flex; gap: 28px; flex-wrap: wrap; }
-.foot a { color: var(--text-2); text-decoration: none; padding-block: 12px; transition: color 200ms var(--ease-out); }
-.foot a:hover { color: var(--white); }
+.panel.entering { animation: whyIn 250ms var(--ease-out); }
+.panel p { margin: 0 12px 12px; font-size: 1rem; color: var(--foreground); }
+.panel p:last-child { margin-bottom: 8px; }
+.panel .cmd { margin-bottom: 12px; }
+.path-file { font: 500 0.875em var(--mono); }
+.install-end { position: relative; margin-top: clamp(48px, 8vh, 96px); }
+.install-end img { width: 116%; max-width: none; margin-left: -8%; height: auto; }
+footer { background: var(--background); padding-block: 8px 48px; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.foot { display: flex; justify-content: space-between; gap: 16px 32px; flex-wrap: wrap; align-items: center; }
+.foot p { margin: 0; max-width: 40em; }
+.foot nav { display: flex; gap: 24px; flex-wrap: wrap; }
+.foot a svg { width: 16px; height: 16px; }
+.foot a { display: inline-flex; align-items: center; gap: 6px; color: var(--body); text-decoration: none; padding-block: 12px; transition: color 180ms var(--ease-out); }
+.foot a:hover { color: var(--foreground); }
 
 /* ---------- Toast ---------- */
-.toast { position: fixed; left: 50%; bottom: 28px; z-index: 60; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
-         background: var(--white); color: var(--black); padding: 12px 20px; border-radius: 999px; font-weight: 600; font-size: 15px;
-         transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+.toast { position: fixed; left: 50%; bottom: 24px; z-index: 60; transform: translate(-50%, 16px); opacity: 0; pointer-events: none; background: var(--foreground); color: var(--background);
+         padding: 12px 20px; border-radius: 999px; font: 600 14px/1 var(--sans); transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-/* ---------- Narrow screens ---------- */
-@media (max-width: 860px) {
-  .nav-links a:not(.pill) { display: none; }
-  .hero-media img { object-position: 72% 50%; }
-  .hero-shade { background: linear-gradient(180deg, rgb(0 0 0 / 0.55) 0%, rgb(0 0 0 / 0.2) 40%, rgb(0 0 0 / 0.1) 65%, var(--black) 100%); }
-  .hero-copy { justify-content: flex-start; padding-top: 128px; }
-  .cmd { font-size: 13px; padding-left: 16px; max-width: 100%; }
-  .cmd code { overflow-x: auto; scrollbar-width: none; }
-  .hero-foot .scroll-cue { display: none; }
-  .how-grid { grid-template-columns: 1fr; }
-  .how-side { position: static; }
-  .rules { height: auto; }
-  .rules-stage { position: static; height: auto; overflow: visible; padding-block: 120px 40px; }
-  .track { flex-direction: column; width: auto; gap: 56px; transform: none !important; }
-  .rule { width: auto; }
-  .rules-bar { display: none; }
-  .proof { height: 300vh; }
-  .proof-stage { padding-top: 96px; }
-  .tag { top: 10px; font-size: 12px; padding: 5px 10px; }
-  .tag-off { left: 10px; } .tag-on { right: 10px; }
-}
+/* ---------- Load sequence (armed only when the script runs) ---------- */
+.js .hero h1 .ln > span { transform: translateY(112%); transition: transform 500ms var(--ease-out); }
+.js .hero h1 .ln:nth-child(2) > span { transition-delay: 70ms; }
+.js .hero .dock { opacity: 0; transform: translateY(12px); transition: opacity 400ms var(--ease-out) 140ms, transform 400ms var(--ease-out) 140ms; }
+.js .hero .cl img { opacity: 0; transform: translate3d(calc(var(--from, 0) * 1px), 16px, 0); transition: opacity 900ms var(--ease-out), transform 1100ms var(--ease-out); }
+.js.loaded .hero h1 .ln > span, .js.loaded .hero .dock, .js.loaded .hero .cl img { opacity: 1; transform: none; }
 
-/* ---------- Reduced motion: everything readable, nothing pinned ---------- */
+/* ---------- Narrow ---------- */
+@media (max-width: 960px) {
+  .why-grid { grid-template-columns: minmax(0, 1fr); }
+  .why-fig { aspect-ratio: 16 / 10; }
+  .tour { grid-template-columns: minmax(0, 1fr); min-height: 0; padding: 20px 20px 152px; gap: 24px; border-radius: 28px; }
+  .tour-rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+  .tour-ind { display: none; }
+  .tstep { grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 6px; min-height: 60px; padding: 10px 0; border-radius: 16px; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.28); }
+  .tstep[aria-selected="true"] { background: rgb(255 255 255 / 0.18); }
+  .tt { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .tp { position: static; display: none; opacity: 1; visibility: visible; transform: none; }
+  .tp.on { display: flex; }
+  .tp-num { display: none; }
+  .tour-bank { bottom: -28px; left: -15%; right: -15%; }
+  .tour-puff { display: none; }
+  .notes { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .nav-links a:not(.btn) { display: none; }
+  .nav-links { gap: 4px; }
+  .nav-inner { padding-left: 20px; }
+  .menu-btn { display: block; }
+  .hero { padding-block: 112px 30svh; }
+  .lead { font-size: 1.0625rem; margin-inline: 8px; }
+  .cl-a { left: -36%; top: 58%; width: 72%; }
+  .cl-b { right: -42%; top: 52%; width: 80%; }
+  .cl-c, .cl-d { display: none; }
+  .cl-f1 { top: 11%; width: 20%; }
+  .cl-f2 { top: 68%; width: 30%; }
+  .cl-f3, .cl-f4 { width: 24%; }
+  .cl-e { left: 28%; top: 49%; width: 34%; }
+  .cl-bank { left: -40%; right: -40%; }
+  .cmd { font-size: 13px; padding-left: 16px; gap: 8px; }
+  .head { grid-template-columns: minmax(0, 1fr); }
+  .slide figcaption { grid-template-columns: auto minmax(0, 1fr); }
+  .br-top { grid-template-columns: minmax(0, 1fr); }
+  .rule-btn { grid-template-columns: minmax(0, 1fr) 20px; }
+  .rule-btn .rid { grid-column: 1 / -1; }
+  .rule-why { padding-left: 4px; }
+  .checks { grid-template-columns: minmax(0, 1fr); }
+  .facts { gap: 4px 14px; }
+  .cl-r1 { right: -24%; width: 62%; top: 0.5%; }
+  .cl-r2 { left: -40%; width: 80%; }
+  .cl-r3 { display: none; }
+  .install-end img { width: 190%; margin-left: -45%; }
+}
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
-  .manifesto, .proof, .rules { height: auto; }
-  .manifesto-stage, .proof-stage, .rules-stage { position: static; height: auto; padding-block: 120px; }
-  .js .manifesto .w { opacity: 1; }
-  .track { flex-direction: column; width: auto; gap: 56px; transform: none !important; }
-  .rule { width: auto; }
-  .rules-bar, .proof-steps { display: none; }
-  .pair-2, .proof-caption .cap-2 { display: none; }
-  .proof-caption p { position: static; }
+  .sky-toggle, .cl-fly { display: none; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; scroll-behavior: auto !important; }
 }
 </style>
 </head>
@@ -282,191 +400,261 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
-  <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="YourDesignRules, back to top"><span class="brand-mark" aria-hidden="true"></span>YourDesignRules</a>
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="YourDesignRules, back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg><span>YourDesignRules</span></a>
     <nav class="nav-links" aria-label="Primary">
       <a href="#examples">Examples</a>
       <a href="#how">How it works</a>
-      <a href="#archetypes">Directions</a>
-      <a class="pill pill-light" href="#install">Install</a>
+      <a href="#rules">Rules</a>
+      <a href="#directions">Directions</a>
+      <a class="btn btn-sun" href="#install">Install</a>
+      <button class="menu-btn" type="button" id="menu-btn" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i></i><i></i></button>
     </nav>
   </div>
 </header>
+<div class="menu" id="menu">
+  <a href="#examples" style="--i:0">Examples</a>
+  <a href="#how" style="--i:1">How it works</a>
+  <a href="#rules" style="--i:2">Rules</a>
+  <a href="#directions" style="--i:3">Directions</a>
+  <a href="#install" style="--i:4">Install</a>
+</div>
 
 <main id="main">
   <!-- Hero -->
-  <section class="hero" id="top" aria-labelledby="hero-title">
-    <div class="hero-media" id="hero-media">
-      <img src="assets/hero-ring.jpg" alt="A giant stone ring on a mountain ridge above a sea of clouds, with the rising sun inside it and a small figure standing at its base." width="2880" height="1620" fetchpriority="high" decoding="async" id="hero-img">
-    </div>
-    <div class="hero-shade" aria-hidden="true"></div>
-    <div class="wrap hero-copy" id="hero-copy">
-      <h1 id="hero-title"><span class="ln"><span>Give your agent</span></span><span class="ln"><span>taste.</span></span></h1>
-      <p class="lead">An open rulebook that Claude Code, Codex, Cursor and other coding agents read before they build an interface. Fewer default looks. More pages that look like someone designed them.</p>
-      <div class="cta">
-        <div class="cmd"><code><span class="dollar" aria-hidden="true">$</span>npx skills add yarzc0de/YourDesignRules</code>
-          <button class="copy" type="button" data-copy="npx skills add yarzc0de/YourDesignRules" aria-label="Copy install command">
-            <svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
-            <svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
-          </button>
-        </div>
-        <a class="text-link" href="https://github.com/yarzc0de/YourDesignRules">Read the rules on GitHub</a>
+  <section class="hero on-sky" id="top" aria-labelledby="hero-title">
+    <div class="sky" aria-hidden="true"></div>
+    <div class="cl cl-fly cl-f1" data-cloud data-fly="16" data-off="0.2" data-s="-0.04" aria-hidden="true"><img src="assets/cloud-puff-3.webp" alt=""></div>
+    <div class="cl cl-c" data-cloud data-s="-0.06" data-p="0.25" data-dx="-0.12" data-a="14" data-t="31" data-ph="0.6" aria-hidden="true"><img src="assets/cloud-puff-1.webp" alt="" style="--from:-24"></div>
+    <div class="cl cl-b" data-cloud data-s="0.05" data-p="0.5" data-dx="0.3" data-a="18" data-t="43" data-ph="2.1" aria-hidden="true"><img src="assets/cloud-flat.webp" alt="" style="--from:40"></div>
+    <div class="cl cl-a" data-cloud data-s="0.12" data-p="0.8" data-dx="-0.34" data-a="26" data-t="37" data-ph="4.0" aria-hidden="true"><img src="assets/cloud-tall.webp" alt="" style="--from:-48"></div>
+    <div class="cl cl-d" data-cloud data-s="0.02" data-p="0.4" data-dx="0.18" data-a="20" data-t="27" data-ph="1.2" aria-hidden="true"><img src="assets/cloud-puff-2.webp" alt="" style="--from:28"></div>
+    <div class="cl cl-fly cl-f2" data-cloud data-fly="27" data-off="0.62" data-s="0.08" aria-hidden="true"><img src="assets/cloud-puff-1.webp" alt=""></div>
+    <div class="cl cl-e" data-cloud data-s="0.2" data-p="1" data-dx="-0.1" data-a="30" data-t="23" data-ph="3.3" aria-hidden="true"><img src="assets/cloud-puff-3.webp" alt="" style="--from:-20"></div>
+    <div class="cl cl-bank" data-cloud data-s="0.16" data-p="0.6" data-a="22" data-t="47" data-ph="0.9" data-zoom="0.14" aria-hidden="true"><img src="assets/cloud-bank.webp" alt="" width="2200" height="943" fetchpriority="high"></div>
+    <button class="sky-toggle" type="button" id="sky-toggle" aria-pressed="false" aria-label="Pause the clouds"><svg class="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="6 3 20 12 6 21 6 3"/></svg></button>
+    <div class="wrap hero-copy">
+      <h1 class="display" id="hero-title"><span class="ln"><span>Give your agent</span></span><span class="ln"><span>taste.</span></span></h1>
+      <div class="dock">
+        <p class="lead">An open rulebook that Claude Code, Codex, Cursor and other coding agents read before they build an interface.</p>
+        <div class="cmd"><code><span class="dollar" aria-hidden="true">$</span>npx skills add yarzc0de/YourDesignRules</code><button class="btn btn-sun copy" type="button" data-copy="npx skills add yarzc0de/YourDesignRules" aria-label="Copy install command"><span class="l-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Copy</span><span class="l-done" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Copied</span></button></div>
+        <ul class="facts"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>265 rules</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>17 visual directions</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>Free to use</li><li><a class="link" href="https://github.com/yarzc0de/YourDesignRules">Read them on GitHub</a></li></ul>
       </div>
-    </div>
-    <div class="wrap hero-foot">
-      <span>265 rules and 17 visual directions, free to use</span>
-      <span class="scroll-cue" aria-hidden="true">Scroll <i></i></span>
     </div>
   </section>
 
-  <!-- Manifesto -->
-  <section class="manifesto" id="why" aria-label="Why it exists">
-    <div class="manifesto-stage">
-      <div class="wrap">
-        <p id="manifesto-text">Ask a model for a landing page and you get the same one every time. Cards inside cards. Three equal boxes under the hero. A cream background, a gradient blob, a testimonial nobody wrote. And nobody ever looks at the render. <span class="end">These rules make your agent look.</span></p>
+  <!-- Why -->
+  <section class="sec" id="why" aria-labelledby="why-title">
+    <div class="wrap why-grid">
+      <div>
+        <h2 class="display h2" id="why-title">Ask a model for a landing page and you get the same one every time.</h2>
+        <ul class="cliches" aria-label="What it usually builds">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><s style="--i:0">Cards inside cards</s></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><s style="--i:1">Three equal boxes under the hero</s></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><s style="--i:2">A cream background</s></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><s style="--i:3">A gradient blob</s></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg><s style="--i:4">A testimonial nobody wrote</s></li>
+        </ul>
+        <p class="why-end">And nobody ever looks at the render. <strong>These rules make your agent look.</strong></p>
       </div>
+      <figure class="why-fig"><img src="assets/sky-grid.jpg" alt="A blue sky in which dozens of identical small clouds hang in a perfect grid." width="2048" height="1152" loading="lazy" decoding="async"></figure>
     </div>
   </section>
 
   <!-- Proof -->
-  <section class="proof" id="examples" aria-labelledby="proof-title">
-    <div class="wrap proof-stage">
-      <div class="proof-head">
-        <h2 id="proof-title">Same prompt.<br>Same model.</h2>
-        <p>Left of the line, the agent built the page with no rules. Right of it, with these rules loaded. Keep scrolling to move the line.</p>
+  <section class="sec proof" id="proof" aria-labelledby="proof-title">
+    <div class="wrap">
+      <div class="head head-center">
+        <h2 class="display h2" id="proof-title">Same prompt. Same model.</h2>
+        <p>One app screen, built twice from one brief. Flip the switch to load the rules.</p>
       </div>
-      <div class="frame-wrap">
-        <div class="frame" id="frame">
-          <div class="pair pair-1" id="pair-1">
-            <img src="assets/example-saas-landing-before.jpg" alt="Without the rules: a cream page with a serif headline, one orange italic word, a pill badge and a small schedule widget beside the text." loading="lazy" decoding="async">
-            <div class="after-clip"><img src="assets/example-saas-landing-after.jpg" alt="With the rules: a full-bleed photograph of Earth at sunrise with a large headline in the dark sky." loading="lazy" decoding="async"></div>
-            <div class="divider" aria-hidden="true"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
-          </div>
-          <div class="pair pair-2" id="pair-2" style="opacity:0">
-            <img src="assets/example-saas-app-before.jpg" alt="Without the rules: an app dashboard on a warm cream background with cards and uppercase labels." loading="lazy" decoding="async">
-            <div class="after-clip"><img src="assets/example-saas-app-after.jpg" alt="With the rules: the same dashboard built around one dark rotation panel with a gold line marking the current time." loading="lazy" decoding="async"></div>
-            <div class="divider" aria-hidden="true"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
-          </div>
-          <span class="tag tag-off">Rules off</span>
-          <span class="tag tag-on">Rules on</span>
+      <div class="switch-row">
+        <button class="switch" type="button" role="switch" aria-checked="false" id="rules-switch" aria-label="Rules loaded">
+          <span class="sw-track" aria-hidden="true"><span class="sw-thumb"></span></span>
+          <span class="sw-label" aria-hidden="true"><span class="sw-off">Rules off</span><span class="sw-on">Rules on</span></span>
+        </button>
+      </div>
+      <div class="window">
+        <div class="shots" id="shots">
+          <img src="assets/example-saas-app-before.jpg" alt="Without the rules: an app home screen on a warm cream background, three cards on top and four equal cards below, each with an uppercase label." width="1440" height="900" loading="lazy" decoding="async">
+          <img class="shot-after" src="assets/example-saas-app-after.jpg" alt="With the rules: the same screen led by one dark rotation panel where each engineer's daylight is a band and one gold line marks the current time." width="1440" height="900" loading="lazy" decoding="async">
         </div>
       </div>
-      <div class="proof-caption">
-        <p class="cap-1" id="cap-1"><strong>Landing page for an on-call tool.</strong> The defaults (cream, serif, one italic word, a badge) give way to one key visual and a scroll story.</p>
-        <p class="cap-2" id="cap-2"><strong>The same product's app home screen.</strong> Cards and uppercase labels give way to one working surface: the team's day, drawn as daylight.</p>
-      </div>
-      <div class="proof-steps" aria-hidden="true"><i><b id="ps-1"></b></i><i><b id="ps-2"></b></i></div>
+      <p class="window-cap">Sunshift &ldquo;Now&rdquo;, the screen an engineering manager sees after login. First screen at 1440 px.</p>
+      <ul class="notes" aria-label="What the rules changed on this screen">
+        <li><span class="rid">COLOR-8, CHK-1</span><p class="n-b">Warm cream ground; the sidebar stops partway down the page</p><p class="n-a">A white app with a full-height sidebar</p></li>
+        <li><span class="rid">CORE-21, CORE-22, WEB-22</span><p class="n-b">Three cards on top, four equal cards below, uppercase eyebrows on each</p><p class="n-a">One dark working-surface panel leads; the rest is plain sections</p></li>
+        <li><span class="rid">WEB-22, WEB-26, CORE-23</span><p class="n-b">A Gantt chart of colored shift bars</p><p class="n-a">Each engineer&rsquo;s local daylight drawn as a band, with one gold &ldquo;now&rdquo; line across rotation, incidents, and deploys</p></li>
+        <li><span class="rid">MOTION-26, MOTION-27</span><p class="n-b">Hard cuts between states</p><p class="n-a">Tabs crossfade, the indicator slides, the handoff drawer slides from its edge</p></li>
+      </ul>
     </div>
   </section>
 
-  <!-- How it works -->
-  <section class="how" id="how" aria-labelledby="how-title">
-    <div class="wrap how-grid">
-      <div class="how-side">
-        <h2 class="eyebrowless-head" id="how-title">How your agent uses it</h2>
-        <p class="section-lead">A short workflow the agent follows on every interface task. Most of the value is in the last step.</p>
-        <figure><img src="assets/monolith.jpg" alt="A black monolith and a white sphere on an empty salt flat under a black sky, with a small figure between them." loading="lazy" decoding="async" id="how-img"></figure>
+  <!-- Examples -->
+  <section class="sec" id="examples" aria-labelledby="ex-title">
+    <div class="wrap">
+      <div class="head">
+        <div><h2 class="display h2" id="ex-title">One rulebook. No house style.</h2>
+          <p>Four subjects, four pages that do not look like each other. The identity comes from the subject, not from the rules.</p></div>
+        <div class="rail-nav"><button type="button" id="rail-prev" aria-label="Previous example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg></button><button type="button" id="rail-next" aria-label="Next example"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button></div>
       </div>
-      <ol class="steps">
-        <li class="step reveal"><span class="step-n">01</span><h3>Read the core</h3><p>Twenty-five rules every screen follows: one job per view, one dominant region, no card without a job, nothing invented. Starts in <code>rules/core.md</code>.</p></li>
-        <li class="step reveal"><span class="step-n">02</span><h3>Open the guide for the job</h3><p>Web app, landing page, mobile app, dashboard, or slides. Each guide adds the rules that only matter for that kind of work.</p></li>
-        <li class="step reveal"><span class="step-n">03</span><h3>Pick a direction</h3><p>No brand? The agent asks for one reference you like and three mood words, then picks one of 17 visual directions and tells you why. Your fonts and colors always win.</p></li>
-        <li class="step reveal"><span class="step-n">04</span><h3>Plan, test for sameness, show the first screen</h3><p>A palette, a type scale, a sketch of the first screen, a motion plan, and one bold decision. If a competitor's page would come out the same, the plan changes. Then it builds the first screen and shows you before going further.</p></li>
-        <li class="step reveal"><span class="step-n">05</span><h3>Build, then look</h3><p>After every section the agent renders it and runs the review checklist on the real pixels: clipping, contrast, alignment, states, motion. Then it fixes what it finds, in place.</p></li>
-      </ol>
+    </div>
+    <div class="rail" id="rail" tabindex="0" role="region" aria-label="Example pages built with the rules">
+        <figure class="slide">
+          <img src="assets/example-saas-landing-after.jpg" alt="Sunshift landing page: a white page with a large grotesque headline above a wide rotation board." width="1600" height="1000" loading="lazy" decoding="async">
+          <figcaption><b>Sunshift</b><span class="pill">Working Surface</span><span class="brief">On-call scheduling for engineering teams. The product&rsquo;s own rotation board is the hero.</span></figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/example-tidewell-after.jpg" alt="Tidewell landing page: a photograph of someone asleep at midday wearing a ring, with the headline in the quiet part of the picture." width="1440" height="900" loading="lazy" decoding="async">
+          <figcaption><b>Tidewell</b><span class="pill">Specimen Notes</span><span class="brief">A sleep-tracking ring for shift workers. The hero shows the outcome; the ring is annotated like a specimen.</span></figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/example-marl-after.jpg" alt="Marl landing page: a warm-lit photograph of hands at a pottery wheel with a serif headline." width="1600" height="1000" loading="lazy" decoding="async">
+          <figcaption><b>Marl</b><span class="pill">Gallery Wall</span><span class="brief">A one-person ceramics studio. The page reads as a catalogue of numbered plates.</span></figcaption>
+        </figure>
+        <figure class="slide">
+          <img src="assets/example-crumb-after.jpg" alt="Crumb and Co dashboard: a white back-office screen that leads with the one store needing attention and a ranked bar chart." width="1440" height="900" loading="lazy" decoding="async">
+          <figcaption><b>Crumb &amp; Co</b><span class="pill">Calm Utility</span><span class="brief">A bakery chain&rsquo;s back office. One lead answer: which store needs attention right now.</span></figcaption>
+        </figure>
+    </div>
+    <div class="wrap"><p class="rail-foot">Every case, with the prompt, full pages, phone renders and HTML, is in <a class="link" href="https://github.com/yarzc0de/YourDesignRules/tree/main/examples">examples/</a>.</p></div>
+  </section>
+
+  <!-- How -->
+  <section class="how" id="how" aria-labelledby="how-title">
+    <div class="how-stage">
+      <div class="wrap">
+        <div class="head how-head">
+          <div><h2 class="display h2" id="how-title">How your agent uses it</h2>
+            <p>A short workflow the agent follows on every interface task. Most of the value is in the last step.</p></div>
+        </div>
+        <div class="tour on-sky">
+          <div class="cl tour-puff" data-cloud data-a="16" data-t="33" data-ph="1.1" aria-hidden="true"><img src="assets/cloud-puff-2.webp" alt="" loading="lazy"></div>
+          <div class="cl tour-bank" data-cloud data-a="22" data-t="44" data-ph="3.0" aria-hidden="true"><img src="assets/cloud-bank.webp" alt="" loading="lazy"></div>
+          <div class="tour-rail" role="tablist" aria-orientation="vertical" aria-label="The five steps" id="tour-rail">
+            <span class="tour-ind" id="tour-ind" aria-hidden="true"></span>
+            <button class="tstep" type="button" role="tab" id="ts-0" aria-controls="tp-0" aria-selected="true"><span class="tn">01</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg><span class="tt">Read the core</span></button>
+            <button class="tstep" type="button" role="tab" id="ts-1" aria-controls="tp-1" aria-selected="false" tabindex="-1"><span class="tn">02</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/></svg><span class="tt">Open the guide for the job</span></button>
+            <button class="tstep" type="button" role="tab" id="ts-2" aria-controls="tp-2" aria-selected="false" tabindex="-1"><span class="tn">03</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg><span class="tt">Pick a direction</span></button>
+            <button class="tstep" type="button" role="tab" id="ts-3" aria-controls="tp-3" aria-selected="false" tabindex="-1"><span class="tn">04</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13"/><path d="m8 6 2-2"/><path d="m18 16 2-2"/><path d="m17 11 4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg><span class="tt">Plan, test for sameness, show the first screen</span></button>
+            <button class="tstep" type="button" role="tab" id="ts-4" aria-controls="tp-4" aria-selected="false" tabindex="-1"><span class="tn">05</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="1"/><path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0"/></svg><span class="tt">Build, then look</span></button>
+          </div>
+          <div class="tour-panels">
+            <div class="tp on" role="tabpanel" id="tp-0" aria-labelledby="ts-0"><span class="tp-num" aria-hidden="true">01</span><h3 class="display">Read the core</h3><p>The rules every screen follows: one job per view, one dominant region, no card without a job, nothing invented. It starts in <code>rules/core.md</code>.</p></div>
+            <div class="tp" role="tabpanel" id="tp-1" aria-labelledby="ts-1"><span class="tp-num" aria-hidden="true">02</span><h3 class="display">Open the guide for the job</h3><p>Web app, landing page, mobile app, dashboard, or slides. Each guide adds the rules that only matter for that kind of work.</p></div>
+            <div class="tp" role="tabpanel" id="tp-2" aria-labelledby="ts-2"><span class="tp-num" aria-hidden="true">03</span><h3 class="display">Pick a direction</h3><p>No brand? The agent asks for one reference you like and three mood words, then picks one of 17 visual directions and tells you why. Your fonts and colors always win.</p></div>
+            <div class="tp" role="tabpanel" id="tp-3" aria-labelledby="ts-3"><span class="tp-num" aria-hidden="true">04</span><h3 class="display">Plan, test for sameness, show the first screen</h3><p>A palette, a type scale, a sketch of the first screen, a motion plan, and one bold decision. If a competitor&rsquo;s page would come out the same, the plan changes.</p></div>
+            <div class="tp" role="tabpanel" id="tp-4" aria-labelledby="ts-4"><span class="tp-num" aria-hidden="true">05</span><h3 class="display">Build, then look</h3><p>After every section the agent renders it and runs the review checklist on the real pixels. Then it fixes what it finds, in place.</p><ul class="checks" aria-label="The per-section review checklist"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-1</b> structure intact</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-2</b> no clipping or overflow</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-3</b> contrast on real pixels</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-4</b> alignment and spacing scale</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-5</b> one focal point, one primary action</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-6</b> fonts loaded, sizes and measure</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-7</b> images arrived, cropped, alt text</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-8</b> no card-wrapping, soft shadows, no beige</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-9</b> states present</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-10</b> content honest</span></li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><b>CHK-11</b> render matches intent</span></li></ul></div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Rules -->
-  <section class="rules" id="rules" aria-labelledby="rules-title">
-    <div class="rules-stage" id="rules-stage">
-      <div class="wrap rules-head">
-        <h2 class="eyebrowless-head" id="rules-title">Short. Testable. Explained.</h2>
-        <p class="section-lead" style="margin:0;max-width:26em">Every rule has an ID, an instruction, and one line on why it exists. A few of the 265:</p>
+  <section class="rules on-sky" id="rules" aria-labelledby="rules-title">
+    <div class="cl cl-fly cl-f3" data-cloud data-fly="20" data-off="0.4" aria-hidden="true"><img src="assets/cloud-puff-3.webp" alt="" loading="lazy"></div>
+    <div class="cl cl-r1" data-cloud data-s="0.06" data-p="0.5" data-dx="0.12" data-a="24" data-t="39" data-ph="1.7" aria-hidden="true"><img src="assets/cloud-flat.webp" alt="" loading="lazy"></div>
+    <div class="cl cl-r2" data-cloud data-s="0.1" data-p="0.8" data-dx="-0.1" data-a="30" data-t="45" data-ph="3.9" aria-hidden="true"><img src="assets/cloud-tall.webp" alt="" loading="lazy"></div>
+    <div class="cl cl-r3" data-cloud data-s="0.03" data-p="0.3" data-a="18" data-t="29" data-ph="0.3" aria-hidden="true"><img src="assets/cloud-puff-2.webp" alt="" loading="lazy"></div>
+    <div class="wrap">
+      <div class="head">
+        <div><h2 class="display h2" id="rules-title">265 rules. Short, testable, explained.</h2>
+          <p>Every rule has an ID, an instruction, and one line on why it exists. Search them all.</p></div>
       </div>
-      <div class="track" id="track">
-        <article class="rule"><span class="rule-id">CORE-21</span><h3>Don't fill space with rows of equal boxes</h3><p>Label-plus-caption trios are the most common filler in generated pages.</p></article>
-        <article class="rule"><span class="rule-id">CORE-25</span><h3>Avoid the house styles generators fall into</h3><p>A look that appears for every subject tells the visitor nobody made a choice.</p></article>
-        <article class="rule"><span class="rule-id">LAY-20</span><h3>Compose the hero as one continuous stage</h3><p>A text column beside a boxed photo reads as two weak halves.</p></article>
-        <article class="rule"><span class="rule-id">COLOR-8</span><h3>Never use beige, cream, ivory, tan, or sand grounds</h3><p>Warmth belongs in type, light, and photography, not a tinted canvas.</p></article>
-        <article class="rule"><span class="rule-id">CORE-9</span><h3>Use real content and invent nothing</h3><p>Invented proof misleads real visitors and gets shipped by accident.</p></article>
-        <article class="rule"><span class="rule-id">IMG-12</span><h3>Never guess or invent image URLs</h3><p>Guessed URLs break, or show the wrong picture.</p></article>
-        <article class="rule"><span class="rule-id">MOTION-21</span><h3>Link animation to scroll, never hijack it</h3><p>Taking over scrolling breaks trackpads, keyboards, and screen readers.</p></article>
-        <article class="rule"><span class="rule-id">CHK-18</span><h3>The page makes one bold decision</h3><p>Clean is the floor, not the goal.</p></article>
+      <div class="browser">
+        <div class="br-top">
+          <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><label class="sr-only" for="q">Search the rules</label><input id="q" type="search" placeholder="Search the rules: shadow, hero, card, contrast" autocomplete="off" spellcheck="false"></div>
+          <p class="br-count" id="br-count" aria-live="polite">265 rules</p>
+        </div>
+        <div class="chips" role="group" aria-label="Filter by family"><button class="chip" type="button" aria-pressed="true" data-fam="ALL"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></svg>All</button><button class="chip" type="button" aria-pressed="false" data-fam="CORE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/></svg>Core</button><button class="chip" type="button" aria-pressed="false" data-fam="LAY"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>Layout</button><button class="chip" type="button" aria-pressed="false" data-fam="TYPE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" x2="15" y1="20" y2="20"/><line x1="12" x2="12" y1="4" y2="20"/></svg>Typography</button><button class="chip" type="button" aria-pressed="false" data-fam="COLOR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>Color</button><button class="chip" type="button" aria-pressed="false" data-fam="IMG"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>Imagery</button><button class="chip" type="button" aria-pressed="false" data-fam="MOTION"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg>Motion</button><button class="chip" type="button" aria-pressed="false" data-fam="CHK"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg>Checklist</button><button class="chip" type="button" aria-pressed="false" data-fam="WEB"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/></svg>Web apps</button><button class="chip" type="button" aria-pressed="false" data-fam="LAND"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/></svg>Landing pages</button><button class="chip" type="button" aria-pressed="false" data-fam="MOB"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>Mobile</button><button class="chip" type="button" aria-pressed="false" data-fam="DATA"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>Dashboards</button><button class="chip" type="button" aria-pressed="false" data-fam="SLIDE"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></svg>Slides</button></div>
+        <ul class="rule-list" id="rule-list">
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-0"><span class="rid">CORE-1</span><span class="rt">Give every view one job and one primary action</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-0" hidden><p><b>Why:</b> a view that tries to do everything gives the user no starting point.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-1"><span class="rid">CORE-2</span><span class="rt">Make one region dominant</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-1" hidden><p><b>Why:</b> the eye needs a place to land; equal weight reads as noise.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-2"><span class="rid">CORE-3</span><span class="rt">Let hierarchy come from type, position, and contrast</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-2" hidden><p><b>Why:</b> boxes multiply quickly and flatten hierarchy instead of creating it.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-3"><span class="rid">CORE-4</span><span class="rt">Run a reduction pass before you call it done</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-3" hidden><p><b>Why:</b> first drafts collect clutter; the edit is where design quality comes from.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-4"><span class="rid">CORE-5</span><span class="rt">Reduce noise, not substance</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-4" hidden><p><b>Why:</b> over-minimal screens push work onto the user and look unfinished.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-5"><span class="rid">CORE-6</span><span class="rt">Do not wrap every element in a card</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-5" hidden><p><b>Why:</b> card-inside-card-inside-section is the most recognizable sign of generated UI.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-6"><span class="rid">CORE-7</span><span class="rt">Use effects sparingly and on purpose</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-6" hidden><p><b>Why:</b> stacked effects date a design instantly and hide weak structure.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+            <li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-7"><span class="rid">CORE-8</span><span class="rt">Make one bold decision and commit to it</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="rule-why" id="rw-7" hidden><p><b>Why:</b> a page that only avoids mistakes looks like every other careful page; distinctiveness is what makes it feel authored.</p><a class="link" href="https://github.com/yarzc0de/YourDesignRules/blob/main/rules/core.md">Open rules/core.md</a></div></li>
+        </ul>
+        <p class="empty" id="empty" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13.5 8.5-5 5"/><path d="m8.5 8.5 5 5"/><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>No rule matches that.</span> <button class="btn btn-ghost" type="button" id="clear">Clear the search</button></p>
+        <div class="br-foot">
+          <button class="btn" type="button" id="more">Show 16 more</button>
+          <p>Read straight from <a class="link" href="https://github.com/yarzc0de/YourDesignRules/tree/main/rules">rules/</a> and <a class="link" href="https://github.com/yarzc0de/YourDesignRules/tree/main/guides">guides/</a> in the repository.</p>
+        </div>
       </div>
-      <div class="wrap"><div class="rules-bar" aria-hidden="true"><b id="rules-bar"></b></div></div>
     </div>
   </section>
 
-  <!-- Archetypes -->
-  <section class="arch" id="archetypes" aria-labelledby="arch-title">
+  <!-- Directions -->
+  <section class="dirs on-sky" id="directions" aria-labelledby="dir-title">
     <div class="wrap">
-      <h2 class="eyebrowless-head reveal" id="arch-title">No brand? Pick a direction.</h2>
-      <p class="section-lead reveal">Seventeen visual directions, each with its own type pairing, color roles, shape, imagery and motion. The agent picks one and pushes it toward your subject. Hover or tap a name.</p>
-      <ul class="arch-list" id="arch-list" aria-label="Visual directions">
-        <li><button type="button" style="font-family:'Titillium Web';font-weight:600" data-d="Infrastructure, developer tools and data utilities. Titillium Web with IBM Plex Mono.">Field Ledger</button></li>
-        <li><button type="button" style="font-family:'Chakra Petch';font-weight:600" data-d="Developer platforms and products used in the dark. Chakra Petch, Instrument Sans, Fragment Mono.">Night Console</button></li>
-        <li><button type="button" style="font-family:'Manrope';font-weight:700" data-d="Admin tools, B2B SaaS and everyday web apps. Manrope, Karla, Fragment Mono.">Calm Utility</button></li>
-        <li><button type="button" style="font-family:'Schibsted Grotesk';font-weight:700" data-d="Public sector, education and information services. Schibsted Grotesk, Public Sans, Martian Mono.">Civic Grid</button></li>
-        <li><button type="button" style="font-family:'Bricolage Grotesque';font-weight:700" data-d="Consumer productivity, wellness and personal planning. Bricolage Grotesque, DM Sans, IBM Plex Mono.">Quiet Tiles</button></li>
-        <li><button type="button" style="font-family:'Space Grotesk';font-weight:600" data-d="Product-led SaaS marketing and apps. Space Grotesk, Manrope, IBM Plex Mono.">Working Surface</button></li>
-        <li><button type="button" style="font-family:'Fraunces';font-weight:600" data-d="Learning, wellness and friendly consumer apps. Fraunces with Karla.">Studio Sketchbook</button></li>
-        <li><button type="button" style="font-family:'Cormorant Infant';font-weight:600" data-d="Fashion, hospitality, galleries and portfolios. Cormorant Infant with Karla.">Gallery Wall</button></li>
-        <li><button type="button" style="font-family:'Oswald';font-weight:600" data-d="Travel, outdoor, real estate and architecture. Oswald with Hanken Grotesk.">Wide Horizon</button></li>
-        <li><button type="button" style="font-family:'Bodoni Moda';font-weight:600" data-d="Fashion, luxury, craft and fine hospitality. Bodoni Moda with Archivo.">Atelier Serif</button></li>
-        <li><button type="button" style="font-family:'Red Hat Display';font-weight:700" data-d="AI assistants, creative and media tools. Red Hat Display with Instrument Sans.">Frosted Depth</button></li>
-        <li><button type="button" style="font-family:'Archivo Black';font-weight:400" data-d="Campaigns, launches, events and consumer brands. Archivo Black with DM Sans.">Signal Color</button></li>
-        <li><button type="button" style="font-family:'Newsreader';font-weight:600" data-d="Science, health, research and collections. Space Grotesk, Newsreader, IBM Plex Mono.">Specimen Notes</button></li>
-        <li><button type="button" style="font-family:'Darker Grotesque';font-weight:800" data-d="AI products, creative tools, music and crypto. Darker Grotesque in every role.">Ambient Glow</button></li>
-        <li><button type="button" style="font-family:'Petrona';font-weight:700" data-d="Publications, newsrooms and public information. Petrona with Alata.">Broadsheet</button></li>
-        <li><button type="button" style="font-family:'Plus Jakarta Sans';font-weight:800;letter-spacing:-0.03em" data-d="Launch pages for developer tools, AI and open source. Plus Jakarta Sans with Geist Mono. This page uses it.">Monochrome Stage</button></li>
-        <li><button type="button" style="font-family:'Unbounded';font-weight:700" data-d="Playful consumer brands, games, family products and events. Unbounded with Outfit.">Toybox</button></li>
+      <div class="head">
+        <div><h2 class="display h2" id="dir-title">No brand? Pick a direction.</h2>
+          <p>Seventeen visual directions. Each tile is painted in that direction&rsquo;s own ground, text and accent, with its name in its display face.</p></div>
+      </div>
+      <ul class="tiles">
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/field-ledger.md" style="--g:#FFFFFF;--t:#0E141B;--a:#0E141B"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Titillium Web';font-weight:600">Field Ledger</span><span class="tile-for">Infrastructure, developer tools</span><span class="tile-fonts">Titillium Web, IBM Plex Mono</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/night-console.md" style="--g:#0B0E14;--t:#E6E9EF;--a:#7AA2FF"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Chakra Petch';font-weight:600">Night Console</span><span class="tile-for">Developer platforms, dark product UI</span><span class="tile-fonts">Chakra Petch, Instrument Sans</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/calm-utility.md" style="--g:#FFFFFF;--t:#111827;--a:#2F5FD0"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Manrope';font-weight:700">Calm Utility</span><span class="tile-for">Admin tools, B2B SaaS</span><span class="tile-fonts">Manrope, Karla</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/civic-grid.md" style="--g:#FFFFFF;--t:#0A0A0A;--a:#1F49C7"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Schibsted Grotesk';font-weight:700">Civic Grid</span><span class="tile-for">Public sector, education</span><span class="tile-fonts">Schibsted Grotesk, Public Sans</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/quiet-tiles.md" style="--g:#F3F5F9;--t:#14161C;--a:#4C3FD1"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Bricolage Grotesque';font-weight:700">Quiet Tiles</span><span class="tile-for">Consumer productivity, wellness</span><span class="tile-fonts">Bricolage Grotesque, DM Sans</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/working-surface.md" style="--g:#FFFFFF;--t:#101418;--a:#2B59E8"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Space Grotesk';font-weight:600">Working Surface</span><span class="tile-for">Product-led SaaS</span><span class="tile-fonts">Space Grotesk, Manrope</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/studio-sketchbook.md" style="--g:#FFFFFF;--t:#1E1B2E;--a:#C2412D"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Fraunces';font-weight:600">Studio Sketchbook</span><span class="tile-for">Learning, wellness, friendly consumer apps</span><span class="tile-fonts">Fraunces, Karla</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/gallery-wall.md" style="--g:#FFFFFF;--t:#141619;--a:#1F3A4D"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Cormorant Infant';font-weight:600">Gallery Wall</span><span class="tile-for">Fashion, hospitality, portfolios</span><span class="tile-fonts">Cormorant Infant, Karla</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/wide-horizon.md" style="--g:#0F1417;--t:#E9EEF1;--a:#F08A4B"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Oswald';font-weight:600">Wide Horizon</span><span class="tile-for">Travel, outdoor, real estate</span><span class="tile-fonts">Oswald, Hanken Grotesk</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/atelier-serif.md" style="--g:#FFFFFF;--t:#111113;--a:#111113"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Bodoni Moda';font-weight:600">Atelier Serif</span><span class="tile-for">Luxury, craft</span><span class="tile-fonts">Bodoni Moda, Archivo</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/frosted-depth.md" style="--g:#E8EDF4;--t:#0E1726;--a:#2F5BEA"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Red Hat Display';font-weight:700">Frosted Depth</span><span class="tile-for">AI assistants, media tools</span><span class="tile-fonts">Red Hat Display, Instrument Sans</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/signal-color.md" style="--g:#FFFFFF;--t:#111111;--a:#111111"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Archivo Black';font-weight:400">Signal Color</span><span class="tile-for">Campaigns, launches, events</span><span class="tile-fonts">Archivo Black, DM Sans</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/specimen-notes.md" style="--g:#FFFFFF;--t:#15191C;--a:#0A6F86"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Space Grotesk';font-weight:600">Specimen Notes</span><span class="tile-for">Science, health, research</span><span class="tile-fonts">Space Grotesk, Newsreader</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/ambient-glow.md" style="--g:#0A0B10;--t:#E6E8EE;--a:#45E0CE"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Darker Grotesque';font-weight:800">Ambient Glow</span><span class="tile-for">AI products, music, creative tools</span><span class="tile-fonts">Darker Grotesque</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/broadsheet.md" style="--g:#FFFFFF;--t:#121212;--a:#1A47B8"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Petrona';font-weight:700">Broadsheet</span><span class="tile-for">Publications, newsrooms</span><span class="tile-fonts">Petrona, Alata</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/toybox.md" style="--g:#FFFFFF;--t:#17142A;--a:#2F5BFF"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Unbounded';font-weight:700">Toybox</span><span class="tile-for">Playful consumer brands, games</span><span class="tile-fonts">Unbounded, Outfit</span></a></li>
+        <li><a class="tile" href="https://github.com/yarzc0de/YourDesignRules/blob/main/archetypes/monochrome-stage.md" style="--g:#000000;--t:#FFFFFF;--a:#FFFFFF"><i class="tile-bar" aria-hidden="true"></i><span class="tile-name" style="font-family:'Plus Jakarta Sans';font-weight:800">Monochrome Stage</span><span class="tile-for">Launch pages for dev tools, AI, open source</span><span class="tile-fonts">Plus Jakarta Sans, Geist Mono</span></a></li>
       </ul>
-      <p class="arch-detail" id="arch-detail" aria-live="polite"><strong>Field Ledger.</strong> Infrastructure, developer tools and data utilities. Titillium Web with IBM Plex Mono.</p>
+      <p class="dirs-note">None of them sets the page structure; that comes from the content. All fonts are on Google Fonts.</p>
     </div>
   </section>
 
   <!-- Install -->
-  <section class="install" id="install" aria-labelledby="install-title">
-    <div class="install-media" id="install-media">
-      <img src="assets/ring-sea.jpg" alt="" loading="lazy" decoding="async">
-    </div>
+  <section class="install on-sky" id="install" aria-labelledby="install-title">
     <div class="wrap">
-      <h2 class="eyebrowless-head reveal" id="install-title">Install in one line.</h2>
-      <p class="section-lead reveal">Free to use. The rules are CC BY 4.0 and the code is MIT.</p>
-      <div class="tabs reveal">
+      <h2 class="display h2" id="install-title">Install in one line.</h2>
+      <p class="install-lead">Free to use. The rules are CC BY 4.0 and the code is MIT.</p>
+      <div class="tabs">
         <div class="tablist" role="tablist" aria-label="Choose your agent" id="tablist">
           <span class="tab-ind" id="tab-ind" aria-hidden="true"></span>
-          <button class="tab" role="tab" id="t-claude" aria-controls="p-claude" aria-selected="true">Claude Code</button>
-          <button class="tab" role="tab" id="t-any" aria-controls="p-any" aria-selected="false" tabindex="-1">Any agent</button>
+          <button class="tab" role="tab" id="t-any" aria-controls="p-any" aria-selected="true">Any agent</button>
+          <button class="tab" role="tab" id="t-claude" aria-controls="p-claude" aria-selected="false" tabindex="-1">Claude Code</button>
           <button class="tab" role="tab" id="t-codex" aria-controls="p-codex" aria-selected="false" tabindex="-1">Codex</button>
           <button class="tab" role="tab" id="t-cursor" aria-controls="p-cursor" aria-selected="false" tabindex="-1">Cursor</button>
           <button class="tab" role="tab" id="t-manual" aria-controls="p-manual" aria-selected="false" tabindex="-1">Manual</button>
         </div>
-        <div class="panels">
-          <div class="panel" role="tabpanel" id="p-claude" aria-labelledby="t-claude">
-            <div class="line"><code>/plugin marketplace add yarzc0de/YourDesignRules</code><button class="copy" type="button" data-copy="/plugin marketplace add yarzc0de/YourDesignRules" aria-label="Copy command"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
-            <div class="line"><code>/plugin install your-design-rules@your-design-rules</code><button class="copy" type="button" data-copy="/plugin install your-design-rules@your-design-rules" aria-label="Copy command"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
-            <p>The skill loads by itself whenever you ask Claude Code for interface work.</p>
-          </div>
-          <div class="panel" role="tabpanel" id="p-any" aria-labelledby="t-any" hidden>
-            <div class="line"><code><span class="dollar" aria-hidden="true">$</span>npx skills add yarzc0de/YourDesignRules</code><button class="copy" type="button" data-copy="npx skills add yarzc0de/YourDesignRules" aria-label="Copy command"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
-            <p>Uses the open skills installer and works with any agent that reads <span class="path">SKILL.md</span>. The skill folder is self-contained.</p>
-          </div>
-          <div class="panel" role="tabpanel" id="p-codex" aria-labelledby="t-codex" hidden>
-            <p>Install it as a Codex plugin, or copy the rules into your project and paste <span class="path">adapters/AGENTS.md</span> into your <span class="path">AGENTS.md</span>.</p>
-          </div>
-          <div class="panel" role="tabpanel" id="p-cursor" aria-labelledby="t-cursor" hidden>
-            <p>Install it as a Cursor plugin, or copy <span class="path">adapters/cursor/your-design-rules.mdc</span> into <span class="path">.cursor/rules/</span>.</p>
-          </div>
-          <div class="panel" role="tabpanel" id="p-manual" aria-labelledby="t-manual" hidden>
-            <div class="line"><code><span class="dollar" aria-hidden="true">$</span>git clone --depth 1 https://github.com/yarzc0de/YourDesignRules /tmp/ydr</code><button class="copy" type="button" data-copy="git clone --depth 1 https://github.com/yarzc0de/YourDesignRules /tmp/ydr" aria-label="Copy command"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
-            <div class="line"><code><span class="dollar" aria-hidden="true">$</span>mkdir -p design-rules &amp;&amp; cp -r /tmp/ydr/{rules,guides,archetypes} design-rules/</code><button class="copy" type="button" data-copy="mkdir -p design-rules && cp -r /tmp/ydr/{rules,guides,archetypes} design-rules/" aria-label="Copy command"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></button></div>
-            <p>Then paste the matching snippet from <span class="path">adapters/</span> into the file your agent reads at startup.</p>
-          </div>
+        <div class="panel" role="tabpanel" id="p-any" aria-labelledby="t-any">
+          <div class="cmd"><code><span class="dollar" aria-hidden="true">$</span>npx skills add yarzc0de/YourDesignRules</code><button class="btn btn-sun copy" type="button" data-copy="npx skills add yarzc0de/YourDesignRules" aria-label="Copy command"><span class="l-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Copy</span><span class="l-done" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Copied</span></button></div>
+          <p>Uses the open skills installer and works with any agent that reads <span class="path-file">SKILL.md</span>. The skill folder is self-contained.</p>
+        </div>
+        <div class="panel" role="tabpanel" id="p-claude" aria-labelledby="t-claude" hidden>
+          <div class="cmd"><code>/plugin marketplace add yarzc0de/YourDesignRules</code><button class="btn btn-sun copy" type="button" data-copy="/plugin marketplace add yarzc0de/YourDesignRules" aria-label="Copy command"><span class="l-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Copy</span><span class="l-done" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Copied</span></button></div>
+          <div class="cmd"><code>/plugin install your-design-rules@your-design-rules</code><button class="btn btn-sun copy" type="button" data-copy="/plugin install your-design-rules@your-design-rules" aria-label="Copy command"><span class="l-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Copy</span><span class="l-done" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Copied</span></button></div>
+          <p>The skill loads by itself whenever you ask Claude Code for interface work.</p>
+        </div>
+        <div class="panel" role="tabpanel" id="p-codex" aria-labelledby="t-codex" hidden>
+          <p>Install it as a Codex plugin, or copy the rules into your project and paste <span class="path-file">adapters/AGENTS.md</span> into your <span class="path-file">AGENTS.md</span>.</p>
+        </div>
+        <div class="panel" role="tabpanel" id="p-cursor" aria-labelledby="t-cursor" hidden>
+          <p>Install it as a Cursor plugin, or copy <span class="path-file">adapters/cursor/your-design-rules.mdc</span> into <span class="path-file">.cursor/rules/</span>.</p>
+        </div>
+        <div class="panel" role="tabpanel" id="p-manual" aria-labelledby="t-manual" hidden>
+          <div class="cmd"><code><span class="dollar" aria-hidden="true">$</span>git clone --depth 1 https://github.com/yarzc0de/YourDesignRules /tmp/ydr</code><button class="btn btn-sun copy" type="button" data-copy="git clone --depth 1 https://github.com/yarzc0de/YourDesignRules /tmp/ydr" aria-label="Copy command"><span class="l-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Copy</span><span class="l-done" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Copied</span></button></div>
+          <div class="cmd"><code><span class="dollar" aria-hidden="true">$</span>mkdir -p design-rules &amp;&amp; cp -r /tmp/ydr/{rules,guides,archetypes} design-rules/</code><button class="btn btn-sun copy" type="button" data-copy="mkdir -p design-rules &amp;&amp; cp -r /tmp/ydr/{rules,guides,archetypes} design-rules/" aria-label="Copy command"><span class="l-copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>Copy</span><span class="l-done" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Copied</span></button></div>
+          <p>Then paste the matching snippet from <span class="path-file">adapters/</span> into the file your agent reads at startup.</p>
         </div>
       </div>
     </div>
+    <div class="cl cl-fly cl-f4" data-cloud data-fly="18" data-off="0.75" aria-hidden="true"><img src="assets/cloud-puff-2.webp" alt="" loading="lazy"></div>
+    <div class="install-end" aria-hidden="true"><img src="assets/cloud-bank.webp" alt="" width="2200" height="943" loading="lazy" data-cloud data-a="26" data-t="41" data-ph="2.6"></div>
   </section>
 </main>
 
@@ -474,232 +662,234 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
   <div class="wrap foot">
     <p>YourDesignRules. Written from scratch after studying how modern AI design tools instruct their agents. Rules under CC BY 4.0, code under MIT.</p>
     <nav aria-label="Footer">
-      <a href="https://github.com/yarzc0de/YourDesignRules">GitHub</a>
-      <a href="https://github.com/yarzc0de/YourDesignRules/tree/main/examples">Examples</a>
-      <a href="https://github.com/yarzc0de/YourDesignRules/blob/main/LICENSE-CONTENT">License</a>
+      <a href="https://github.com/yarzc0de/YourDesignRules"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>GitHub</a>
+      <a href="https://github.com/yarzc0de/YourDesignRules/tree/main/examples"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></svg>Examples</a>
+      <a href="https://github.com/yarzc0de/YourDesignRules/blob/main/LICENSE-CONTENT"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>License</a>
     </nav>
   </div>
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
 
+<script type="application/json" id="rules-data">[{"id":"CORE-1","t":"Give every view one job and one primary action","w":"a view that tries to do everything gives the user no starting point.","b":"","f":"rules/core.md"},{"id":"CORE-2","t":"Make one region dominant","w":"the eye needs a place to land; equal weight reads as noise.","b":"","f":"rules/core.md"},{"id":"CORE-3","t":"Let hierarchy come from type, position, and contrast","w":"boxes multiply quickly and flatten hierarchy instead of creating it.","b":"","f":"rules/core.md"},{"id":"CORE-4","t":"Run a reduction pass before you call it done","w":"first drafts collect clutter; the edit is where design quality comes from.","b":"","f":"rules/core.md"},{"id":"CORE-5","t":"Reduce noise, not substance","w":"over-minimal screens push work onto the user and look unfinished.","b":"","f":"rules/core.md"},{"id":"CORE-6","t":"Do not wrap every element in a card","w":"card-inside-card-inside-section is the most recognizable sign of generated UI.","b":"","f":"rules/core.md"},{"id":"CORE-7","t":"Use effects sparingly and on purpose","w":"stacked effects date a design instantly and hide weak structure.","b":"","f":"rules/core.md"},{"id":"CORE-8","t":"Make one bold decision and commit to it","w":"a page that only avoids mistakes looks like every other careful page; distinctiveness is what makes it feel authored.","b":"","f":"rules/core.md"},{"id":"CORE-9","t":"Use real content and invent nothing","w":"invented proof misleads real visitors and gets shipped by accident.","b":"","f":"rules/core.md"},{"id":"CORE-10","t":"Build UI from real elements, not pictures of UI","w":"pictures of UI can't be edited, translated, read by screen readers, or kept in sync.","b":"","f":"rules/core.md"},{"id":"CORE-11","t":"Keep confirmation before irreversible actions","w":"a design that skips confirmation teaches the implementation to skip it too.","b":"","f":"rules/core.md"},{"id":"CORE-12","t":"Treat a style as an identity, not a template","w":"copying a template's skeleton produces the same page for every product.","b":"","f":"rules/core.md"},{"id":"CORE-13","t":"Honor explicit user choices","w":"the user's stated preferences outrank your taste.","b":"","f":"rules/core.md"},{"id":"CORE-14","t":"Show something early, then iterate","w":"users want to see progress, and the render reveals problems planning misses.","b":"","f":"rules/core.md"},{"id":"CORE-15","t":"Verify each section right after you build it","w":"errors compound; a broken header found late means rework everywhere.","b":"","f":"rules/core.md"},{"id":"CORE-16","t":"Fix in place instead of regenerating","w":"regenerating discards work that was right and introduces new errors.","b":"","f":"rules/core.md"},{"id":"CORE-17","t":"Reuse before you create","w":"reuse keeps the system consistent and makes later edits propagate.","b":"","f":"rules/core.md"},{"id":"CORE-18","t":"Do exactly what was asked on edit requests","w":"unrequested edits break trust and are hard to review.","b":"","f":"rules/core.md"},{"id":"CORE-19","t":"Deliver information when asked to research or compare","w":"a styled landing page about competitors answers nothing.","b":"","f":"rules/core.md"},{"id":"CORE-20","t":"Report limitations outside the product","w":"process notes inside the UI get shipped.","b":"","f":"rules/core.md"},{"id":"CORE-21","t":"Don't fill space with rows of equal boxes","w":"equal boxes with one-line captions are the most recognizable filler in generated pages.","b":"","f":"rules/core.md"},{"id":"CORE-22","t":"Question the rest of the generated-page kit","w":"each item alone is harmless; together they are the template every generator ships.","b":"","f":"rules/core.md"},{"id":"CORE-23","t":"Take the look from the subject's world","w":"choices borrowed from the subject cannot be mistaken for another product's page.","b":"","f":"rules/core.md"},{"id":"CORE-24","t":"Write a design plan, then test it for sameness","w":"generated designs converge because the first idea is always the average idea.","b":"","f":"rules/core.md"},{"id":"CORE-25","t":"Avoid the house styles generators fall into","w":"a look that appears for every subject tells the visitor nobody made a choice.","b":"","f":"rules/core.md"},{"id":"CORE-26","t":"Without a brand, ask for a reference and three mood words","w":"taste cannot be inferred from a product category; one reference says more than a page of rules.","b":"","f":"rules/core.md"},{"id":"CORE-27","t":"Show the first screen before building the page","w":"a direction rejected after one screen costs minutes; rejected after a whole page, it costs hours.","b":"","f":"rules/core.md"},{"id":"LAY-1","t":"Hold each section to one alignment axis","w":"a single axis gives the eye one place to start each line; mixed axes look accidental.","b":"","f":"rules/layout.md"},{"id":"LAY-2","t":"Show relationships with proximity","w":"distance is the first grouping cue people read, before borders or color.","b":"","f":"rules/layout.md"},{"id":"LAY-3","t":"Align everything to an implicit grid","w":"shared edges make a layout read as one deliberate system instead of loose parts.","b":"","f":"rules/layout.md"},{"id":"LAY-4","t":"Use one 4-point spacing scale","w":"a closed scale keeps spacing consistent across screens and blocks one-off values.","b":"","f":"rules/layout.md"},{"id":"LAY-5","t":"Start product UI from the spacing reference","w":"tested defaults remove guesswork and keep screens consistent with each other.","b":"","f":"rules/layout.md"},{"id":"LAY-6","t":"Pad marketing sections generously","w":"a marketing page is read one idea at a time, and the space between ideas paces the scroll.","b":"","f":"rules/layout.md"},{"id":"LAY-7","t":"Choose one density mode per screen","w":"one density gives a screen one rhythm; mixed density looks like two products joined together.","b":"","f":"rules/layout.md"},{"id":"LAY-8","t":"Give each screen one dominant axis","w":"one main direction tells people where to look next.","b":"","f":"rules/layout.md"},{"id":"LAY-9","t":"Use two structural zones before adding a third","w":"every extra zone splits attention and narrows the space left for the main work.","b":"","f":"rules/layout.md"},{"id":"LAY-10","t":"Avoid nested scroll containers","w":"nested scrolling traps wheel and touch gestures and hides content in unexpected places.","b":"","f":"rules/layout.md"},{"id":"LAY-11","t":"Separate with whitespace before drawing lines","w":"each line adds visual noise, while space separates without adding any.","b":"","f":"rules/layout.md"},{"id":"LAY-12","t":"Pick a skeleton that fits the task","w":"a skeleton chosen from habit forces the content into the wrong shape.","b":"","f":"rules/layout.md"},{"id":"LAY-13","t":"Cap the page content width","w":"unbounded content on wide monitors pushes related items too far apart.","b":"","f":"rules/layout.md"},{"id":"LAY-14","t":"Let content size its containers","w":"hard-coded sizes repeat what layout already computes and break when content changes.","b":"","f":"rules/layout.md"},{"id":"LAY-15","t":"Treat clipping and overflow as bugs","w":"clipped content is lost information, and overflow reads as a broken product.","b":"","f":"rules/layout.md"},{"id":"LAY-16","t":"Space siblings with gap","w":"one gap value on the parent keeps spacing consistent and editable in one place.","b":"","f":"rules/layout.md"},{"id":"LAY-17","t":"Apply horizontal page padding once","w":"per-section padding drifts, and section edges stop lining up.","b":"","f":"rules/layout.md"},{"id":"LAY-18","t":"Use absolute positioning only for overlays","w":"absolutely placed content ignores its neighbors and breaks when the data or the width changes.","b":"","f":"rules/layout.md"},{"id":"LAY-19","t":"Keep overlaps and crops readable","w":"a cut word or an unclear order turns a style choice into a reading error.","b":"","f":"rules/layout.md"},{"id":"LAY-20","t":"Compose the hero as one continuous stage","w":"a split opening reads as two weak halves instead of one strong first impression.","b":"","f":"rules/layout.md"},{"id":"LAY-21","t":"Choose one of three hero compositions","w":"each of these keeps image and statement inside one composition.","b":"","f":"rules/layout.md"},{"id":"LAY-22","t":"Make room for type without a visible box","w":"a box behind the text announces that the image was never composed for it.","b":"","f":"rules/layout.md"},{"id":"LAY-23","t":"Keep hero navigation quiet and the action obvious","w":"the opening has one job, and competing controls dilute it.","b":"","f":"rules/layout.md"},{"id":"LAY-24","t":"Recompose the hero for narrow screens","w":"a shrunken desktop hero turns both the subject and the headline into thumbnails.","b":"","f":"rules/layout.md"},{"id":"LAY-25","t":"Preserve the hierarchy at every breakpoint","w":"if the order of importance changes with width, the screen means different things on each device.","b":"","f":"rules/layout.md"},{"id":"LAY-26","t":"Adapt the structure to each device class","w":"each class has different space and input, so the structure has to change, not just scale.","b":"","f":"rules/layout.md"},{"id":"LAY-27","t":"Test at 375, 768, and 1280 or 1440","w":"layouts tend to break between the sizes they were designed for.","b":"","f":"rules/layout.md"},{"id":"LAY-28","t":"Alternate rich and quiet regions","w":"changes in density pace reading and mark where one idea ends and the next begins.","b":"","f":"rules/layout.md"},{"id":"LAY-29","t":"Do not stretch thin content with whitespace","w":"inflated space around thin content reads as empty, not calm.","b":"","f":"rules/layout.md"},{"id":"TYPE-1","t":"Use two families at most, plus an optional mono","w":"each extra family adds load time and dilutes a consistent voice.","b":"","f":"rules/typography.md"},{"id":"TYPE-2","t":"Keep expressive faces to display and short notes","w":"decorative letterforms slow reading exactly where accuracy matters most.","b":"","f":"rules/typography.md"},{"id":"TYPE-3","t":"Pair decorative text with a readable version","w":"people and screen readers must get the meaning without decoding the artwork.","b":"","f":"rules/typography.md"},{"id":"TYPE-4","t":"Load every weight and style you set","w":"faked bold smears and faked italic is only slanted roman; both look cheap.","b":"","f":"rules/typography.md"},{"id":"TYPE-5","t":"Confirm the fonts loaded in the render","w":"a design reviewed in a fallback font has never really been reviewed.","b":"","f":"rules/typography.md"},{"id":"TYPE-6","t":"Build the scale with clear jumps","w":"small steps look like mistakes; clear steps read as intentional levels.","b":"","f":"rules/typography.md"},{"id":"TYPE-7","t":"Set body text at 16 px, never below 14","w":"smaller body text strains reading and shuts out people with low vision.","b":"","f":"rules/typography.md"},{"id":"TYPE-8","t":"Add weight before adding sizes","w":"weight builds hierarchy without multiplying sizes.","b":"","f":"rules/typography.md"},{"id":"TYPE-9","t":"Use one title style on every screen","w":"a title that changes size from screen to screen makes the hierarchy unreliable.","b":"","f":"rules/typography.md"},{"id":"TYPE-10","t":"Keep body lines to 50–75 characters, 35–50 on phones","w":"long lines lose the reader at each return, and very short lines chop sentences apart.","b":"","f":"rules/typography.md"},{"id":"TYPE-11","t":"Center no more than three lines","w":"centered text has a ragged starting edge, so the eye has to hunt for each new line.","b":"","f":"rules/typography.md"},{"id":"TYPE-12","t":"Match line height to the role","w":"body text needs air to track across lines, while big type set loosely falls apart.","b":"","f":"rules/typography.md"},{"id":"TYPE-13","t":"Tighten display type, open caps, leave body alone","w":"large letters look loose at default spacing, and capitals crowd each other without extra room.","b":"","f":"rules/typography.md"},{"id":"TYPE-14","t":"Keep all caps rare and short","w":"capitals erase word shapes, and tracked caps everywhere are a template tell.","b":"","f":"rules/typography.md"},{"id":"TYPE-15","t":"Break headlines on purpose","w":"a stranded last word or a break inside a phrase makes the headline read wrong.","b":"","f":"rules/typography.md"},{"id":"TYPE-16","t":"Keep labels, values, and units together","w":"a number without its label and unit leaves the reader guessing.","b":"","f":"rules/typography.md"},{"id":"TYPE-17","t":"Make the unit quieter than the number","w":"people scan for the value; the unit is context.","b":"","f":"rules/typography.md"},{"id":"TYPE-18","t":"Use tabular figures for aligned and changing numbers","w":"proportional digits vary in width, so columns misalign and live values jitter.","b":"","f":"rules/typography.md"},{"id":"TYPE-19","t":"Leave room for headline copy","w":"copy changes after layout, and a box sized for one draft clips or crowds the next.","b":"","f":"rules/typography.md"},{"id":"TYPE-20","t":"Respect the user's text size setting","w":"many people enlarge text, and fixed sizes override their choice.","b":"","f":"rules/typography.md"},{"id":"TYPE-21","t":"Let containers grow when text grows","w":"fixed heights clip text as soon as it is enlarged or the copy gets longer.","b":"","f":"rules/typography.md"},{"id":"COLOR-1","t":"Assign roles before you choose hues","w":"a hue picked without a job ends up decorating instead of communicating.","b":"","f":"rules/color.md"},{"id":"COLOR-2","t":"Reference tokens in components, never raw values","w":"one token edit should restyle the whole product, dark theme included.","b":"","f":"rules/color.md"},{"id":"COLOR-3","t":"Limit the palette to two or three core colors","w":"each extra hue weakens the accent and makes the screen look unplanned.","b":"","f":"rules/color.md"},{"id":"COLOR-4","t":"Pair every color signal with a label or icon","w":"color-blind readers, glare, and grayscale displays strip hue away, so the cue must survive without it.","b":"","f":"rules/color.md"},{"id":"COLOR-5","t":"Choose one chroma relationship and keep it","w":"mixing models produces pages that look assembled from different products.","b":"","f":"rules/color.md"},{"id":"COLOR-6","t":"Spend the accent on actions and selection only","w":"an accent that appears everywhere stops pointing at the next step.","b":"","f":"rules/color.md"},{"id":"COLOR-7","t":"Keep status hues distinct from the accent","w":"an accent that doubles as a status color makes every action look like an alert.","b":"","f":"rules/color.md"},{"id":"COLOR-8","t":"Never use beige, cream, ivory, tan, or sand grounds","w":"warm off-white grounds are the stock default of generated UI and look muddy beside real imagery.","b":"","f":"rules/color.md"},{"id":"COLOR-9","t":"Separate surfaces from the ground by lightness","w":"tonal steps group content without adding boxes or visual noise.","b":"","f":"rules/color.md"},{"id":"COLOR-10","t":"Meet WCAG AA contrast for text and controls","w":"below these ratios text fails low-vision readers and washes out on bright screens and projectors.","b":"","f":"rules/color.md"},{"id":"COLOR-11","t":"Measure contrast on the rendered composite","w":"a pair that passes on a flat swatch can fail over the bright patch of a photo.","b":"","f":"rules/color.md"},{"id":"COLOR-12","t":"Set text on a quiet area or a local fade","w":"the image stays vivid and the words stay legible; boxes and halos trade one for the other.","b":"","f":"rules/color.md"},{"id":"COLOR-13","t":"Keep shadows faint, broad, and close","w":"harsh shadows add weight and noise without adding information.","b":"","f":"rules/color.md"},{"id":"COLOR-14","t":"Never signal state with depth alone","w":"a soft shadow is too faint to read reliably and nearly vanishes in dark themes.","b":"","f":"rules/color.md"},{"id":"COLOR-15","t":"Give every gradient a physical or brand reason","w":"an unmotivated gradient is decoration that reads as a template.","b":"","f":"rules/color.md"},{"id":"COLOR-16","t":"Design dark mode as a separate palette","w":"inverted palettes produce glaring accents, muddy surfaces, and broken contrast.","b":"","f":"rules/color.md"},{"id":"COLOR-17","t":"Raise dark surfaces by making them lighter","w":"shadows barely register on a dark ground, while lightness steps do.","b":"","f":"rules/color.md"},{"id":"COLOR-18","t":"Keep body text off pure white on a black ground","w":"maximum contrast on long text causes glare and a smeared halo; on big headlines it gives punch.","b":"","f":"rules/color.md"},{"id":"COLOR-19","t":"Desaturate accents slightly for dark themes","w":"fully saturated hues glow on dark grounds and pull the eye away from content.","b":"","f":"rules/color.md"},{"id":"COLOR-20","t":"Chart with one highlight and a colorblind-safe palette","w":"one highlight tells the reader where to look; a rainbow tells them nothing.","b":"","f":"rules/color.md"},{"id":"IMG-1","t":"Pick every visual's source from this tree","w":"the lightest source that does the job keeps the design editable, consistent, and fast to change.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-2","t":"Resolve common needs with this lookup","w":"most visual mistakes come from reaching for a heavier source than the need requires.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-3","t":"Use one icon library at consistent sizes","w":"mixed libraries, sizes, and strokes make an interface look patched together.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-4","t":"Keep text labels on navigation and actions","w":"most icons are ambiguous without a word, and people hesitate over controls they cannot name.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-5","t":"Never hand-draw artwork from raw SVG paths","w":"hand-assembled drawings look amateur and undercut an otherwise careful design.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-6","t":"Budget generated art: one asset, many placements","w":"adding one image later is cheap; removing a dozen mismatched ones is not.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-7","t":"Art-direct each image before you source it","w":"an image picked without direction rarely fits the layout or the message.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-8","t":"Tell the generator everything; it cannot see the page","w":"a vague prompt returns a generic picture that fights the palette and the composition.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-9","t":"Write image prompts from this template","w":"a fixed template keeps every prompt complete and every image consistent with the system.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-10","t":"Wait for generated assets before judging them","w":"reviewing a section with a missing image hides layout problems and reports false success.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-11","t":"Query stock with one to three concrete nouns","w":"stock libraries index what is visible, so abstract words return the most generic results.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-12","t":"Never guess or invent image URLs","w":"a guessed URL breaks in production or shows someone else's picture.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-13","t":"Remove a background only when the subject leaves its frame","w":"a cut-out loses its context and light, so it needs a compositional reason.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-14","t":"Replace backgrounds to fix a setting or unify a set","w":"restating the subject invites the generator to alter it.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-15","t":"Vectorize only flat, high-contrast art","w":"tracing tonal images yields blotchy, heavy files that look worse than the source.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-16","t":"Never stretch or distort an image","w":"squashed people and products are noticed instantly and read as broken.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-17","t":"Reuse one strong scene through different crops","w":"one scene seen several ways feels intentional; unrelated thumbnails feel like filler.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-18","t":"Show the outcome, not a floating screenshot","w":"visitors respond to the result they want, not to a picture of a tool.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-19","t":"Tie every illustration to the content","w":"filler art dilutes the message and signals a template.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-20","t":"Apply image treatments only for a stated purpose","w":"a treatment without a purpose is decoration, and over UI it hurts legibility.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-21","t":"Write alt text that states the image's role","w":"screen reader users need the image's meaning, and decorative noise slows them down.","b":"","f":"rules/imagery-and-icons.md"},{"id":"IMG-22","t":"Explore several candidates for the key visual, then keep one","w":"the first generation is rarely the best one, and the key visual is where extra attempts pay off.","b":"","f":"rules/imagery-and-icons.md"},{"id":"MOTION-1","t":"Give every animation a job","w":"motion without a job slows the user down and makes the interface feel busy.","b":"","f":"rules/motion.md"},{"id":"MOTION-2","t":"Give marketing pages one choreography, and apps fluid transitions","w":"motion that follows one plan reads as craft; unrelated effects read as a template.","b":"","f":"rules/motion.md"},{"id":"MOTION-3","t":"Design the still frame first","w":"reduced-motion users, screenshots, slow devices, and failed scripts all see the still frame.","b":"","f":"rules/motion.md"},{"id":"MOTION-4","t":"Pick durations from this table","w":"under ~100 ms a change feels instant; past ~500 ms the user starts waiting for the interface.","b":"","f":"rules/motion.md"},{"id":"MOTION-5","t":"Make exits faster than entrances","w":"the user has already decided to move on; a slow exit holds them back.","b":"","f":"rules/motion.md"},{"id":"MOTION-6","t":"Respond within 100 ms","w":"a delay before any response makes people click again.","b":"","f":"rules/motion.md"},{"id":"MOTION-7","t":"Never use linear or the browser default for movement","w":"real objects speed up and slow down; constant speed looks mechanical.","b":"","f":"rules/motion.md"},{"id":"MOTION-8","t":"Match the curve to the direction","w":"the curve tells the eye whether something is arriving, leaving, or relocating.","b":"","f":"rules/motion.md"},{"id":"MOTION-9","t":"Keep bounce out of interface chrome","w":"bouncing controls feel unstable and slow down repeated use.","b":"","f":"rules/motion.md"},{"id":"MOTION-10","t":"Animate transform and opacity only","w":"transform and opacity run on the compositor and stay smooth on slow phones.","b":"","f":"rules/motion.md"},{"id":"MOTION-11","t":"Travel short distances","w":"small, anchored movement shows where something came from without making the eye chase it.","b":"","f":"rules/motion.md"},{"id":"MOTION-12","t":"Stagger lists briefly, then stop","w":"a short stagger shows reading order; a long one makes the last item feel late.","b":"","f":"rules/motion.md"},{"id":"MOTION-13","t":"Give every interactive element the full state set","w":"states are how the interface proves it heard the user.","b":"","f":"rules/motion.md"},{"id":"MOTION-14","t":"Morph toggles between their two states","w":"the morph shows that both states belong to one control.","b":"","f":"rules/motion.md"},{"id":"MOTION-15","t":"Open the mobile menu as a full panel","w":"a full panel gives touch targets room and makes the menu feel like a place, not a popup.","b":"","f":"rules/motion.md"},{"id":"MOTION-16","t":"Keep the user's place across a change","w":"continuity tells the user that the new view is the same thing, seen closer.","b":"","f":"rules/motion.md"},{"id":"MOTION-17","t":"Animate data changes without hiding the data","w":"count-up effects delay reading and make the number look unreliable.","b":"","f":"rules/motion.md"},{"id":"MOTION-18","t":"Match the loading indicator to the wait","w":"an indicator that blinks on and off is worse than none.","b":"","f":"rules/motion.md"},{"id":"MOTION-19","t":"Tell a scroll story on marketing pages, not a fade on every block","w":"motion that explains the product as the reader moves is memorable; identical fades are noise.","b":"","f":"rules/motion.md"},{"id":"MOTION-20","t":"Never hide content behind JavaScript","w":"content stuck at `opacity: 0` is the most common way motion breaks a page.","b":"","f":"rules/motion.md"},{"id":"MOTION-21","t":"Link animation to scroll, never hijack it","w":"taking control of scroll breaks trackpads, keyboard paging, and screen readers, and feels laggy.","b":"","f":"rules/motion.md"},{"id":"MOTION-22","t":"Respect reduced motion","w":"motion can cause nausea and dizziness for people with vestibular disorders.","b":"","f":"rules/motion.md"},{"id":"MOTION-23","t":"Let users stop anything that runs on its own","w":"these are WCAG 2.2.2 and 2.3.1 requirements, and endless motion pulls attention from reading.","b":"","f":"rules/motion.md"},{"id":"MOTION-24","t":"Keep it at 60 fps on a mid-range phone","w":"dropped frames make even well-designed motion feel broken.","b":"","f":"rules/motion.md"},{"id":"MOTION-25","t":"Open the page with a short load sequence","w":"a composed entrance sets the tone for the whole page in one second.","b":"","f":"rules/motion.md"},{"id":"MOTION-26","t":"Transition between pages and views","w":"a transition tells the user the new view is related to the old one.","b":"","f":"rules/motion.md"},{"id":"MOTION-27","t":"Keep product UI fluid, never rigid","w":"an app that cuts between states feels stiff and hides what changed.","b":"","f":"rules/motion.md"},{"id":"MOTION-28","t":"Drive every scroll scene from one loop","w":"separate listeners, layout reads, and text changes during scroll are what make motion stutter.","b":"","f":"rules/motion.md"},{"id":"MOTION-29","t":"Prove smoothness on a high-density screen","w":"a page can look smooth on a fast desktop at 1× and stutter on the Retina laptop the user owns.","b":"","f":"rules/motion.md"},{"id":"CHK-1","t":"Structure is intact","w":"","b":"No collapsed containers (zero width or height), no elements stacked on top of each other by accident, no layout that only works at one exact width.","f":"rules/review-checklist.md"},{"id":"CHK-2","t":"Nothing is clipped or overflowing","w":"","b":"All text is fully visible; no words cut by a container edge; no unintended horizontal scroll; containers grow to fit their content. Long strings (names, emails, numbers) were tested with realistic lengths.","f":"rules/review-checklist.md"},{"id":"CHK-3","t":"Contrast passes on the real pixels","w":"","b":"Body text ≥ 4.5:1, large text and UI boundaries/icons ≥ 3:1, measured against what is actually behind them: photo, gradient, glass. See rules/color.md.","f":"rules/review-checklist.md"},{"id":"CHK-4","t":"Alignment and spacing are on the system","w":"","b":"One alignment axis per section. Shared edges line up. Every gap and padding value comes from the spacing scale in rules/layout.md. Related items are closer to each other than to unrelated ones.","f":"rules/review-checklist.md"},{"id":"CHK-5","t":"There is one focal point and one obvious primary action","w":"","b":"Squint: one element dominates. The primary action is findable in under two seconds and is the most prominent interactive element. The accent color is not spread across decoration.","f":"rules/review-checklist.md"},{"id":"CHK-6","t":"Type renders as intended","w":"","b":"The intended fonts loaded (no system fallback), weights and italics are real, body size and line length are within rules/typography.md, headlines break at deliberate points with no single-word last lines, and no descender (g, y, p, j) is clipped by a line mask or a tight container, checked on a 2x render.","f":"rules/review-checklist.md"},{"id":"CHK-7","t":"Images and icons are right","w":"","b":"Images arrived (no empty frames or pending placeholders), are not stretched, have a sensible crop with a quiet area under any text, and have alt text. Icons come from one library at consistent sizes. See rules/imagery-and-icons.md.","f":"rules/review-checklist.md"},{"id":"CHK-8","t":"Effects and containers are justified","w":"","b":"No card wrapping without a job (CORE-6). No rows of equal label-plus-caption boxes (CORE-21) and no unexplained generated-page kit items (CORE-22). Shadows are soft and diffuse, never hard or offset. No beige, cream, ivory, or tan grounds. Each gradient or blur has a reason (CORE-7).","f":"rules/review-checklist.md"},{"id":"CHK-9","t":"States exist where data or actions exist","w":"","b":"Data surfaces show loading, empty, error, and success states (and permission states when relevant). Destructive actions have confirmation or undo. Interactive elements have hover, focus, active, and disabled styles.","f":"rules/review-checklist.md"},{"id":"CHK-10","t":"Content is honest","w":"","b":"No invented metrics, logos, testimonials, or completed states. Samples are clearly labeled (CORE-9).","f":"rules/review-checklist.md"},{"id":"CHK-11","t":"What rendered is what you meant","w":"","b":"Compare the render with your intent for the section. If you meant \"a dominant chart with a quiet filter bar\" and the filter bar is louder than the chart, the section fails even if every other item passes.","f":"rules/review-checklist.md"},{"id":"CHK-12","t":"Hierarchy survives every breakpoint","w":"","b":"Check at 375, 768, and 1440 px wide (or the target devices). Mobile is recomposed, not shrunk: one column, readable sizes, tap targets ≥ 44 px, no horizontal scroll except intentional data tables.","f":"rules/review-checklist.md"},{"id":"CHK-13","t":"The page has rhythm, not repetition","w":"","b":"Sections vary in density and shape (CORE-8). No three consecutive sections share the same layout.","f":"rules/review-checklist.md"},{"id":"CHK-14","t":"Reduction pass is done","w":"","b":"For every element ask what breaks if it disappears (CORE-4). Remove, merge, or quiet anything with no answer, then re-render.","f":"rules/review-checklist.md"},{"id":"CHK-15","t":"Keyboard and focus work","w":"","b":"Every interactive element is reachable by keyboard in a logical order and shows a visible focus ring (≥ 3:1 against its surroundings). Nothing important depends on hover alone.","f":"rules/review-checklist.md"},{"id":"CHK-16","t":"Limitations are reported, not shown","w":"","b":"Missing fonts, failed images, or assumed data are mentioned in your reply to the user, never inside the UI (CORE-20).","f":"rules/review-checklist.md"},{"id":"CHK-17","t":"Motion has a job and can be turned off","w":"","b":"Every animation confirms, orients, keeps continuity, or flags a change (MOTION-1). Durations and easing come from rules/motion.md, only transform and opacity animate, and with reduced motion enabled nothing slides or scales. With JavaScript off, no content is stuck invisible. Capture a scroll filmstrip (a frame every 300–400 px) and confirm every frame is readable and the scroll story advances; in apps, click through state changes and confirm none of them jumps (MOTION-27).","f":"rules/review-checklist.md"},{"id":"CHK-18","t":"The page makes one bold decision","w":"","b":"You can name the one memorable thing on the page (CORE-8) and the real-world source of at least two visual choices (CORE-23). The page does not match a generator house style without a stated reason (CORE-25), and none of the template chrome in CORE-22 appears without a job. On marketing pages, the first screen is worth a screenshot on its own: a key visual or a product view strong enough that someone would share it (LAND-18). In product UI, the working surface is the most crafted region on the screen (WEB-22 to WEB-27).","f":"rules/review-checklist.md"},{"id":"WEB-1","t":"Infer the product before choosing a layout","w":"the layout should follow from the job, not from the last app you built.","b":"","f":"guides/web-app.md"},{"id":"WEB-2","t":"Do not default to a sidebar, dashboard, or canvas","w":"borrowed scaffolding adds navigation and panels with nothing to hold.","b":"","f":"guides/web-app.md"},{"id":"WEB-3","t":"Organize working surfaces around the workflow","w":"people judge a product by whether the task flows, not by how a screenshot looks.","b":"","f":"guides/web-app.md"},{"id":"WEB-4","t":"Pick a skeleton that fits the content","w":"each skeleton implies a way of working; the wrong one makes users fight the structure.","b":"","f":"guides/web-app.md"},{"id":"WEB-5","t":"Keep one density mode per screen","w":"mixed density makes one part look cramped and the other look empty.","b":"","f":"guides/web-app.md"},{"id":"WEB-6","t":"Give each screen one main axis and few zones","w":"every extra zone and scroll area is something to manage instead of the task.","b":"","f":"guides/web-app.md"},{"id":"WEB-7","t":"Make the interface explain itself","w":"a user who has to guess what a control does will avoid it.","b":"","f":"guides/web-app.md"},{"id":"WEB-8","t":"Disclose detail progressively","w":"showing everything at once buries the one control the user came for.","b":"","f":"guides/web-app.md"},{"id":"WEB-9","t":"Let users recognize instead of recall","w":"people remember where things are far better than what they are called.","b":"","f":"guides/web-app.md"},{"id":"WEB-10","t":"Solve similar problems the same way","w":"consistency lets a user learn the product once.","b":"","f":"guides/web-app.md"},{"id":"WEB-11","t":"Give every record a clear identity","w":"users need to know what they are looking at before they change it.","b":"","f":"guides/web-app.md"},{"id":"WEB-12","t":"Rank actions with a fixed button hierarchy","w":"when two buttons look primary, the user has to read both to decide.","b":"","f":"guides/web-app.md"},{"id":"WEB-13","t":"Place actions where users expect them","w":"placement is how users find actions without reading labels.","b":"","f":"guides/web-app.md"},{"id":"WEB-14","t":"Keep destructive actions distinct and confirmed","w":"a destructive action that looks like any other gets clicked by habit.","b":"","f":"guides/web-app.md"},{"id":"WEB-15","t":"Design all five states for every data surface","w":"the in-between states are where users lose trust, time, and data.","b":"","f":"guides/web-app.md"},{"id":"WEB-16","t":"Respond to every action right away","w":"an action with no visible response looks broken and gets repeated.","b":"","f":"guides/web-app.md"},{"id":"WEB-17","t":"Build forms as one clear column","w":"a form read straight down one line of sight gets filled faster, with fewer mistakes.","b":"","f":"guides/web-app.md"},{"id":"WEB-18","t":"Choose one radius vocabulary","w":"mixed radii make components look as if they came from different products.","b":"","f":"guides/web-app.md"},{"id":"WEB-19","t":"Remove anything that does not serve the task","w":"decoration on a working surface competes with the work.","b":"","f":"guides/web-app.md"},{"id":"WEB-20","t":"Design for ten times the data","w":"layouts built around the sample data break on the customer's data.","b":"","f":"guides/web-app.md"},{"id":"WEB-21","t":"Keep the hierarchy at every width","w":"a hierarchy that works only at desktop width fails everyone else.","b":"","f":"guides/web-app.md"},{"id":"WEB-22","t":"Make the working surface the hero","w":"in a tool, the impression comes from the core surface, not from headers or tiles around it.","b":"","f":"guides/web-app.md"},{"id":"WEB-23","t":"Show the product alive","w":"a captured moment of use explains the product faster than any label.","b":"","f":"guides/web-app.md"},{"id":"WEB-24","t":"Make people and content feel real","w":"believable content is half of what makes a screen feel finished.","b":"","f":"guides/web-app.md"},{"id":"WEB-25","t":"Refine the small details","w":"premium tools are recognized by precision in the small things, not by effects.","b":"","f":"guides/web-app.md"},{"id":"WEB-26","t":"Give the brand color one confident place","w":"one saturated element on a calm surface reads as intentional; color everywhere reads as noise.","b":"","f":"guides/web-app.md"},{"id":"WEB-27","t":"Add depth through layers, not decoration","w":"layered panels explain what sits on top of what; decoration only adds noise.","b":"","f":"guides/web-app.md"},{"id":"LAND-1","t":"Choose one conversion goal before anything else","w":"a page that asks for three different actions tends to get none of them.","b":"","f":"guides/landing-page.md"},{"id":"LAND-2","t":"Write the words before choosing visuals","w":"visuals chosen first end up decorating a message that does not exist yet.","b":"","f":"guides/landing-page.md"},{"id":"LAND-3","t":"Sell the change, not the tool","w":"visitors buy a better version of their own situation, not a list of parts.","b":"","f":"guides/landing-page.md"},{"id":"LAND-4","t":"Climb the headline ladder","w":"the top rungs speak to the visitor's goal; the bottom rung makes them work out why it matters.","b":"","f":"guides/landing-page.md"},{"id":"LAND-5","t":"Make the hero carry the whole pitch","w":"many visitors decide from the first screen and never scroll.","b":"","f":"guides/landing-page.md"},{"id":"LAND-6","t":"Compose the hero as one continuous stage","w":"a split hero reads as two weak halves; one stage reads as one confident idea.","b":"","f":"guides/landing-page.md"},{"id":"LAND-7","t":"Show the outcome in the imagery","w":"visitors can picture themselves in a scene; they cannot picture themselves in a screenshot.","b":"","f":"guides/landing-page.md"},{"id":"LAND-8","t":"Make the primary CTA the most prominent element","w":"the eye should reach the action without searching for it.","b":"","f":"guides/landing-page.md"},{"id":"LAND-9","t":"Order sections as promise, proof, action","w":"visitors need to understand before they believe, and believe before they act.","b":"","f":"guides/landing-page.md"},{"id":"LAND-10","t":"Alternate density from section to section","w":"a uniform page gives the reader no sense of progress.","b":"","f":"guides/landing-page.md"},{"id":"LAND-11","t":"Keep one axis per section and group tightly","w":"proximity shows what belongs together faster than borders do.","b":"","f":"guides/landing-page.md"},{"id":"LAND-12","t":"Meet the type minimums","w":"a page that is tiring to read cannot persuade anyone.","b":"","f":"guides/landing-page.md"},{"id":"LAND-13","t":"Show only real, specific proof","w":"one specific result convinces more than a wall of vague praise, and fake proof is a liability.","b":"","f":"guides/landing-page.md"},{"id":"LAND-14","t":"Keep the navigation restrained","w":"every extra link is an exit from the conversion path.","b":"","f":"guides/landing-page.md"},{"id":"LAND-15","t":"Repeat the primary CTA in the closing section","w":"a visitor convinced at the bottom of the page should not have to scroll back up.","b":"","f":"guides/landing-page.md"},{"id":"LAND-16","t":"Keep the footer quiet and organized","w":"a loud footer competes with the final CTA directly above it.","b":"","f":"guides/landing-page.md"},{"id":"LAND-17","t":"Put the audience in the pitch, not in a strip of boxes","w":"the strip pushes the proof further down and tells the visitor nothing the hero couldn't.","b":"","f":"guides/landing-page.md"},{"id":"LAND-18","t":"Commission a key visual for the hero","w":"on a marketing page, the key visual carries most of the first impression; layout alone rarely does.","b":"","f":"guides/landing-page.md"},{"id":"MOB-1","t":"Keep app UI inside the safe area","w":"content under system UI is hard to read, and taps there trigger the OS instead of the app.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-2","t":"Fix the mockup width, let the height grow","w":"a cropped mockup hides content the build must place anyway; a squeezed one misstates spacing.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-3","t":"Build system chrome first, then content","w":"content built first ends up hidden behind bars that arrive later.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-4","t":"Apply side padding once, on one content wrapper","w":"padding repeated per section drifts, and the shared left edge breaks.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-5","t":"Space the screen with one mobile scale","w":"a small screen exposes uneven spacing faster than a large one.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-6","t":"Use a tab bar for 3–5 top-level destinations","w":"more than five tabs push targets and labels below usable sizes.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-7","t":"Size the floating tab bar from this table","w":"fixed dimensions keep the bar compact, thumb-sized, and identical on every screen.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-8","t":"Reserve layout space for the tab bar","w":"an unreserved bar permanently hides the last row and its actions.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-9","t":"Orient the user within the first two elements","w":"on a phone the first viewport is often all people read before they act.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-10","t":"Use one title size and style on every screen","w":"a title that changes between tabs makes the app look assembled from parts.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-11","t":"Recompose for the phone instead of shrinking desktop","w":"a shrunken desktop layout yields tiny type and targets nobody can hit.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-12","t":"Keep navigation and relevant actions in view","w":"people lose their place when the way back or the next step disappears.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-13","t":"Put frequent actions within thumb reach","w":"the top corners of a modern phone are out of reach for most thumbs.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-14","t":"Make touch targets at least 44 pt or 48 dp","w":"small or crowded targets cause mis-taps, and mis-taps trigger the wrong action.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-15","t":"Let text scale without breaking the layout","w":"many people raise the system text size, and fixed boxes clip it.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-16","t":"Mark selection with more than color","w":"color-only selection fails for colorblind users and in direct sunlight.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-17","t":"Confirm before committing, or offer undo","w":"accidental taps are common on a phone, and one tap must never cause loss.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-18","t":"Show the next state after every action","w":"with no visible response people tap again, and duplicate actions follow.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-19","t":"Put secondary tasks in bottom sheets","w":"a sheet keeps people anchored to the screen that started the task.","b":"","f":"guides/mobile-app.md"},{"id":"MOB-20","t":"Use platform conventions unless the brand defines its own","w":"platform patterns are already learned; a foreign one costs every user time.","b":"","f":"guides/mobile-app.md"},{"id":"DATA-1","t":"Start from the question the screen answers","w":"a dashboard built from \"all the data we have\" answers nothing.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-2","t":"Make one metric or chart the hero","w":"equal tiles make the user work out importance alone (CORE-2).","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-3","t":"Give every metric a label, value, and context","w":"without a period and a comparison, nobody can tell whether a number is good.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-4","t":"Choose the chart type from the question","w":"the right form makes the answer visible without reading the numbers.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-5","t":"Give each chart one insight and highlight it","w":"a chart without a stated point leaves each viewer to find a different one.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-6","t":"Strip chart junk","w":"every mark that is not data competes with the data for attention.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-7","t":"Render charts with a library or real SVG","w":"hand-placed marks drift away from the data and break on resize.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-8","t":"Plot only data you were given","w":"an invented series reads as fact and ships as fact.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-9","t":"Nest table, row, cell, then content","w":"shared cell geometry is what makes columns line up.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-10","t":"Size columns by content type","w":"content-based widths keep scanning fast and stop one long value from reshaping the table.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-11","t":"Align text left and numbers right","w":"right-aligned tabular digits let people compare magnitudes by length at a glance.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-12","t":"Pick one row density per table","w":"a steady row height creates the rhythm the eye follows across a row.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-13","t":"Frame the table with header, body, and footer","w":"people need to know what they are looking at, how much of it there is, and how to narrow it.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-14","t":"Put row actions in an overflow menu","w":"five icon buttons repeated on fifty rows are noise and an easy mis-click.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-15","t":"Show bulk actions only after selection","w":"bulk actions shown all the time clutter the frame and look usable with nothing chosen.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-16","t":"Design every data state","w":"a blank table looks broken, and users cannot tell \"nothing here\" from \"something failed\".","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-17","t":"Collapse wide tables into list rows on phones","w":"a seven-column table at 375 wide can be neither read nor tapped.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-18","t":"Make sample data realistic and label it","w":"uniform filler hides the layout bugs that real data will expose.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"DATA-19","t":"Use the default skeleton only when it fits","w":"the generic admin template shows up whether or not anyone needs a sidebar and four tiles.","b":"","f":"guides/dashboard-and-tables.md"},{"id":"SLIDE-1","t":"Rank clarity, readability, hierarchy, then simplicity","w":"slides are seen once, briefly, and often on poor screens.","b":"","f":"guides/slides.md"},{"id":"SLIDE-2","t":"Adapt the brand for the room","w":"brand systems are tuned for 16 px at arm's length, not for a wall twenty feet away.","b":"","f":"guides/slides.md"},{"id":"SLIDE-3","t":"Put one idea on each slide","w":"two ideas on one slide halve the attention each one gets.","b":"","f":"guides/slides.md"},{"id":"SLIDE-4","t":"Reuse a few layouts instead of inventing new ones","w":"a steady structure lets the audience read content instead of relearning the layout.","b":"","f":"guides/slides.md"},{"id":"SLIDE-5","t":"Meet the type minimums","w":"text below these sizes disappears on projectors and shared screens.","b":"","f":"guides/slides.md"},{"id":"SLIDE-6","t":"Lay out every slide on one 1920 × 1080 grid","w":"one fixed grid gives every slide the same skeleton and keeps text clear of projector cropping.","b":"","f":"guides/slides.md"},{"id":"SLIDE-7","t":"Use 2–3 core colors and keep body text neutral","w":"projectors wash out contrast, and an accent used everywhere marks nothing.","b":"","f":"guides/slides.md"},{"id":"SLIDE-8","t":"Make every visual carry meaning","w":"decorative imagery takes attention from the point without adding to it.","b":"","f":"guides/slides.md"},{"id":"SLIDE-9","t":"Show data as a chart with one highlighted insight","w":"an audience reads a highlighted chart in seconds and a table of figures barely at all.","b":"","f":"guides/slides.md"},{"id":"SLIDE-10","t":"Write phrases, not paragraphs","w":"people cannot read a paragraph and listen to the speaker at the same time.","b":"","f":"guides/slides.md"},{"id":"SLIDE-11","t":"Match the deck to its context","w":"the same content needs different amounts of text when read alone versus spoken over.","b":"","f":"guides/slides.md"},{"id":"SLIDE-12","t":"Open and close with a statement, not information","w":"the first and last slides are the ones people remember.","b":"","f":"guides/slides.md"},{"id":"SLIDE-13","t":"Let type carry text-only slides","w":"a small centered sentence on an empty slide looks unfinished.","b":"","f":"guides/slides.md"},{"id":"SLIDE-14","t":"Name a library layout for every slide","w":"named layouts keep the deck consistent and make review concrete.","b":"","f":"guides/slides.md"},{"id":"SLIDE-15","t":"Ask ≤ 3 questions or state ≤ 5 assumptions","w":"a short check costs less than rebuilding a deck aimed at the wrong room.","b":"","f":"guides/slides.md"}]</script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.27/dist/lenis.min.js"></script>
 <script>
 (function () {
   var root = document.documentElement;
-  root.classList.add('js');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var narrow = matchMedia('(max-width: 860px)');
-  var clamp = function (v, a, b) { return Math.min(b === undefined ? 1 : b, Math.max(a || 0, v)); };
-  var lerp = function (a, b, t) { return a + (b - a) * t; };
+  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
   var $ = function (id) { return document.getElementById(id); };
-
-  /* ---------- Load sequence: start once the hero image can paint ---------- */
-  var heroImg = $('hero-img');
-  var started = false;
-  var start = function () { if (started) return; started = true; requestAnimationFrame(function () { root.classList.add('loaded'); }); };
-  if (heroImg.complete) start();
-  else { heroImg.addEventListener('load', start); heroImg.addEventListener('error', start); }
-  setTimeout(start, 900);
+  var all = function (sel, el) { return Array.prototype.slice.call((el || document).querySelectorAll(sel)); };
+  var absTop = function (el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
 
   /* ---------- Smooth scrolling (native feel, off for reduced motion) ---------- */
   var lenis = null;
-  if (!reduce && window.Lenis) {
-    lenis = new Lenis({ lerp: 0.085, smoothWheel: true, syncTouch: false, wheelMultiplier: 1 });
-  }
-  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+  if (!reduce && window.Lenis) lenis = new Lenis({ lerp: 0.09, smoothWheel: true, syncTouch: false, wheelMultiplier: 1 });
+  var scrollToY = function (y) {
+    if (lenis) lenis.scrollTo(y, { duration: 1.2 });
+    else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  };
+
+  /* ---------- Phone menu: a full panel; the page behind stops scrolling ---------- */
+  var menuBtn = $('menu-btn'), menu = $('menu');
+  var setMenu = function (open, refocus) {
+    menu.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    root.classList.toggle('menu-open', open);
+    if (lenis) { if (open) lenis.stop(); else lenis.start(); }
+    if (!open && refocus) menuBtn.focus();
+  };
+  menuBtn.addEventListener('click', function () { setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'); });
+  addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) setMenu(false, true); });
+  matchMedia('(min-width: 761px)').addEventListener('change', function () { setMenu(false); });
+  all('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
+      if (menu.classList.contains('open')) setMenu(false);
       var id = a.getAttribute('href').slice(1);
-      var target = id === 'top' ? document.body : document.getElementById(id);
+      var target = id === 'top' ? document.body : $(id);
       if (!target) return;
       e.preventDefault();
-      if (lenis) lenis.scrollTo(id === 'top' ? 0 : target, { duration: 1.4 });
-      else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      scrollToY(id === 'top' ? 0 : absTop(target) - 40);
       if (id === 'main') { target.setAttribute('tabindex', '-1'); target.focus({ preventScroll: true }); }
     });
   });
 
-  /* ---------- Measurements (taken on load and resize, never during scroll) ---------- */
-  var vh = innerHeight, vw = innerWidth;
-  var box = {};
-  var absTop = function (el) { var t = 0; while (el) { t += el.offsetTop; el = el.offsetParent; } return t; };
+  /* ---------- Clouds: every layer has a depth. Scroll parts them and lifts the near ones, the pointer shifts them,
+     and a slow clock lets each one drift; a few small ones cross the whole sky. One loop, transforms only. ---------- */
+  var clouds = all('[data-cloud]').map(function (el) {
+    var d = el.dataset;
+    return { el: el, host: el.closest('section') || el.parentElement, s: +d.s || 0, p: +d.p || 0, dx: +d.dx || 0, a: +d.a || 0, T: +d.t || 30, ph: +d.ph || 0,
+             fly: +d.fly || 0, off: +d.off || 0, zoom: +d.zoom || 0, w: 0, top: 0, h: 0 };
+  });
+  var vh = innerHeight, vw = innerWidth, mx = 0, my = 0, px = 0, py = 0, clock = 0, last = 0, paused = false;
   var measure = function () {
     vh = innerHeight; vw = innerWidth;
-    ['top', 'why', 'examples', 'how', 'rules', 'install'].forEach(function (id) { var el = $(id); box[id] = { top: absTop(el), h: el.offsetHeight }; });
-    var track = $('track');
-    box.trackShift = Math.max(0, track.scrollWidth - vw + 40);
-    if (!narrow.matches && !reduce) {
-      $('rules').style.height = (vh + box.trackShift * 0.72) + 'px';
-      box.rules = { top: absTop($('rules')), h: $('rules').offsetHeight };
-    } else { $('rules').style.height = ''; }
+    clouds.forEach(function (c) { c.top = absTop(c.host); c.h = c.host.offsetHeight; c.w = c.el.offsetWidth; });
   };
-
-  /* ---------- Manifesto words ---------- */
-  var mText = $('manifesto-text');
-  var words = [];
-  if (!reduce) {
-    var walk = function (node) {
-      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
-        if (n.nodeType === 3) {
-          var frag = document.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(function (part) {
-            if (!part) return;
-            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
-            var s = document.createElement('span'); s.className = 'w'; s.textContent = part; frag.appendChild(s); words.push(s);
-          });
-          n.parentNode.replaceChild(frag, n);
-        } else if (n.nodeType === 1) { walk(n); }
-      });
-    };
-    walk(mText);
-  }
-  var wordState = words.map(function () { return 0.16; });
-
-  /* ---------- Element handles ---------- */
-  var nav = $('nav'), heroMedia = $('hero-media'), heroCopy = $('hero-copy');
-  var pair1 = $('pair-1'), pair2 = $('pair-2');
-  var clips = [pair1.querySelector('.after-clip'), pair2.querySelector('.after-clip')];
-  var clipImgs = clips.map(function (c) { return c.querySelector('img'); });
-  var dividers = [pair1.querySelector('.divider'), pair2.querySelector('.divider')];
-  var cap1 = $('cap-1'), cap2 = $('cap-2'), ps1 = $('ps-1'), ps2 = $('ps-2');
-  var howImg = $('how-img');
-  var track = $('track'), rulesBar = $('rules-bar');
-  var installMedia = $('install-media');
-
-  var setWipe = function (i, r) { /* r = share of the frame still showing "before" (1 = all before) */
-    var pct = (r * 100).toFixed(3);
-    clips[i].style.transform = 'translate3d(' + pct + '%,0,0)';
-    clipImgs[i].style.transform = 'translate3d(-' + pct + '%,0,0)';
-    dividers[i].style.transform = 'translate3d(' + pct + '%,0,0)';
-  };
-
-  /* Smoothed values, so touch scrolling (which is native and unsmoothed) still glides */
-  var s = { hero: 0, why: 0, proof: 0, rules: 0, how: 0, install: 0 };
-  var k = lenis ? 1 : 0.18;
-  var lastPair = 0, navScrolled = false;
-
+  if (fine && !reduce) addEventListener('pointermove', function (e) { mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5; }, { passive: true });
   var frame = function (y) {
-    /* Navigation background after the first screen starts to move */
-    var scrolled = y > 40;
-    if (scrolled !== navScrolled) { navScrolled = scrolled; nav.classList.toggle('scrolled', scrolled); }
-
-    /* Hero: image drifts slower than the page; the copy fades as the stage leaves */
-    if (y < vh * 1.2) {
-      s.hero = lerp(s.hero, y, k);
-      heroMedia.style.transform = 'translate3d(0,' + (s.hero * 0.28).toFixed(2) + 'px,0)';
-      heroCopy.style.opacity = (1 - clamp(s.hero / (vh * 0.55))).toFixed(3);
-    }
-
-    /* Manifesto: words light up in reading order */
-    var m = box.why;
-    if (words.length && y > m.top - vh && y < m.top + m.h) {
-      var pm = clamp((y - m.top) / (m.h - vh * 1.1));
-      s.why = lerp(s.why, pm, k);
-      var lit = s.why * (words.length + 4);
-      for (var i = 0; i < words.length; i++) {
-        var o = 0.16 + 0.84 * clamp(lit - i);
-        if (Math.abs(o - wordState[i]) > 0.004) { wordState[i] = o; words[i].style.opacity = o.toFixed(3); }
-      }
-    }
-
-    /* Proof: two pairs, each wiped from "before" to "after" by scroll */
-    var p = box.examples;
-    if (!reduce && y > p.top - vh && y < p.top + p.h) {
-      var pp = clamp((y - p.top) / (p.h - vh));
-      s.proof = lerp(s.proof, pp, k);
-      var a = clamp((s.proof - 0.04) / 0.38);       /* first wipe */
-      var b = clamp((s.proof - 0.6) / 0.34);        /* second wipe */
-      var swap = clamp((s.proof - 0.48) / 0.1);     /* crossfade between pairs */
-      setWipe(0, 1 - a); setWipe(1, 1 - b);
-      pair2.style.opacity = swap.toFixed(3);
-      ps1.style.transform = 'scaleX(' + a.toFixed(3) + ')';
-      ps2.style.transform = 'scaleX(' + b.toFixed(3) + ')';
-      var pair = swap > 0.5 ? 1 : 0;
-      if (pair !== lastPair) {
-        lastPair = pair;
-        cap1.style.opacity = pair ? 0 : 1; cap1.style.transform = pair ? 'translateY(-8px)' : 'none';
-        cap2.style.opacity = pair ? 1 : 0; cap2.style.transform = pair ? 'none' : 'translateY(8px)';
-      }
-    }
-
-    /* How it works: the side image drifts gently inside its frame */
-    var h = box.how;
-    if (y > h.top - vh && y < h.top + h.h) {
-      var ph = clamp((y - h.top + vh) / (h.h + vh));
-      s.how = lerp(s.how, ph, k);
-      howImg.style.transform = 'translate3d(0,' + (-s.how * 14).toFixed(2) + '%,0)';
-    }
-
-    /* Rules: vertical scroll drives the horizontal track */
-    if (!narrow.matches && !reduce) {
-      var r = box.rules;
-      if (y > r.top - vh && y < r.top + r.h) {
-        var pr = clamp((y - r.top) / (r.h - vh));
-        s.rules = lerp(s.rules, pr, k);
-        track.style.transform = 'translate3d(' + (-s.rules * box.trackShift).toFixed(2) + 'px,0,0)';
-        rulesBar.style.transform = 'scaleX(' + s.rules.toFixed(4) + ')';
-      }
-    }
-
-    /* Install: the background moves slower than the page */
-    var n = box.install;
-    if (y > n.top - vh && y < n.top + n.h) {
-      var pn = (y - n.top + vh) / (n.h + vh);
-      s.install = lerp(s.install, pn, k);
-      installMedia.style.transform = 'translate3d(0,' + ((s.install - 0.5) * 12).toFixed(2) + '%,0)';
+    px += (mx - px) * 0.06; py += (my - py) * 0.06;
+    for (var i = 0; i < clouds.length; i++) {
+      var c = clouds[i];
+      if (y < c.top - vh || y > c.top + c.h) continue;
+      var rel = y - c.top;
+      var x = -px * c.p * 44 + rel * c.dx, yy = -rel * c.s - py * c.p * 24;
+      if (c.a) { x += Math.sin(clock / c.T * 6.2832 + c.ph) * c.a; yy += Math.cos(clock / (c.T * 0.62) * 6.2832 + c.ph) * c.a * 0.22; }
+      if (c.fly) { var span = vw + c.w * 2; x += ((clock * c.fly + c.off * span) % span) - c.w; yy += Math.sin(clock / 9 + c.off * 6) * 5; }
+      var tr = 'translate3d(' + x.toFixed(2) + 'px,' + yy.toFixed(2) + 'px,0)';
+      if (c.zoom) tr += ' scale(' + (1 + Math.max(0, Math.min(1, rel / vh)) * c.zoom).toFixed(4) + ')';
+      c.el.style.transform = tr;
     }
   };
-
-  measure();
-  if (reduce) { setWipe(0, 0.5); setWipe(1, 0.5); }
-  else { setWipe(0, 1); setWipe(1, 1); }
-
-  /* One loop drives everything: Lenis first, then the scenes */
   var raf = function (t) {
+    var dt = last ? Math.min(0.05, (t - last) / 1000) : 0; last = t;
+    if (!paused) clock += dt;
     if (lenis) lenis.raf(t);
-    if (!reduce) frame(lenis ? lenis.scroll : scrollY);
+    var sy = lenis ? lenis.scroll : scrollY;
+    frame(sy); howFrame(sy);
     requestAnimationFrame(raf);
   };
-  requestAnimationFrame(raf);
-
+  var skyToggle = $('sky-toggle');
+  skyToggle.addEventListener('click', function () {
+    paused = !paused;
+    skyToggle.setAttribute('aria-pressed', paused ? 'true' : 'false');
+    skyToggle.setAttribute('aria-label', paused ? 'Let the clouds drift' : 'Pause the clouds');
+  });
+  measure();
+  if (!reduce) requestAnimationFrame(raf);
   var rt;
   addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { measure(); if (lenis) lenis.resize(); }, 120); });
   addEventListener('load', function () { measure(); if (lenis) lenis.resize(); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); if (lenis) lenis.resize(); });
+  requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.add('loaded'); }); });
 
-  /* ---------- Reveal on enter (once) ---------- */
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      var el = e.target;
-      if (el.id === 'arch-list') {
-        el.querySelectorAll('li').forEach(function (li, i) { li.style.transitionDelay = Math.min(i * 40, 600) + 'ms'; });
-      }
-      el.classList.add('in');
-      io.unobserve(el);
-    });
-  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
-  document.querySelectorAll('.reveal, #arch-list').forEach(function (el) { io.observe(el); });
+  /* ---------- Entrances that play once ---------- */
+  var once = all('.cliches');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -15% 0px', threshold: 0.3 });
+    once.forEach(function (el) { io.observe(el); });
+  } else once.forEach(function (el) { el.classList.add('in'); });
 
-  /* ---------- Archetype names ---------- */
-  var detail = $('arch-detail');
-  var archButtons = Array.prototype.slice.call(document.querySelectorAll('#arch-list button'));
-  var showArch = function (btn) {
-    archButtons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
-    detail.innerHTML = '<strong>' + btn.textContent + '.</strong> ' + btn.getAttribute('data-d');
-  };
-  archButtons.forEach(function (b) {
-    b.setAttribute('aria-pressed', 'false');
-    b.addEventListener('mouseenter', function () { showArch(b); });
-    b.addEventListener('focus', function () { showArch(b); });
-    b.addEventListener('click', function () { showArch(b); });
+  /* ---------- Proof: the switch ---------- */
+  var sw = $('rules-switch'), shots = $('shots');
+  sw.addEventListener('click', function () {
+    var on = sw.getAttribute('aria-checked') !== 'true';
+    sw.setAttribute('aria-checked', on ? 'true' : 'false');
+    shots.classList.toggle('on', on);
   });
 
+  /* ---------- Examples rail ---------- */
+  var rail = $('rail'), prev = $('rail-prev'), next = $('rail-next');
+  var railStep = function () { var s = rail.querySelector('.slide'); return s ? s.offsetWidth + 24 : 400; };
+  var railState = function () {
+    prev.disabled = rail.scrollLeft < 8;
+    next.disabled = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 8;
+  };
+  prev.addEventListener('click', function () { rail.scrollBy({ left: -railStep(), behavior: reduce ? 'auto' : 'smooth' }); });
+  next.addEventListener('click', function () { rail.scrollBy({ left: railStep(), behavior: reduce ? 'auto' : 'smooth' }); });
+  rail.addEventListener('scroll', railState, { passive: true });
+  railState();
+
+  /* ---------- How: five steps. On wide screens the section pins and scrolling walks through them ---------- */
+  var how = $('how'), tsteps = all('.tstep'), tpanels = all('.tp'), tind = $('tour-ind');
+  var pinMq = matchMedia('(min-width: 961px) and (min-height: 620px)'), pinned = false, curStep = 0, howBox = { top: 0, h: 1 };
+  var setStep = function (i, focus) {
+    curStep = i;
+    tsteps.forEach(function (b, k) { var on = k === i; b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; tpanels[k].classList.toggle('on', on); });
+    tind.style.transform = 'translate3d(0,' + tsteps[i].offsetTop + 'px,0)';
+    tind.style.height = tsteps[i].offsetHeight + 'px';
+    if (focus) tsteps[i].focus({ preventScroll: true });
+  };
+  var goStep = function (i, focus) {
+    if (pinned) { scrollToY(howBox.top + (i + 0.5) / tsteps.length * (howBox.h - vh)); if (focus) tsteps[i].focus({ preventScroll: true }); }
+    else setStep(i, focus);
+  };
+  tsteps.forEach(function (b, i) {
+    b.addEventListener('click', function () { goStep(i); });
+    b.addEventListener('keydown', function (e) {
+      var d = (e.key === 'ArrowDown' || e.key === 'ArrowRight') ? 1 : (e.key === 'ArrowUp' || e.key === 'ArrowLeft') ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      goStep((i + d + tsteps.length) % tsteps.length, true);
+    });
+  });
+  var setPin = function () {
+    pinned = pinMq.matches && !reduce;
+    root.classList.toggle('pin', pinned);
+    measure();
+    howBox.top = absTop(how); howBox.h = how.offsetHeight;
+    setStep(curStep);
+    if (lenis) lenis.resize();
+  };
+  var howFrame = function (y) {
+    if (!pinned || y < howBox.top - vh || y > howBox.top + howBox.h) return;
+    var p = (y - howBox.top) / Math.max(1, howBox.h - vh);
+    var i = Math.max(0, Math.min(tsteps.length - 1, Math.floor(p * tsteps.length)));
+    if (i !== curStep) setStep(i);
+  };
+  pinMq.addEventListener('change', setPin);
+  addEventListener('resize', function () { setTimeout(setPin, 160); });
+  addEventListener('load', setPin);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(setPin);
+  setPin();
+
+  /* ---------- Rules: search and filter all 265 ---------- */
+  var DATA = JSON.parse($('rules-data').textContent), GH = 'https://github.com/yarzc0de/YourDesignRules';
+  var list = $('rule-list'), q = $('q'), count = $('br-count'), more = $('more'), empty = $('empty'), clear = $('clear');
+  var state = { q: '', fam: 'ALL', n: 8 };
+  var CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  var matches = function () {
+    var s = state.q.trim().toLowerCase();
+    return DATA.filter(function (r) {
+      if (state.fam !== 'ALL' && r.id.split('-')[0] !== state.fam) return false;
+      if (!s) return true;
+      return (r.id + ' ' + r.t + ' ' + r.w + ' ' + r.b).toLowerCase().indexOf(s) !== -1;
+    });
+  };
+  var render = function () {
+    var m = matches(), shown = m.slice(0, state.n);
+    list.innerHTML = shown.map(function (r, i) {
+      var why = r.w ? '<b>Why:</b> ' + esc(r.w) : esc(r.b);
+      return '<li><button class="rule-btn" type="button" aria-expanded="false" aria-controls="rw-' + i + '"><span class="rid">' + r.id + '</span><span class="rt">' + esc(r.t) + '</span>' + CHEV + '</button>' +
+        '<div class="rule-why" id="rw-' + i + '" hidden><p>' + why + '</p><a class="link" href="' + GH + '/blob/main/' + r.f + '">Open ' + r.f + '</a></div></li>';
+    }).join('');
+    count.textContent = m.length === DATA.length ? DATA.length + ' rules' : m.length + ' of ' + DATA.length + ' rules';
+    more.hidden = shown.length >= m.length;
+    more.textContent = 'Show ' + Math.min(16, m.length - shown.length) + ' more';
+    empty.hidden = m.length !== 0;
+    list.hidden = m.length === 0;
+    measure(); if (lenis) lenis.resize();
+  };
+  list.addEventListener('click', function (e) {
+    var b = e.target.closest('.rule-btn');
+    if (!b) return;
+    var open = b.getAttribute('aria-expanded') === 'true';
+    b.setAttribute('aria-expanded', open ? 'false' : 'true');
+    $(b.getAttribute('aria-controls')).hidden = open;
+    measure(); if (lenis) lenis.resize();
+  });
+  q.addEventListener('input', function () { state.q = q.value; state.n = 8; render(); });
+  all('.chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      all('.chip').forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+      state.fam = c.getAttribute('data-fam'); state.n = 8; render();
+    });
+  });
+  more.addEventListener('click', function () { state.n += 16; render(); });
+  clear.addEventListener('click', function () {
+    q.value = ''; state.q = ''; state.fam = 'ALL'; state.n = 8;
+    all('.chip').forEach(function (o) { o.setAttribute('aria-pressed', o.getAttribute('data-fam') === 'ALL' ? 'true' : 'false'); });
+    render(); q.focus();
+  });
+  render();
+
   /* ---------- Install tabs ---------- */
-  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
-  var ind = $('tab-ind');
+  var tabs = all('.tab'), ind = $('tab-ind');
   var moveInd = function (tab) { ind.style.width = tab.offsetWidth + 'px'; ind.style.transform = 'translateX(' + tab.offsetLeft + 'px)'; };
-  var select = function (tab, focus) {
+  var selectTab = function (tab, focus) {
     tabs.forEach(function (t) {
       var on = t === tab;
       t.setAttribute('aria-selected', on ? 'true' : 'false');
@@ -712,33 +902,30 @@ footer { border-top: 1px solid rgb(255 255 255 / 0.1); padding-block: 48px 56px;
     if (focus) tab.focus();
   };
   tabs.forEach(function (t, i) {
-    t.addEventListener('click', function () { select(t); });
+    t.addEventListener('click', function () { selectTab(t); });
     t.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        e.preventDefault();
-        var j = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
-        select(tabs[j], true);
-      }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); selectTab(tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length], true); }
     });
   });
-  var placeInd = function () { var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0]; ind.style.transition = 'none'; moveInd(cur); void ind.offsetWidth; ind.style.transition = ''; };
+  var placeInd = function () {
+    var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0];
+    ind.style.transition = 'none'; moveInd(cur); void ind.offsetWidth; ind.style.transition = '';
+  };
   placeInd();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeInd);
   addEventListener('resize', placeInd);
 
   /* ---------- Copy buttons ---------- */
   var toast = $('toast'), tt;
-  document.querySelectorAll('.copy').forEach(function (btn) {
+  all('.copy').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var text = btn.getAttribute('data-copy');
-      var done = function () {
-        btn.classList.add('done');
-        toast.classList.add('show');
-        clearTimeout(tt);
-        tt = setTimeout(function () { toast.classList.remove('show'); document.querySelectorAll('.copy.done').forEach(function (b) { b.classList.remove('done'); }); }, 1600);
+      var ok = function () {
+        btn.classList.add('done'); toast.classList.add('show'); clearTimeout(tt);
+        tt = setTimeout(function () { toast.classList.remove('show'); all('.copy.done').forEach(function (b) { b.classList.remove('done'); }); }, 1600);
       };
-      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, done);
-      else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove(); done(); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, ok);
+      else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove(); ok(); }
     });
   });
 })();
